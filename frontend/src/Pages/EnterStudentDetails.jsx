@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import HeaderForInputStudentDetails from '../components/HeaderForInputStudentDetails'
+import HeaderForEnputStudentDetails from '../components/HeaderForEnputStudentDetails'
 import EnterStudentDetails1 from './EnterStudentDetails1';
 import EnterStudentDetails2 from './EnterStudentDetails2';
 
@@ -14,9 +14,9 @@ const EnterStudentDetails = () => {
   }
 
   return (
-    <div>
-      <HeaderForInputStudentDetails />
-      
+    <div className='w-screen'>
+      <HeaderForEnputStudentDetails />
+
       {isFirstPage ? <EnterStudentDetails1 /> : <EnterStudentDetails2 />}
 
       <button onClick={() => {handleClick()}}> {isFirstPage? 'Next' : 'Back'} </button>
