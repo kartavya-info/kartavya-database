@@ -22,17 +22,20 @@ const EnterStudentDetails = () => {
           />
         </div>
 
-        <div className="w-full h-[500px] xl:w-3/5 xl:h-full">
-          {isFirstPage ? <EnterStudentDetails1 /> : <EnterStudentDetails2 />}
+        <div className="relative w-full h-[500px] xl:w-3/5 xl:h-full overflow-hidden">
+          {/* Animation Class */}
+          <div
+            className={`transition-transform duration-500 ease-in-out absolute inset-0 ${isFirstPage ? 'translate-x-0' : '-translate-x-full'}`}
+          >
+            <EnterStudentDetails1 handleClick={handleClick} />
+          </div>
+          <div
+            className={`transition-transform duration-500 ease-in-out absolute inset-0 ${isFirstPage ? 'translate-x-full' : 'translate-x-0'}`}
+          >
+            <EnterStudentDetails2 handleClick={handleClick} />
+          </div>
         </div>
       </div>
-      {/* <button
-        onClick={() => {
-          handleClick();
-        }}
-      >
-        {isFirstPage ? 'Next' : 'Back'}{' '}
-      </button> */}
     </div>
   );
 };
