@@ -11,9 +11,8 @@ const EnterStudentDetails = () => {
   };
 
   return (
-    <div className="w-screen">
+    <div className="w-screen h-screen bg-[radial-gradient(ellipse_at_center,rgba(222,80,85,0.4),transparent),radial-gradient(ellipse_at_top_left,rgba(205,214,219,0.8),rgba(255,255,255,0.8),rgba(255,255,255,0)),radial-gradient(ellipse_at_top_right,rgba(205,214,219,0.8),rgba(255,255,255,0.8),rgba(255,255,255,0)),radial-gradient(ellipse_at_bottom_left,rgba(205,214,219,0.8),rgba(255,255,255,0.8),rgba(255,255,255,0)),radial-gradient(ellipse_at_bottom_right,rgba(205,214,219,0.8),rgba(255,255,255,0.8),rgba(255,255,255,0))]">
       <HeaderForEnputStudentDetails />
-
       <div className="flex flex-col w-full xl:flex-row xl:h-[calc(100vh-7rem)]">
         <div className="flex justify-center items-center w-full h-[500px] xl:w-2/5 xl:h-full">
           <img
@@ -27,7 +26,6 @@ const EnterStudentDetails = () => {
           {isFirstPage ? <EnterStudentDetails1 /> : <EnterStudentDetails2 />}
         </div>
       </div>
-
       {/* <button
         onClick={() => {
           handleClick();
