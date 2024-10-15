@@ -6,6 +6,30 @@ import EnterStudentDetails2 from './EnterStudentDetails2';
 const EnterStudentDetails = () => {
   const [isFirstPage, setIsFirstPage] = useState(true);
 
+  const [formData, setFormData] = useState({
+    name: '',
+    gender: '',
+    session: '',
+    dob: '',
+    class: '',
+    center: '',
+    fatherName: '',
+    fatherOccupation: '',
+    motherName: '',
+    motherOccupation: '',
+    address: '',
+    familyIncome: 0,
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+    console.log(formData);
+  };
+
   const handleClick = () => {
     setIsFirstPage((prev) => !prev);
   };
@@ -27,12 +51,12 @@ const EnterStudentDetails = () => {
           <div
             className={`transition-transform duration-500 ease-in-out absolute inset-0 ${isFirstPage ? 'translate-x-0' : '-translate-x-full'}`}
           >
-            <EnterStudentDetails1 handleClick={handleClick} />
+            <EnterStudentDetails1 handleClick={handleClick} handleInputChange={handleInputChange} />
           </div>
           <div
             className={`transition-transform duration-500 ease-in-out absolute inset-0 ${isFirstPage ? 'translate-x-full' : 'translate-x-0'}`}
           >
-            <EnterStudentDetails2 handleClick={handleClick} />
+            <EnterStudentDetails2 handleClick={handleClick} handleInputChange={handleInputChange} />
           </div>
         </div>
       </div>

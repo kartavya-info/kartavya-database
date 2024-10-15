@@ -2,7 +2,8 @@ import React from 'react';
 import InputComponent from '../components/InputComponent';
 import SelectComponent from '../components/SelectComponent';
 
-const EnterStudentDetails1 = ({handleClick}) => {
+const EnterStudentDetails1 = ({handleClick, handleInputChange, formData}) => {
+
   return (
     <div className="flex flex-col items-center w-full h-full pt-5">
       <div className="progress1 flex justify-center items-center w-full h-7">
@@ -22,7 +23,9 @@ const EnterStudentDetails1 = ({handleClick}) => {
               title={'Name of Student'}
               name={'name'}
               type={'text'}
+              value={formData.name}
               placeholder={'Name'}
+              handleInputChange={handleInputChange}
             />
           </div>
           <div className="w-full xl:w-1/2">
@@ -34,6 +37,8 @@ const EnterStudentDetails1 = ({handleClick}) => {
                 { value: 'Female' },
                 { value: 'Other' },
               ]}
+              handleInputChange={handleInputChange}
+              value={formData.gender}
             />
           </div>
         </div>
@@ -46,6 +51,8 @@ const EnterStudentDetails1 = ({handleClick}) => {
               name={'session'}
               type={'text'}
               placeholder={'Session'}
+              handleInputChange={handleInputChange}
+              value={formData.session}
             />
           </div>
           <div className="w-full xl:w-1/2">
@@ -54,6 +61,8 @@ const EnterStudentDetails1 = ({handleClick}) => {
               name={'dob'}
               type={'date'}
               placeholder={'Date of birth'}
+              handleInputChange={handleInputChange}
+              value={formData.dob}
             />
           </div>
         </div>
@@ -66,12 +75,14 @@ const EnterStudentDetails1 = ({handleClick}) => {
               name={'class'}
               type={'text'}
               placeholder={'Class'}
+              handleInputChange={handleInputChange}
+              value={formData.class}
             />
           </div>
           <div className="w-full xl:w-1/2">
             <SelectComponent
               title={'Center of Student'}
-              name={'Center'}
+              name={'center'}
               options={[
                 { value: 'C1' },
                 { value: 'C2' },
@@ -79,6 +90,8 @@ const EnterStudentDetails1 = ({handleClick}) => {
                 { value: 'C5' },
                 { value: 'Anganwadi' },
               ]}
+              handleInputChange={handleInputChange}
+              value={formData.center}
             />
           </div>
         </div>
@@ -88,17 +101,21 @@ const EnterStudentDetails1 = ({handleClick}) => {
           <div className="w-full xl:w-1/2">
             <InputComponent
               title={"Father's Name"}
-              name={'father-name'}
+              name={'fatherName'}
               type={'text'}
               placeholder={"Father's Name"}
+              handleInputChange={handleInputChange}
+              value={formData.fatherName}
             />
           </div>
           <div className="w-full xl:w-1/2">
             <InputComponent
               title={"Fathers's Occupation"}
-              name={'father-occupation'}
+              name={'fatherOccupation'}
               type={'text'}
               placeholder={"Father's Occupation"}
+              handleInputChange={handleInputChange}
+              value={formData.fatherOccupation}
             />
           </div>
         </div>
@@ -108,17 +125,21 @@ const EnterStudentDetails1 = ({handleClick}) => {
           <div className="w-full xl:w-1/2">
             <InputComponent
               title={"Mother's Name"}
-              name={'mother-name'}
+              name={'motherName'}
               type={'text'}
               placeholder={"Mother's Name"}
+              handleInputChange={handleInputChange}
+              value={formData.motherName}
             />
           </div>
           <div className="w-full xl:w-1/2">
             <InputComponent
               title={"Mothers's Occupation"}
-              name={'mother-occupation'}
+              name={'motherOccupation'}
               type={'text'}
               placeholder={"Mother's Occupation"}
+              handleInputChange={handleInputChange}
+              value={formData.motherOccupation}
             />
           </div>
         </div>
@@ -131,14 +152,18 @@ const EnterStudentDetails1 = ({handleClick}) => {
               name={'address'}
               type={'text'}
               placeholder={'Address'}
+              handleInputChange={handleInputChange}
+              value={formData.address}
             />
           </div>
           <div className="w-full xl:w-1/2">
             <InputComponent
               title={'Annual Family Income'}
-              name={'family-income'}
+              name={'familyIncome'}
               type={'number'}
               placeholder={'Family Income'}
+              handleInputChange={handleInputChange}
+              value={formData.familyIncome}
             />
           </div>
         </div>
