@@ -51,12 +51,12 @@ const EnterStudentDetails = () => {
           <div
             className={`transition-transform duration-500 ease-in-out absolute inset-0 ${isFirstPage ? 'translate-x-0' : '-translate-x-full'}`}
           >
-            <EnterStudentDetails1 handleClick={handleClick} handleInputChange={handleInputChange} />
+            <EnterStudentDetails1 handleClick={handleClick} handleInputChange={handleInputChange} formData={formData}/>
           </div>
           <div
             className={`transition-transform duration-500 ease-in-out absolute inset-0 ${isFirstPage ? 'translate-x-full' : 'translate-x-0'}`}
           >
-            <EnterStudentDetails2 handleClick={handleClick} handleInputChange={handleInputChange} />
+            <EnterStudentDetails2 handleClick={handleClick} handleInputChange={handleInputChange} formData={formData}/>
           </div>
         </div>
       </div>
