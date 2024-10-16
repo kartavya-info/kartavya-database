@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import HeaderForEnputStudentDetails from '../components/HeaderForEnputStudentDetails';
 import EnterStudentDetails1 from './EnterStudentDetails1';
 import EnterStudentDetails2 from './EnterStudentDetails2';
+import { toast } from 'react-toastify';
 
 const EnterStudentDetails = () => {
   const [isFirstPage, setIsFirstPage] = useState(true);
@@ -60,6 +61,59 @@ const EnterStudentDetails = () => {
     setIsFirstPage((prev) => !prev);
   };
 
+  const convertToFormData = (formDataObject) => {
+    const formData = new FormData();
+  
+    try {
+      for (const key in formDataObject) {
+        if (Object.prototype.hasOwnProperty.call(formDataObject, key)) {
+
+          if (formDataObject[key] === '') {
+            throw new Error(`Field '${key}' cannot be empty`);
+          }
+
+          if (key === 'familyIncome' && formDataObject[key] <= 0) {
+            throw new Error(`'Family Income' must be greater than zero`);
+          }
+
+          formData.append(key, formDataObject[key]);
+        }
+      }
+    } catch (e) {
+      console.error(e.message); 
+      throw e; 
+    }
+  
+    return formData;
+  };
+  
+  const handleSubmitForm = (e) => {
+    e.preventDefault();
+  
+    try {
+      const formDataToSubmit = convertToFormData(formData);
+  
+      formDataToSubmit.append('aadhar', aadhar);
+      formDataToSubmit.append('domicile', domicile);
+      formDataToSubmit.append('birthCertificate', birthCertificate);
+      formDataToSubmit.append('disability', disability);
+      formDataToSubmit.append('singleParent', singleParent);
+      formDataToSubmit.append('releventCertificate', releventCertificate);
+  
+      // Log the form data for debugging
+      for (let pair of formDataToSubmit.entries()) {
+        console.log(`${pair[0]}: ${pair[1]}`);
+      }
+
+      toast.success('Form submitted successfully!');
+  
+    } catch (e) {
+      toast.error(`Error submitting form: ${e.message}`);
+      return;
+    }
+  
+  };
+
   return (
     <div className="w-screen h-screen bg-[radial-gradient(ellipse_at_center,rgba(222,80,85,0.4),transparent),radial-gradient(ellipse_at_top_left,rgba(205,214,219,0.8),rgba(255,255,255,0.8),rgba(255,255,255,0)),radial-gradient(ellipse_at_top_right,rgba(205,214,219,0.8),rgba(255,255,255,0.8),rgba(255,255,255,0)),radial-gradient(ellipse_at_bottom_left,rgba(205,214,219,0.8),rgba(255,255,255,0.8),rgba(255,255,255,0)),radial-gradient(ellipse_at_bottom_right,rgba(205,214,219,0.8),rgba(255,255,255,0.8),rgba(255,255,255,0))]">
       <HeaderForEnputStudentDetails />
@@ -92,14 +146,15 @@ const EnterStudentDetails = () => {
           >
             <EnterStudentDetails2
               handleClick={handleClick}
+              handleSubmitForm={handleSubmitForm}
 
               aadhar={aadhar}
               domicile={domicile}
               birthCertificate={birthCertificate}
               disability={disability}
               singleParent={singleParent}
-              releventCertificate={releventCertificate}
 
+              releventCertificate={releventCertificate}
               handleAadharChange={handleAadharChange}
               handleDomicileChange={handleDomicileChange}
               handleBirthCertificateChange={handleBirthCertificateChange}

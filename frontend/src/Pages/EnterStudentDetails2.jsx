@@ -3,6 +3,7 @@ import CheckboxComponent from '../components/CheckboxComponent';
 
 const EnterStudentDetails2 = ({
   handleClick,
+  handleSubmitForm,
 
   aadhar,
   domicile,
@@ -91,7 +92,7 @@ const EnterStudentDetails2 = ({
         </div>
       </div>
 
-      <div className="flex items-center w-full pt-8">
+      <div className="flex items-center w-full pt-24">
         <div className="flex justify-center w-[90%] pl-[2.5%] pr-[2.5%] gap-10">
           <button
             onClick={handleClick}
@@ -100,7 +101,7 @@ const EnterStudentDetails2 = ({
             Back
           </button>
           <button
-            onClick={handleClick}
+            onClick={handleSubmitForm}
             className="w-[150px] p-2 rounded-lg bg-[#21526E] text-white"
           >
             Submit
