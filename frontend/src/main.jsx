@@ -7,11 +7,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import './index.css';
 
 import EnterStudentDetails from './Pages/EnterStudentDetails.jsx';
+import StudentSpreadsheet from './Pages/StudentSpreadsheet.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/">
       <Route path="/enter-student-details" element={<EnterStudentDetails />} />
+      <Route path="/student-spreadsheet" element={<StudentSpreadsheet />} />
     </Route>
   )
 );
