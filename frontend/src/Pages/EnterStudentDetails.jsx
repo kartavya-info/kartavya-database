@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import HeaderForEnputStudentDetails from '../components/HeaderForEnputStudentDetails';
 import EnterStudentDetails1 from './EnterStudentDetails1';
-import EnterStudentDetails2 from './EnterStudentDetails2';
 import { toast } from 'react-toastify';
+import CheckboxComponent from '../components/CheckboxComponent';
 
 const EnterStudentDetails = () => {
   const [isFirstPage, setIsFirstPage] = useState(true);
@@ -20,39 +20,20 @@ const EnterStudentDetails = () => {
     motherOccupation: '',
     address: '',
     familyIncome: 0,
+    aadhar:false,
+    domicile:false,
+    birthCertificate:false,
+    disability:false,
+    singleParent:false,
+    releventCertificate:false
   });
 
-  const [aadhar, setAadhar] = useState(false);
-  const [domicile, setDomicile] = useState(false);
-  const [birthCertificate, setBirthCertificate] = useState(false);
-  const [disability, setDisability] = useState(false);
-  const [singleParent, setSingleParent] = useState(false);
-  const [releventCertificate, setReleventCertificate] = useState(false);
-
-  const handleAadharChange = (e) => {
-    setAadhar(e.target.checked);
-  };
-  const handleDomicileChange = (e) => {
-    setDomicile(e.target.checked);
-  };
-  const handleBirthCertificateChange = (e) => {
-    setBirthCertificate(e.target.checked);
-  };
-  const handleDisabilityChange = (e) => {
-    setDisability(e.target.checked);
-  };
-  const handleSingleParentChange = (e) => {
-    setSingleParent(e.target.checked);
-  };
-  const handleReleventCertificateChange = (e) => {
-    setReleventCertificate(e.target.checked);
-  };
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
-      [name]: value,
+      [name]: type === 'checkbox' ? checked : value,
     });
     console.log(formData);
   };
@@ -63,55 +44,39 @@ const EnterStudentDetails = () => {
 
   const convertToFormData = (formDataObject) => {
     const formData = new FormData();
-  
+
     try {
       for (const key in formDataObject) {
         if (Object.prototype.hasOwnProperty.call(formDataObject, key)) {
-
           if (formDataObject[key] === '') {
             throw new Error(`Field '${key}' cannot be empty`);
           }
-
           if (key === 'familyIncome' && formDataObject[key] <= 0) {
             throw new Error(`'Family Income' must be greater than zero`);
           }
-
           formData.append(key, formDataObject[key]);
         }
       }
     } catch (e) {
-      console.error(e.message); 
-      throw e; 
+      console.error(e.message);
+      throw e;
     }
-  
+
     return formData;
   };
-  
+
   const handleSubmitForm = (e) => {
     e.preventDefault();
-  
     try {
       const formDataToSubmit = convertToFormData(formData);
-  
-      formDataToSubmit.append('aadhar', aadhar);
-      formDataToSubmit.append('domicile', domicile);
-      formDataToSubmit.append('birthCertificate', birthCertificate);
-      formDataToSubmit.append('disability', disability);
-      formDataToSubmit.append('singleParent', singleParent);
-      formDataToSubmit.append('releventCertificate', releventCertificate);
-  
-      // Log the form data for debugging
       for (let pair of formDataToSubmit.entries()) {
         console.log(`${pair[0]}: ${pair[1]}`);
       }
-
       toast.success('Form submitted successfully!');
-  
     } catch (e) {
       toast.error(`Error submitting form: ${e.message}`);
       return;
     }
-  
   };
 
   return (
@@ -133,6 +98,7 @@ const EnterStudentDetails = () => {
               isFirstPage ? 'translate-x-0' : '-translate-x-full'
             }`}
           >
+            {/* Student Details Page 1 */}
             <EnterStudentDetails1
               handleClick={handleClick}
               handleInputChange={handleInputChange}
@@ -144,24 +110,96 @@ const EnterStudentDetails = () => {
               isFirstPage ? 'translate-x-full' : 'translate-x-0'
             }`}
           >
-            <EnterStudentDetails2
-              handleClick={handleClick}
-              handleSubmitForm={handleSubmitForm}
 
-              aadhar={aadhar}
-              domicile={domicile}
-              birthCertificate={birthCertificate}
-              disability={disability}
-              singleParent={singleParent}
+            {/* Student Details Page 2 */}
+            <div className="flex flex-col items-center w-full h-full pt-5">
+              <div className="progress1 flex justify-center items-center w-full h-7">
+                <img
+                  src="/progress1.png"
+                  alt="first-step"
+                  className="object-contain h-full"
+                />
+              </div>
 
-              releventCertificate={releventCertificate}
-              handleAadharChange={handleAadharChange}
-              handleDomicileChange={handleDomicileChange}
-              handleBirthCertificateChange={handleBirthCertificateChange}
-              handleDisabilityChange={handleDisabilityChange}
-              handleSingleParentChange={handleSingleParentChange}
-              handleReleventCertificateChange={handleReleventCertificateChange}
-            />
+              <div className="inputs flex flex-col items-end w-full pt-20 gap-5">
+                <div className="file-input w-full  flex justify-between">
+                  <label htmlFor="fileInput" className="text-sm font-semibold">
+                    Upload passport size picture of student{' '}
+                    <span className="text-red-500">*</span>
+                  </label>
+                  <input type="file" id="fileInput" required></input>
+                </div>
+              </div>
+
+              <div className="documents flex flex-col w-full mt-20">
+                <div className="text-sm font-semibold mb-6">
+                  Document details of student
+                </div>
+
+                <div className="flex flex-col gap-3 w-full">
+                  <CheckboxComponent
+                    title="Aadhar Card"
+                    name="aadhar"
+                    checked={formData.aadhar}
+                    handleChange={handleInputChange}
+                  />
+
+                  <CheckboxComponent
+                    title="Domicile Certificate"
+                    name="domicile"
+                    checked={formData.domicile}
+                    handleChange={handleInputChange}
+                  />
+
+                  <CheckboxComponent
+                    title="Birth Certificate"
+                    name="birthCertificate"
+                    checked={formData.birthCertificate}
+                    handleChange={handleInputChange}
+                  />
+
+                  <CheckboxComponent
+                    title="Disability Certificate"
+                    name="disability"
+                    checked={formData.disability}
+                    handleChange={handleInputChange}
+                  />
+
+                  <CheckboxComponent
+                    title="Single Parent"
+                    name="singleParent"
+                    checked={formData.singleParent}
+                    handleChange={handleInputChange}
+                  />
+
+                  <div className="ml-10">
+                    <CheckboxComponent
+                      title="Do you have Relevent Certificate ?"
+                      name="releventCertificate"
+                      checked={formData.releventCertificate}
+                      handleChange={handleInputChange}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-center w-full pt-24">
+                <div className="flex justify-center w-[90%] pl-[2.5%] pr-[2.5%] gap-10">
+                  <button
+                    onClick={handleClick}
+                    className="w-[150px] p-2 rounded-lg bg-[#21526E] text-white"
+                  >
+                    Back
+                  </button>
+                  <button
+                    onClick={handleSubmitForm}
+                    className="w-[150px] p-2 rounded-lg bg-[#21526E] text-white"
+                  >
+                    Submit
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
