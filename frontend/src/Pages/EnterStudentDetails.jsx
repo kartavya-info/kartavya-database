@@ -21,11 +21,37 @@ const EnterStudentDetails = () => {
     familyIncome: 0,
   });
 
+  const [aadhar, setAadhar] = useState(false);
+  const [domicile, setDomicile] = useState(false);
+  const [birthCertificate, setBirthCertificate] = useState(false);
+  const [disability, setDisability] = useState(false);
+  const [singleParent, setSingleParent] = useState(false);
+  const [releventCertificate, setReleventCertificate] = useState(false);
+
+  const handleAadharChange = (e) => {
+    setAadhar(e.target.checked);
+  };
+  const handleDomicileChange = (e) => {
+    setDomicile(e.target.checked);
+  };
+  const handleBirthCertificateChange = (e) => {
+    setBirthCertificate(e.target.checked);
+  };
+  const handleDisabilityChange = (e) => {
+    setDisability(e.target.checked);
+  };
+  const handleSingleParentChange = (e) => {
+    setSingleParent(e.target.checked);
+  };
+  const handleReleventCertificateChange = (e) => {
+    setReleventCertificate(e.target.checked);
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value
+      [name]: value,
     });
     console.log(formData);
   };
@@ -49,14 +75,38 @@ const EnterStudentDetails = () => {
         <div className="relative w-full h-[500px] xl:w-3/5 xl:h-full overflow-hidden">
           {/* Animation Class */}
           <div
-            className={`transition-transform duration-500 ease-in-out absolute inset-0 ${isFirstPage ? 'translate-x-0' : '-translate-x-full'}`}
+            className={`transition-transform duration-500 ease-in-out absolute inset-0 ${
+              isFirstPage ? 'translate-x-0' : '-translate-x-full'
+            }`}
           >
-            <EnterStudentDetails1 handleClick={handleClick} handleInputChange={handleInputChange} formData={formData}/>
+            <EnterStudentDetails1
+              handleClick={handleClick}
+              handleInputChange={handleInputChange}
+              formData={formData}
+            />
           </div>
           <div
-            className={`transition-transform duration-500 ease-in-out absolute inset-0 ${isFirstPage ? 'translate-x-full' : 'translate-x-0'}`}
+            className={`transition-transform duration-500 ease-in-out absolute inset-0 ${
+              isFirstPage ? 'translate-x-full' : 'translate-x-0'
+            }`}
           >
-            <EnterStudentDetails2 handleClick={handleClick} handleInputChange={handleInputChange} formData={formData}/>
+            <EnterStudentDetails2
+              handleClick={handleClick}
+
+              aadhar={aadhar}
+              domicile={domicile}
+              birthCertificate={birthCertificate}
+              disability={disability}
+              singleParent={singleParent}
+              releventCertificate={releventCertificate}
+
+              handleAadharChange={handleAadharChange}
+              handleDomicileChange={handleDomicileChange}
+              handleBirthCertificateChange={handleBirthCertificateChange}
+              handleDisabilityChange={handleDisabilityChange}
+              handleSingleParentChange={handleSingleParentChange}
+              handleReleventCertificateChange={handleReleventCertificateChange}
+            />
           </div>
         </div>
       </div>
