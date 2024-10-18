@@ -5,6 +5,7 @@ import DropdownForActiveStatusSelection from '@/components/Filters/ActiveStatusD
 import DropdownForSchoolSelection from '@/components/Filters/SchoolDropdown';
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
+import SpreadsheetBody from './SpreadsheetBody';
 
 const StudentSpreadsheet = () => {
   const [filters, setFilters] = useState({
@@ -84,8 +85,8 @@ const StudentSpreadsheet = () => {
           </form>
         </div>
       </div>
-      <div className="hero w-[80%] h-screen">
-        {/* You can add more content or the spreadsheet here */}
+      <div className="hero w-[80%] h-screen ">
+        <SpreadsheetBody />
       </div>
     </div>
   );
