@@ -115,8 +115,8 @@ const EnterStudentDetails = () => {
             <div className="flex flex-col items-center w-full h-full pt-5">
               <div className="progress1 flex justify-center items-center w-full h-7">
                 <img
-                  src="/progress1.png"
-                  alt="first-step"
+                  src="/progress2.png"
+                  alt="second-step"
                   className="object-contain h-full"
                 />
               </div>

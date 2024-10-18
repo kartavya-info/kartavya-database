@@ -168,8 +168,8 @@ const EnterStudentDetails1 = ({handleClick, handleInputChange, formData}) => {
           </div>
         </div>
 
-        <div className="flex items-center w-1/2 pt-8">
-          <div className="flex justify-end w-[90%] pl-[2.5%] pr-[2.5%]">
+        <div className="flex items-center w-full pt-8">
+          <div className="flex justify-center w-[90%] pl-[6%] pr-[2.5%]">
             <button onClick={handleClick} className="w-[150px] p-2 rounded-lg bg-[#21526E] text-white">
               Next
             </button>
