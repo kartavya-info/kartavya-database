@@ -38,7 +38,7 @@ const SchoolDropdown = ({ handleChange, selectedSchools }) => {
           checked={selectAllSchools}
           onCheckedChange={handleSelectAllSchools}
         >
-          Select All
+          Select all schools
         </DropdownMenuCheckboxItem>
         <DropdownMenuSeparator />
         {schoolOptions.map((option) => (

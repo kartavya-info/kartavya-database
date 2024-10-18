@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -12,6 +12,14 @@ import {
 const DropdownMenuCheckboxes = ({ handleChange, selectedClasses }) => {
   const classList = Array.from({ length: 12 }, (_, i) => (i + 1).toString());
   const [selectAll, setSelectAll] = useState(false);
+
+  useEffect(() => {
+    if (selectedClasses.length === classList.length) {
+      setSelectAll(true);
+    } else {
+      setSelectAll(false);
+    }
+  }, [selectedClasses]);
 
   const handleSelectAll = (checked) => {
     setSelectAll(checked);
@@ -32,7 +40,7 @@ const DropdownMenuCheckboxes = ({ handleChange, selectedClasses }) => {
           checked={selectAll}
           onCheckedChange={handleSelectAll}
         >
-          Select All
+          Select all classes
         </DropdownMenuCheckboxItem>
         <DropdownMenuSeparator />
         {/* Individual Class Checkboxes */}

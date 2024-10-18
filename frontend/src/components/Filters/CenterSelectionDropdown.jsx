@@ -14,6 +14,14 @@ const DropdownMenuCenters = ({ handleChange, selectedCenters }) => {
   const centers = ['C1', 'C2', 'C3', 'C5', 'Anganwadi'];
   const [selectAllCenters, setSelectAllCenters] = useState(false);
 
+  useEffect(() => {
+    if (selectedCenters.length === centers.length) {
+      setSelectAllCenters(true);
+    } else {
+      setSelectAllCenters(false);
+    }
+  }, [selectedCenters]);
+
   const handleSelectAllCenters = (checked) => {
     setSelectAllCenters(checked);
     centers.forEach((center) => {
@@ -32,7 +40,7 @@ const DropdownMenuCenters = ({ handleChange, selectedCenters }) => {
           checked={selectAllCenters}
           onCheckedChange={handleSelectAllCenters}
         >
-          Select All Centers
+          Select all centers
         </DropdownMenuCheckboxItem>
         <DropdownMenuSeparator />
         {/* Individual Center Checkboxes */}

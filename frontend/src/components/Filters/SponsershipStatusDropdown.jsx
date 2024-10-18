@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -12,6 +12,14 @@ import {
 const SponsorshipStatusDropdown = ({ handleChange, selectedStatus }) => {
   const sponsorshipOptions = ['Yes', 'No'];
   const [selectBoth, setSelectBoth] = useState(false);
+
+  useEffect(() => {
+    if (selectedStatus.length ===sponsorshipOptions.length) {
+      setSelectBoth(true);
+    } else {
+      setSelectBoth(false);
+    }
+  }, [selectedStatus]);
 
   const handleSelectBoth = (checked) => {
     setSelectBoth(checked);

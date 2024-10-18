@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -12,6 +12,14 @@ import {
 const ActiveStatusDropdown = ({ handleChange, selectedStatus }) => {
   const statusOptions = ['Active', 'Inactive', 'Suspended'];
   const [selectAllStatus, setSelectAllStatus] = useState(false);
+
+  useEffect(() => {
+    if (selectedStatus.length === statusOptions.length) {
+      setSelectAllStatus(true);
+    } else {
+      setSelectAllStatus(false);
+    }
+  }, [selectedStatus]);
 
   const handleSelectAllStatus = (checked) => {
     setSelectAllStatus(checked);
@@ -30,7 +38,7 @@ const ActiveStatusDropdown = ({ handleChange, selectedStatus }) => {
           checked={selectAllStatus}
           onCheckedChange={handleSelectAllStatus}
         >
-          Select All
+          Select all
         </DropdownMenuCheckboxItem>
         <DropdownMenuSeparator />
         {statusOptions.map((option) => (
