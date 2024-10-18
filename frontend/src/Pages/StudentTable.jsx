@@ -6,156 +6,12 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const students = [
-  {
-    id: '1',
-    name: 'Amit Bhagat',
-    class: '8',
-    center: 'C2',
-    activeStatus: 'Active',
-    school: 'Abhinav Vidya Vihar High School',
-  },
-  {
-    id: '1',
-    name: 'Amit Bhagat',
-    class: '8',
-    center: 'C2',
-    activeStatus: 'Active',
-    school: 'Abhinav Vidya Vihar High School',
-  },
-  {
-    id: '1',
-    name: 'Amit Bhagat',
-    class: '8',
-    center: 'C2',
-    activeStatus: 'Active',
-    school: 'Abhinav Vidya Vihar High School',
-  },
-  {
-    id: '1',
-    name: 'Amit Bhagat',
-    class: '8',
-    center: 'C2',
-    activeStatus: 'Active',
-    school: 'Abhinav Vidya Vihar High School',
-  },
-  {
-    id: '1',
-    name: 'Amit Bhagat',
-    class: '8',
-    center: 'C2',
-    activeStatus: 'Active',
-    school: 'Abhinav Vidya Vihar High School',
-  },
-  {
-    id: '1',
-    name: 'Amit Bhagat',
-    class: '8',
-    center: 'C2',
-    activeStatus: 'Active',
-    school: 'Abhinav Vidya Vihar High School',
-  },
-  {
-    id: '1',
-    name: 'Amit Bhagat',
-    class: '8',
-    center: 'C2',
-    activeStatus: 'Active',
-    school: 'Abhinav Vidya Vihar High School',
-  },
-  {
-    id: '1',
-    name: 'Amit Bhagat',
-    class: '8',
-    center: 'C2',
-    activeStatus: 'Active',
-    school: 'Abhinav Vidya Vihar High School',
-  },
-  {
-    id: '1',
-    name: 'Amit Bhagat',
-    class: '8',
-    center: 'C2',
-    activeStatus: 'Active',
-    school: 'Abhinav Vidya Vihar High School',
-  },
-  {
-    id: '1',
-    name: 'Amit Bhagat',
-    class: '8',
-    center: 'C2',
-    activeStatus: 'Active',
-    school: 'Abhinav Vidya Vihar High School',
-  },
-  {
-    id: '1',
-    name: 'Amit Bhagat',
-    class: '8',
-    center: 'C2',
-    activeStatus: 'Active',
-    school: 'Abhinav Vidya Vihar High School',
-  },
-  {
-    id: '1',
-    name: 'Amit Bhagat',
-    class: '8',
-    center: 'C2',
-    activeStatus: 'Active',
-    school: 'Abhinav Vidya Vihar High School',
-  },
-  {
-    id: '1',
-    name: 'Amit Bhagat',
-    class: '8',
-    center: 'C2',
-    activeStatus: 'Active',
-    school: 'Abhinav Vidya Vihar High School',
-  },
-  {
-    id: '1',
-    name: 'Amit Bhagat',
-    class: '8',
-    center: 'C2',
-    activeStatus: 'Active',
-    school: 'Abhinav Vidya Vihar High School',
-  },
-  {
-    id: '1',
-    name: 'Amit Bhagat',
-    class: '8',
-    center: 'C2',
-    activeStatus: 'Active',
-    school: 'Abhinav Vidya Vihar High School',
-  },
-  {
-    id: '1',
-    name: 'Amit Bhagat',
-    class: '8',
-    center: 'C2',
-    activeStatus: 'Active',
-    school: 'Abhinav Vidya Vihar High School',
-  },
-  {
-    id: '1',
-    name: 'Amit Bhagat',
-    class: '8',
-    center: 'C2',
-    activeStatus: 'Active',
-    school: 'Abhinav Vidya Vihar High School',
-  },
-  {
-    id: '1',
-    name: 'Amit Bhagat',
-    class: '8',
-    center: 'C2',
-    activeStatus: 'Active',
-    school: 'Abhinav Vidya Vihar High School',
-  },
-];
 
-const StudentTable = () => {
+const StudentTable = ({filteredStudents}) => {
+
   return (
     <Table>
       <TableHeader>
@@ -168,7 +24,7 @@ const StudentTable = () => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {students.map((student) => (
+        {filteredStudents.map((student) => (
           <TableRow key={student.id} className="hover:bg-gray-100">
             <TableCell>
               <Link
