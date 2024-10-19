@@ -1,6 +1,7 @@
 import InputComponent from '@/components/InputComponent';
 import SelectComponent from '@/components/SelectComponent';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Input } from '@/components/ui/input';
 import React, { useState } from 'react';
 
 const studentDataFromBackend = {
@@ -23,6 +24,13 @@ const studentDataFromBackend = {
   disability: false,
   singleParent: true,
   releventCertificate: true,
+  isSponsored: true,
+  annualFees: 0,
+  payTotalFees: true,
+  feesWePay: 0,
+  sponserId: 1,
+  sponserName: 'XYZ',
+  amountBySponsor: 10000,
 };
 
 const StudentProfile = () => {
@@ -69,7 +77,10 @@ const StudentProfile = () => {
           Student Profile
         </div>
 
+        {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
+
         {/* General Details */}
+
         <div className="general-details scale-90">
           <div className="w-full text-2xl font-semibold text-[#21526E]">
             General Details
@@ -229,127 +240,300 @@ const StudentProfile = () => {
           </div>
         </div>
 
-        {/* Document Details */}
+        {/* ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
 
-        <div className="document-details flex flex-col w-full gap-5 scale-90">
-          <div className="w-full text-2xl font-semibold text-[#21526E] mb-5">
-            Document Details
+
+
+
+
+        <div className="w-full flex scale-90">
+          {/* Document Details */}
+          <div className="document-details flex flex-col w-full gap-[1.55rem]">
+            <div className="w-full text-2xl font-semibold text-[#21526E] mb-5">
+              Document Details
+            </div>
+            {/* Aadhar Details */}
+            <div className="flex items-center space-x-2 pl-[2.5%] pr-[2.5%] ">
+              <Checkbox
+                id="aadhar"
+                checked={studentData.aadhar}
+                onCheckedChange={(checked) =>
+                  handleInputChange({
+                    target: {
+                      name: 'aadhar',
+                      type: 'checkbox',
+                      checked: checked,
+                    },
+                  })
+                }
+              />
+              <label
+                htmlFor="aadhar"
+                className="text-lg font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Aadhar Card
+              </label>
+            </div>
+
+            {/* Domicile Details */}
+            <div className="flex items-center space-x-2 pl-[2.5%] pr-[2.5%]">
+              <Checkbox
+                id="domicile"
+                checked={studentData.domicile}
+                onCheckedChange={(checked) =>
+                  handleInputChange({
+                    target: {
+                      name: 'domicile',
+                      type: 'checkbox',
+                      checked: checked,
+                    },
+                  })
+                }
+              />
+              <label
+                htmlFor="domicile"
+                className="text-lg font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Domicile Certificate
+              </label>
+            </div>
+
+            {/* Birth Certificate Details */}
+            <div className="flex items-center space-x-2 pl-[2.5%] pr-[2.5%]">
+              <Checkbox
+                id="birthCertificate"
+                checked={studentData.birthCertificate}
+                onCheckedChange={(checked) =>
+                  handleInputChange({
+                    target: {
+                      name: 'birthCertificate',
+                      type: 'checkbox',
+                      checked: checked,
+                    },
+                  })
+                }
+              />
+              <label
+                htmlFor="birthCertificate"
+                className="text-lg font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Birth Certificate
+              </label>
+            </div>
+
+            {/* Disability  Details */}
+            <div className="flex items-center space-x-2 pl-[2.5%] pr-[2.5%]">
+              <Checkbox
+                id="disability"
+                checked={studentData.disability}
+                onCheckedChange={(checked) =>
+                  handleInputChange({
+                    target: {
+                      name: 'disability',
+                      type: 'checkbox',
+                      checked: checked,
+                    },
+                  })
+                }
+              />
+              <label
+                htmlFor="disability"
+                className="text-lg font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Disability Certificate
+              </label>
+            </div>
+
+            {/* Single Parent  Details */}
+            <div className="flex items-center space-x-2 pl-[2.5%] pr-[2.5%]">
+              <Checkbox
+                id="singleParent"
+                checked={studentData.singleParent}
+                onCheckedChange={(checked) =>
+                  handleInputChange({
+                    target: {
+                      name: 'singleParent',
+                      type: 'checkbox',
+                      checked: checked,
+                    },
+                  })
+                }
+              />
+              <label
+                htmlFor="singleParent"
+                className="text-lg font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Single Parent Certificate
+              </label>
+            </div>
+
+            {/* Relevant Ceritificate  Details */}
+            <div className="flex items-center space-x-2 pl-[2.5%] pr-[2.5%]">
+              <Checkbox
+                id="releventCertificate"
+                checked={studentData.releventCertificate}
+                onCheckedChange={(checked) =>
+                  handleInputChange({
+                    target: {
+                      name: 'releventCertificate',
+                      type: 'checkbox',
+                      checked: checked,
+                    },
+                  })
+                }
+              />
+              <label
+                htmlFor="releventCertificate"
+                className="text-lg font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Relevent Certificate for single parent
+              </label>
+            </div>
           </div>
-          {/* Aadhar Details */}
-          <div className="flex items-center space-x-2">
-            <Checkbox
-              id="aadhar"
-              checked={studentData.aadhar}
-              onCheckedChange={(checked) =>
-                handleInputChange({
-                  target: { name: 'aadhar', type: 'checkbox', value: checked },
-                })
-              }
-            />
-            <label
-              htmlFor="aadhar"
-              className="text-lg font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            >
-              Aadhar Card
-            </label>
+
+
+
+
+          {/* ----------------------------------------------------------------------------------------------------------------------------------------- */}
+          
+          {/* Sponsorship Details */}
+          <div className="sponsorhip-details flex flex-col w-full gap-2">
+            <div className="w-full text-2xl font-semibold text-[#21526E] mb-5">
+              Sponsorship Details
+            </div>
+
+            <div className="flex items-center w-full h-9 pl-[2.5%] pr-[2.5%] ">
+              <label
+                htmlFor="isSponsored"
+                className="w-[60%] text-lg font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Do we sponsor this student?
+              </label>
+              <Checkbox
+                id="isSponsored"
+                checked={studentData.isSponsored}
+                onCheckedChange={(checked) =>
+                  handleInputChange({
+                    target: {
+                      name: 'isSponsored',
+                      type: 'checkbox',
+                      checked: checked,
+                    },
+                  })
+                }
+              />
+              <span className='font-semibold ml-5'>{studentData.isSponsored? 'Yes' : 'No'}</span>
+            </div>
+
+            <div className="annual-school-fees flex items-center w-full h-9 pl-[2.5%] pr-[2.5%]">
+              <label className="w-[60%] text-lg font-semibold">
+                Annual School Fees of student
+              </label>
+              <div className="w-[200px]">
+                <input
+                  type="number"
+                  name="annualFees"
+                  placeholder="Annual Fees"
+                  className="p-2 font-semibold rounded-lg"
+                  value={studentData.annualFees}
+                  onChange={handleInputChange}
+                />
+              </div>
+            </div>
+
+            <div className="flex items-center w-full h-9 pl-[2.5%] pr-[2.5%]">
+              <label
+                htmlFor="payTotalFees"
+                className="w-[60%] text-lg font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Do we pay total school fees
+              </label>
+              <Checkbox
+                id="payTotalFees"
+                checked={studentData.payTotalFees}
+                onCheckedChange={(checked) =>
+                  handleInputChange({
+                    target: {
+                      name: 'payTotalFees',
+                      type: 'checkbox',
+                      checked: checked,
+                    },
+                  })
+                }
+              />
+              <span className='font-semibold ml-5'>{studentData.payTotalFees? 'Yes' : 'No'}</span>
+            </div>
+
+            <div className="flex items-center w-full h-9 pl-[2.5%] pr-[2.5%]">
+              <label
+                htmlFor="feesWePay"
+                className="w-[60%] text-lg font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Total Fees we pay
+              </label>
+              <div className="w-[200px]">
+                <input
+                  type="number"
+                  name="feesWePay"
+                  placeholder={
+                    studentData.payTotalFees === false && 'Enter the amount'
+                  }
+                  className="p-2 font-semibold rounded-lg"
+                  value={
+                    studentData.payTotalFees === true
+                      ? studentData.annualFees
+                      : studentData.feesWePay
+                  }
+                  onChange={handleInputChange}
+                />
+              </div>
+            </div>
+
+            <div className="flex items-center w-full h-9 pl-[2.5%] pr-[2.5%]">
+              <label
+                htmlFor="sponserName"
+                className="w-[60%] text-lg font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Name of Sponsor
+              </label>
+              <div className="w-[200px]">
+                <input
+                  type="text"
+                  name="sponserName"
+                  className="p-2 font-semibold rounded-lg"
+                  placeholder="Enter sponser name"
+                  value={studentData.sponserName}
+                  onChange={handleInputChange}
+                />
+              </div>
+            </div>
+
+            <div className="flex items-center w-full h-9 pl-[2.5%] pr-[2.5%]">
+              <label
+                htmlFor="amountBySponsor"
+                className="w-[60%] text-lg font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Total Amount by Sponsor
+              </label>
+              <div className="w-[200px]">
+                <input
+                  type="number"
+                  name="amountBySponsor"
+                  className="p-2 font-semibold rounded-lg"
+                  placeholder="Enter total amount"
+                  value={studentData.amountBySponsor}
+                  onChange={handleInputChange}
+                />
+              </div>
+            </div>
           </div>
 
-          {/* Domicile Details */}
-          <div className="flex items-center space-x-2">
-            <Checkbox
-              id="domicile"
-              checked={studentData.domicile}
-              onCheckedChange={(checked) =>
-                handleInputChange({
-                  target: { name: 'domicile', type: 'checkbox', value: checked },
-                })
-              }
-            />
-            <label
-              htmlFor="domicile"
-              className="text-lg font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            >
-              Domicile Certificate
-            </label>
-          </div>
 
 
-          {/* Birth Certificate Details */}
-          <div className="flex items-center space-x-2">
-            <Checkbox
-              id="domicile"
-              checked={studentData.birthCertificate}
-              onCheckedChange={(checked) =>
-                handleInputChange({
-                  target: { name: 'birthCertificate', type: 'checkbox', value: checked },
-                })
-              }
-            />
-            <label
-              htmlFor="birthCertificate"
-              className="text-lg font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            >
-              Birth Certificate
-            </label>
-          </div>
 
 
-          {/* Disability  Details */}
-          <div className="flex items-center space-x-2">
-            <Checkbox
-              id="disability"
-              checked={studentData.birthCertificate}
-              onCheckedChange={(checked) =>
-                handleInputChange({
-                  target: { name: 'disability', type: 'checkbox', value: checked },
-                })
-              }
-            />
-            <label
-              htmlFor="disability"
-              className="text-lg font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            >
-              Disability Certificate
-            </label>
-          </div>
 
-          {/* Single Parent  Details */}
-          <div className="flex items-center space-x-2">
-            <Checkbox
-              id="singleParent"
-              checked={studentData.singleParent}
-              onCheckedChange={(checked) =>
-                handleInputChange({
-                  target: { name: 'singleParent', type: 'checkbox', value: checked },
-                })
-              }
-            />
-            <label
-              htmlFor="singleParent"
-              className="text-lg font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            >
-              Single Parent Certificate
-            </label>
-          </div>
 
-          {/* Relevant Ceritificate  Details */}
-          <div className="flex items-center space-x-2">
-            <Checkbox
-              id="releventCertificate"
-              checked={studentData.releventCertificate}
-              onCheckedChange={(checked) =>
-                handleInputChange({
-                  target: { name: 'releventCertificate', type: 'checkbox', value: checked },
-                })
-              }
-            />
-            <label
-              htmlFor="releventCertificate"
-              className="text-lg font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            >
-              Relevent Certificate for single parent
-            </label>
-          </div>
         </div>
       </div>
     </div>
