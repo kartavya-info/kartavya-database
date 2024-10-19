@@ -31,6 +31,16 @@ const studentDataFromBackend = {
   sponserId: 1,
   sponserName: 'XYZ',
   amountBySponsor: 10000,
+  results: {
+    '2022-23': {
+      midTerm: '85%',
+      endTerm: '90%',
+    },
+    '2023-24': {
+      midTerm: '88%',
+      endTerm: '92%',
+    },
+  },
 };
 
 const StudentProfile = () => {
@@ -242,10 +252,6 @@ const StudentProfile = () => {
 
         {/* ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
 
-
-
-
-
         <div className="w-full flex scale-90">
           {/* Document Details */}
           <div className="document-details flex flex-col w-full gap-[1.55rem]">
@@ -391,11 +397,8 @@ const StudentProfile = () => {
             </div>
           </div>
 
-
-
-
           {/* ----------------------------------------------------------------------------------------------------------------------------------------- */}
-          
+
           {/* Sponsorship Details */}
           <div className="sponsorhip-details flex flex-col w-full gap-2">
             <div className="w-full text-2xl font-semibold text-[#21526E] mb-5">
@@ -422,7 +425,9 @@ const StudentProfile = () => {
                   })
                 }
               />
-              <span className='font-semibold ml-5'>{studentData.isSponsored? 'Yes' : 'No'}</span>
+              <span className="font-semibold ml-5">
+                {studentData.isSponsored ? 'Yes' : 'No'}
+              </span>
             </div>
 
             <div className="annual-school-fees flex items-center w-full h-9 pl-[2.5%] pr-[2.5%]">
@@ -461,7 +466,9 @@ const StudentProfile = () => {
                   })
                 }
               />
-              <span className='font-semibold ml-5'>{studentData.payTotalFees? 'Yes' : 'No'}</span>
+              <span className="font-semibold ml-5">
+                {studentData.payTotalFees ? 'Yes' : 'No'}
+              </span>
             </div>
 
             <div className="flex items-center w-full h-9 pl-[2.5%] pr-[2.5%]">
@@ -528,12 +535,44 @@ const StudentProfile = () => {
             </div>
           </div>
 
+          {/* -------------------------------------------------------------------------------------------------------------------------------------------- */}
+        </div>
 
+        {/* Result Details */}
 
+        <div className="result-details scale-90">
+          <div className="w-full text-2xl font-semibold text-[#21526E] mb-5">
+            Result Details
+          </div>
 
+          <div className="flex flex-col gap-4 pl-[2.5%] pr-[2.5%]">
+            {Object.keys(studentData.results).map((session) => (
+              <div key={session} className="flex justify-between  w-full">
 
+                <div className="session flex items-center text-xl font-bold w-1/2">
+                  Session : {session}
+                </div>
 
+                <div className='flex justify-between items-center w-1/2'>
 
+                  <div className="mid-term flex items-center">
+                    <div className="text-lg font-semibold mr-4">Mid-term:</div>
+                    <div className="pl-10 pr-10 pt-2 pb-2 font-semibold bg-white rounded-lg">
+                      {studentData.results[session].midTerm}
+                    </div>
+                  </div>
+                  <div className="end-term flex items-center">
+                    <div className="text-lg font-semibold mr-4">End-term:</div>
+                    <div className="pl-10 pr-10 pt-2 pb-2 font-semibold bg-white rounded-lg">
+                      {studentData.results[session].endTerm}
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
