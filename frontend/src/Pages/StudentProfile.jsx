@@ -31,7 +31,7 @@ const studentDataFromBackend = {
   singleParent: true,
   releventCertificate: true,
   isSponsored: true,
-  annualFees: 0,
+  annualFees: 10000,
   payTotalFees: true,
   feesWePay: 0,
   sponserId: 1,
@@ -106,7 +106,7 @@ const StudentProfile = () => {
           </div>
         </div>
       </div>
-      <div className="hero flex flex-col gap-10 w-[80%]  bg-fixed inset-0 bg-[radial-gradient(ellipse_at_center,rgba(222,80,85,0.4),transparent),radial-gradient(ellipse_at_top_left,rgba(205,214,219,0.8),rgba(255,255,255,0.8),rgba(255,255,255,0)),radial-gradient(ellipse_at_top_right,rgba(205,214,219,0.8),rgba(255,255,255,0.8),rgba(255,255,255,0)),radial-gradient(ellipse_at_bottom_left,rgba(205,214,219,0.8),rgba(255,255,255,0.8),rgba(255,255,255,0)),radial-gradient(ellipse_at_bottom_right,rgba(205,214,219,0.8),rgba(255,255,255,0.8),rgba(255,255,255,0))]">
+      <div className="hero flex flex-col w-[80%]  bg-fixed inset-0 bg-[radial-gradient(ellipse_at_center,rgba(222,80,85,0.4),transparent),radial-gradient(ellipse_at_top_left,rgba(205,214,219,0.8),rgba(255,255,255,0.8),rgba(255,255,255,0)),radial-gradient(ellipse_at_top_right,rgba(205,214,219,0.8),rgba(255,255,255,0.8),rgba(255,255,255,0)),radial-gradient(ellipse_at_bottom_left,rgba(205,214,219,0.8),rgba(255,255,255,0.8),rgba(255,255,255,0)),radial-gradient(ellipse_at_bottom_right,rgba(205,214,219,0.8),rgba(255,255,255,0.8),rgba(255,255,255,0))]">
         <div className="heading text-3xl font-semibold text-center pt-5 pb-5 border-b w-full">
           Student Profile
         </div>
@@ -115,11 +115,11 @@ const StudentProfile = () => {
 
         {/* General Details */}
 
-        <div className="general-details scale-90">
+        <div className="general-details w-[90%] m-auto mt-10">
           <div className="w-full text-2xl font-semibold text-[#21526E]">
             General Details
           </div>
-          <div className="input-section flex flex-col items-end w-full pt-8 gap-5">
+          <div className="input-section flex flex-col items-end w-full pt-8 gap-[1.2rem]">
             {/* Row 1 */}
             <div className="flex flex-col gap-5 xl:gap-0 xl:flex-row flex-wrap w-full">
               <div className="w-full xl:w-1/2">
@@ -276,7 +276,7 @@ const StudentProfile = () => {
 
         {/* ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
 
-        <div className="w-full flex scale-90">
+        <div className="flex w-[90%] m-auto mt-20">
           {/* Document Details */}
           <div className="document-details flex flex-col w-full gap-[1.55rem]">
             <div className="w-full text-2xl font-semibold text-[#21526E] mb-5">
@@ -299,7 +299,7 @@ const StudentProfile = () => {
               />
               <label
                 htmlFor="aadhar"
-                className="text-lg font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                className="font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
                 Aadhar Card
               </label>
@@ -322,7 +322,7 @@ const StudentProfile = () => {
               />
               <label
                 htmlFor="domicile"
-                className="text-lg font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                className="font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
                 Domicile Certificate
               </label>
@@ -345,7 +345,7 @@ const StudentProfile = () => {
               />
               <label
                 htmlFor="birthCertificate"
-                className="text-lg font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                className="font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
                 Birth Certificate
               </label>
@@ -368,7 +368,7 @@ const StudentProfile = () => {
               />
               <label
                 htmlFor="disability"
-                className="text-lg font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                className="font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
                 Disability Certificate
               </label>
@@ -391,7 +391,7 @@ const StudentProfile = () => {
               />
               <label
                 htmlFor="singleParent"
-                className="text-lg font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                className="font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
                 Single Parent Certificate
               </label>
@@ -414,7 +414,7 @@ const StudentProfile = () => {
               />
               <label
                 htmlFor="releventCertificate"
-                className="text-lg font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                className="font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
                 Relevent Certificate for single parent
               </label>
@@ -432,7 +432,7 @@ const StudentProfile = () => {
             <div className="flex items-center w-full h-9 pl-[2.5%] pr-[2.5%] ">
               <label
                 htmlFor="isSponsored"
-                className="w-[60%] text-lg font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                className="w-[60%] font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
                 Do we sponsor this student?
               </label>
@@ -455,7 +455,7 @@ const StudentProfile = () => {
             </div>
 
             <div className="annual-school-fees flex items-center w-full h-9 pl-[2.5%] pr-[2.5%]">
-              <label className="w-[60%] text-lg font-semibold">
+              <label className="w-[60%] font-semibold">
                 Annual School Fees of student
               </label>
               <div className="w-[200px]">
@@ -463,7 +463,7 @@ const StudentProfile = () => {
                   type="number"
                   name="annualFees"
                   placeholder="Annual Fees"
-                  className="p-2 font-semibold rounded-lg"
+                  className="p-2 text-sm font-semibold outline-none rounded-lg"
                   value={studentData.annualFees}
                   onChange={handleInputChange}
                 />
@@ -473,7 +473,7 @@ const StudentProfile = () => {
             <div className="flex items-center w-full h-9 pl-[2.5%] pr-[2.5%]">
               <label
                 htmlFor="payTotalFees"
-                className="w-[60%] text-lg font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                className="w-[60%] font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
                 Do we pay total school fees
               </label>
@@ -498,7 +498,7 @@ const StudentProfile = () => {
             <div className="flex items-center w-full h-9 pl-[2.5%] pr-[2.5%]">
               <label
                 htmlFor="feesWePay"
-                className="w-[60%] text-lg font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                className="w-[60%] font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
                 Total Fees we pay
               </label>
@@ -509,7 +509,7 @@ const StudentProfile = () => {
                   placeholder={
                     studentData.payTotalFees === false ? 'Enter the amount' : ''
                   }
-                  className="p-2 font-semibold rounded-lg"
+                  className="p-2 text-sm font-semibold outline-none rounded-lg"
                   value={
                     studentData.payTotalFees === true
                       ? studentData.annualFees
@@ -523,7 +523,7 @@ const StudentProfile = () => {
             <div className="flex items-center w-full h-9 pl-[2.5%] pr-[2.5%]">
               <label
                 htmlFor="sponserName"
-                className="w-[60%] text-lg font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                className="w-[60%] font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
                 Name of Sponsor
               </label>
@@ -531,7 +531,7 @@ const StudentProfile = () => {
                 <input
                   type="text"
                   name="sponserName"
-                  className="p-2 font-semibold rounded-lg"
+                  className="p-2 text-sm font-semibold rounded-lg"
                   placeholder="Enter sponser name"
                   value={studentData.sponserName}
                   onChange={handleInputChange}
@@ -542,7 +542,7 @@ const StudentProfile = () => {
             <div className="flex items-center w-full h-9 pl-[2.5%] pr-[2.5%]">
               <label
                 htmlFor="amountBySponsor"
-                className="w-[60%] text-lg font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                className="w-[60%] font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
                 Total Amount by Sponsor
               </label>
@@ -550,7 +550,7 @@ const StudentProfile = () => {
                 <input
                   type="number"
                   name="amountBySponsor"
-                  className="p-2 font-semibold rounded-lg"
+                  className="p-2 text-sm font-semibold rounded-lg outline-none"
                   placeholder="Enter total amount"
                   value={studentData.amountBySponsor}
                   onChange={handleInputChange}
@@ -564,7 +564,7 @@ const StudentProfile = () => {
 
         {/* Result Details */}
 
-        <div className="result-details w-[90%] m-auto">
+        <div className="result-details w-[90%] m-auto mt-20">
           <div className="w-full flex justify-between text-2xl font-semibold text-[#21526E] mb-5">
             Result Details
             <DialogForResultEdit
@@ -583,7 +583,7 @@ const StudentProfile = () => {
         {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
 
         {/* Attendence details */}
-        <div className="attendence-details w-[90%] m-auto mt-10">
+        <div className="attendence-details w-[90%] m-auto mt-20">
           <div className="w-full flex justify-between text-2xl font-semibold text-[#21526E] mb-5">
             Attendence Details
             <DialogForAttendenceEdit
