@@ -4,6 +4,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import React, { useState } from 'react';
 import StudentProgressGraph from './StudentProgressGraph';
+import AttendanceMonitoringGraph from './AttendenceMonitoringGraph';
 
 const studentDataFromBackend = {
   id: '1',
@@ -43,9 +44,23 @@ const studentDataFromBackend = {
     },
     '2024-25': {
       midTerm: '85%',
-      endTerm: '90%'
-    }
+      endTerm: '90%',
+    },
   },
+  attendence: {
+    January: { totalDays: 22, presentDays: 18 },
+    February: { totalDays: 20, presentDays: 16 },
+    March: { totalDays: 20, presentDays: 16 },
+    April: { totalDays: 20, presentDays: 16 },
+    May: { totalDays: 20, presentDays: 16 },
+    June: { totalDays: 20, presentDays: 16 },
+    July: { totalDays: 20, presentDays: 16 },
+    August: { totalDays: 20, presentDays: 16 },
+    September: { totalDays: 20, presentDays: 16 },
+    October: { totalDays: 20, presentDays: 16 },
+    Novermber: { totalDays: 20, presentDays: 16 },
+    December: { totalDays: 20, presentDays: 16 },
+  }
 };
 
 const StudentProfile = () => {
@@ -87,7 +102,7 @@ const StudentProfile = () => {
           </div>
         </div>
       </div>
-      <div className="hero flex flex-col gap-10 w-[80%] h-[300vh] bg-fixed inset-0 bg-[radial-gradient(ellipse_at_center,rgba(222,80,85,0.4),transparent),radial-gradient(ellipse_at_top_left,rgba(205,214,219,0.8),rgba(255,255,255,0.8),rgba(255,255,255,0)),radial-gradient(ellipse_at_top_right,rgba(205,214,219,0.8),rgba(255,255,255,0.8),rgba(255,255,255,0)),radial-gradient(ellipse_at_bottom_left,rgba(205,214,219,0.8),rgba(255,255,255,0.8),rgba(255,255,255,0)),radial-gradient(ellipse_at_bottom_right,rgba(205,214,219,0.8),rgba(255,255,255,0.8),rgba(255,255,255,0))]">
+      <div className="hero flex flex-col gap-10 w-[80%]  bg-fixed inset-0 bg-[radial-gradient(ellipse_at_center,rgba(222,80,85,0.4),transparent),radial-gradient(ellipse_at_top_left,rgba(205,214,219,0.8),rgba(255,255,255,0.8),rgba(255,255,255,0)),radial-gradient(ellipse_at_top_right,rgba(205,214,219,0.8),rgba(255,255,255,0.8),rgba(255,255,255,0)),radial-gradient(ellipse_at_bottom_left,rgba(205,214,219,0.8),rgba(255,255,255,0.8),rgba(255,255,255,0)),radial-gradient(ellipse_at_bottom_right,rgba(205,214,219,0.8),rgba(255,255,255,0.8),rgba(255,255,255,0))]">
         <div className="heading text-3xl font-semibold text-center pt-5 pb-5 border-b w-full">
           Student Profile
         </div>
@@ -545,7 +560,7 @@ const StudentProfile = () => {
 
         {/* Result Details */}
 
-        <div className="result-details scale-90">
+        <div className="result-details w-[90%] m-auto">
           <div className="w-full text-2xl font-semibold text-[#21526E] mb-5">
             Result Details
           </div>
@@ -581,6 +596,23 @@ const StudentProfile = () => {
           <div className="result-graph w-full h-[400px]">
             <StudentProgressGraph results={studentData.results} />
           </div>
+        </div>
+
+        {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
+
+        {/* Attendence details */}
+        <div className="attendence-details w-[90%] m-auto mt-10">
+
+          <div className="w-full text-2xl font-semibold text-[#21526E] mb-5">
+            Attendence Details
+          </div>
+
+
+          {/* Attendence Graph */}
+          <div className="result-graph w-full h-[400px]">
+            <AttendanceMonitoringGraph attendanceData={studentData.attendence} />
+          </div>
+
         </div>
       </div>
     </div>
