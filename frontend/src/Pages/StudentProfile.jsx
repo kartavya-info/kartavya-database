@@ -8,6 +8,7 @@ import AttendanceMonitoringGraph from './AttendenceMonitoringGraph';
 import { Button } from '@/components/ui/button';
 import { Pencil1Icon } from '@radix-ui/react-icons';
 import DialogForAttendenceEdit from './DialogForAttendenceEdit';
+import DialogForResultEdit from './DialogForResultEdit';
 
 const studentDataFromBackend = {
   id: '1',
@@ -38,16 +39,16 @@ const studentDataFromBackend = {
   amountBySponsor: 10000,
   results: {
     '2022-23': {
-      midTerm: '60%',
-      endTerm: '80%',
+      midTerm: '60',
+      endTerm: '80',
     },
     '2023-24': {
-      midTerm: '70%',
-      endTerm: '92%',
+      midTerm: '70',
+      endTerm: '92',
     },
     '2024-25': {
-      midTerm: '85%',
-      endTerm: '90%',
+      midTerm: '85',
+      endTerm: '90',
     },
   },
   attendence: {
@@ -63,7 +64,7 @@ const studentDataFromBackend = {
     Oct: { totalDays: 20, presentDays: 16 },
     Nov: { totalDays: 20, presentDays: 16 },
     Dec: { totalDays: 20, presentDays: 16 },
-  }
+  },
 };
 
 const StudentProfile = () => {
@@ -80,7 +81,6 @@ const StudentProfile = () => {
     });
     console.log(studentData);
   };
-
 
   return (
     <div className="flex select-none">
@@ -565,34 +565,12 @@ const StudentProfile = () => {
         {/* Result Details */}
 
         <div className="result-details w-[90%] m-auto">
-          <div className="w-full text-2xl font-semibold text-[#21526E] mb-5">
+          <div className="w-full flex justify-between text-2xl font-semibold text-[#21526E] mb-5">
             Result Details
-          </div>
-
-          <div className="flex flex-col gap-4 pl-[2.5%] pr-[2.5%] mb-20">
-            {Object.keys(studentData.results).map((session) => (
-              <div key={session} className="flex justify-between  w-full">
-                <div className="session flex items-center text-xl font-bold w-1/2">
-                  Session : {session}
-                </div>
-
-                <div className="flex justify-between items-center w-1/2">
-                  <div className="mid-term flex items-center">
-                    <div className="text-lg font-semibold mr-4">Mid-term:</div>
-                    <div className="pl-10 pr-10 pt-2 pb-2 font-semibold bg-white rounded-lg">
-                      {studentData.results[session].midTerm}
-                    </div>
-                  </div>
-
-                  <div className="end-term flex items-center">
-                    <div className="text-lg font-semibold mr-4">End-term:</div>
-                    <div className="pl-10 pr-10 pt-2 pb-2 font-semibold bg-white rounded-lg">
-                      {studentData.results[session].endTerm}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
+            <DialogForResultEdit
+              studentData={studentData}
+              setStudentData={setStudentData}
+            />
           </div>
 
           {/* Result Graph */}
@@ -606,22 +584,20 @@ const StudentProfile = () => {
 
         {/* Attendence details */}
         <div className="attendence-details w-[90%] m-auto mt-10">
-
           <div className="w-full flex justify-between text-2xl font-semibold text-[#21526E] mb-5">
             Attendence Details
-
-            <DialogForAttendenceEdit studentData={studentData} setStudentData={setStudentData} />
-          </div>
-          
-          <div className='edit-button'>
-            
+            <DialogForAttendenceEdit
+              studentData={studentData}
+              setStudentData={setStudentData}
+            />
           </div>
 
           {/* Attendence Graph */}
-          <div className="result-graph w-full h-[400px]">
-            <AttendanceMonitoringGraph attendanceData={studentData.attendence} />
+          <div className="result-graph w-full h-[400px] mb-10">
+            <AttendanceMonitoringGraph
+              attendanceData={studentData.attendence}
+            />
           </div>
-
         </div>
       </div>
     </div>

@@ -40,7 +40,7 @@ const AttendanceMonitoringGraph = ({ attendanceData = {} }) => {
       {
         label: 'Present Days',
         data: totalDaysData,
-        backgroundColor: '#36A2EB', // Blue for present days
+        backgroundColor: '#21526E', // Blue for present days
       },
       {
         label: 'Absent Days',
@@ -78,11 +78,11 @@ const AttendanceMonitoringGraph = ({ attendanceData = {} }) => {
     },
     scales: {
       x: {
-        stacked: true,  // Stack bars on x-axis
+        stacked: true, // Stack bars on x-axis
       },
       y: {
         beginAtZero: true,
-        stacked: true,  // Stack on y-axis
+        stacked: true, // Stack on y-axis
         title: {
           display: true,
           text: 'Number of Days',
@@ -90,7 +90,7 @@ const AttendanceMonitoringGraph = ({ attendanceData = {} }) => {
         ticks: {
           stepSize: 5,
         },
-        max:  30
+        max: 30,
       },
     },
   };

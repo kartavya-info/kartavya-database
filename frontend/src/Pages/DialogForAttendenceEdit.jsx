@@ -22,16 +22,15 @@ import {
 } from '@/components/ui/select';
 import { Pencil1Icon } from '@radix-ui/react-icons';
 
-const DialogForAttendanceEdit = ({studentData,setStudentData}) => {
+const DialogForAttendanceEdit = ({ studentData, setStudentData }) => {
   const [selectedMonth, setSelectedMonth] = useState('');
-  const [totalDays, setTotalDays] = useState(0); 
-  const [presentDays, setPresentDays] = useState(0); 
+  const [totalDays, setTotalDays] = useState(0);
+  const [presentDays, setPresentDays] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleAttendenceEdit = () => {
-
-    if(totalDays === '') setTotalDays(0);
-    if(presentDays === '') setPresentDays(0);
+    if (totalDays === '') setTotalDays(0);
+    if (presentDays === '') setPresentDays(0);
 
     const updatedAttendence = {
       ...studentData.attendence,
@@ -40,12 +39,12 @@ const DialogForAttendanceEdit = ({studentData,setStudentData}) => {
         totalDays: totalDays,
       },
     };
-  
+
     const updatedStudentData = {
-      ...studentData, 
-      attendence: updatedAttendence, 
+      ...studentData,
+      attendence: updatedAttendence,
     };
-  
+
     setStudentData(updatedStudentData);
     setPresentDays(0);
     setTotalDays(0);
@@ -64,8 +63,7 @@ const DialogForAttendanceEdit = ({studentData,setStudentData}) => {
   };
 
   const handlePresentDaysChange = (event) => {
-    if(event.target.value >= totalDays){
-      setPresentDays(totalDays);
+    if (event.target.value > totalDays) {
       return;
     }
     setPresentDays(event.target.value);
@@ -75,7 +73,7 @@ const DialogForAttendanceEdit = ({studentData,setStudentData}) => {
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button variant="outline" className="bg-[#21526E] text-white">
-          <Pencil1Icon /> <span className='ml-2'> Edit Attendance</span>
+          <Pencil1Icon /> <span className="ml-2"> Edit Attendance</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
@@ -88,10 +86,11 @@ const DialogForAttendanceEdit = ({studentData,setStudentData}) => {
         <div className="grid gap-4 py-4">
           {/* Month Select */}
           <div className="grid grid-cols-[1fr_3fr] items-center gap-4">
-            <Label htmlFor="month" className="text-right">
-              Month
-            </Label>
-            <Select className="col-span-3 w-full" onValueChange={handleMonthChange}>
+            <Label htmlFor="month">Month</Label>
+            <Select
+              className="col-span-3 w-full"
+              onValueChange={handleMonthChange}
+            >
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select a month" />
               </SelectTrigger>
@@ -116,22 +115,30 @@ const DialogForAttendanceEdit = ({studentData,setStudentData}) => {
 
           {/* Total Days Input */}
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="totalDays" className="text-right">
-              Total Days
-            </Label>
-            <Input id="totalDays" className="col-span-3 w-full" value={totalDays} onChange={handleTotalDaysChange}/>
+            <Label htmlFor="totalDays">Total Days</Label>
+            <Input
+              id="totalDays"
+              className="col-span-3 w-full"
+              value={totalDays}
+              onChange={handleTotalDaysChange}
+            />
           </div>
 
           {/* Present Days Input */}
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="presentDays" className="text-right">
-              Present Days
-            </Label>
-            <Input id="presentDays" className="col-span-3 w-full" value={presentDays} onChange={handlePresentDaysChange} />
+            <Label htmlFor="presentDays">Present Days</Label>
+            <Input
+              id="presentDays"
+              className="col-span-3 w-full"
+              value={presentDays}
+              onChange={handlePresentDaysChange}
+            />
           </div>
         </div>
         <DialogFooter>
-          <Button type="submit" onClick={handleAttendenceEdit}>Save changes</Button>
+          <Button type="submit" onClick={handleAttendenceEdit}>
+            Save changes
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
