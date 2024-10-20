@@ -2,8 +2,7 @@ import React from 'react';
 import InputComponent from '../components/InputComponent';
 import SelectComponent from '../components/SelectComponent';
 
-const EnterStudentDetails1 = ({handleClick, handleInputChange, formData}) => {
-
+const EnterStudentDetails1 = ({ handleClick, handleInputChange, formData }) => {
   return (
     <div className="flex flex-col items-center w-full h-full pt-5">
       <div className="progress1 flex justify-center items-center w-full h-7">
@@ -168,9 +167,36 @@ const EnterStudentDetails1 = ({handleClick, handleInputChange, formData}) => {
           </div>
         </div>
 
-        <div className="flex items-center w-full pt-8">
+        {/* Row 7 */}
+        <div className="flex flex-col gap-5 xl:gap-0 xl:flex-row flex-wrap w-full">
+          <div className="w-full xl:w-1/2">
+            <InputComponent
+              title={'Contact Number 1'}
+              name={'contactNumber1'}
+              type={'text'}
+              placeholder={'Contact Number 1'}
+              handleInputChange={handleInputChange}
+              value={formData.contactNumber1}
+            />
+          </div>
+          <div className="w-full xl:w-1/2">
+            <InputComponent
+              title={'Contact Number 2'}
+              name={'contactNumber2'}
+              type={'text'}
+              placeholder={'Contact Number 2'}
+              handleInputChange={handleInputChange}
+              value={formData.contactNumber2}
+            />
+          </div>
+        </div>
+
+        <div className="flex items-center w-full pt-2">
           <div className="flex justify-center w-[90%] pl-[6%] pr-[2.5%]">
-            <button onClick={handleClick} className="w-[150px] p-2 rounded-lg bg-[#21526E] text-white">
+            <button
+              onClick={handleClick}
+              className="w-[150px] p-2 rounded-lg bg-[#21526E] text-white"
+            >
               Next
             </button>
           </div>

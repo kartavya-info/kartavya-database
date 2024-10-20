@@ -24,6 +24,8 @@ const studentDataFromBackend = {
   motherOccupation: 'MotherOccupation',
   address: 'Dhanbad',
   familyIncome: 120000,
+  contactNumber1: '1234567890',
+  contactNumber2: '1234567891',
   aadhar: true,
   domicile: true,
   birthCertificate: true,
@@ -268,6 +270,30 @@ const StudentProfile = () => {
                   placeholder={'Family Income'}
                   handleInputChange={handleInputChange}
                   value={studentData.familyIncome}
+                />
+              </div>
+            </div>
+
+            {/* Row 7 */}
+            <div className="flex flex-col gap-5 xl:gap-0 xl:flex-row flex-wrap w-full">
+              <div className="w-full xl:w-1/2">
+                <InputComponent
+                  title={'Contact Number 1'}
+                  name={'contactNumber1'}
+                  type={'text'}
+                  placeholder={'Contact Number 1'}
+                  handleInputChange={handleInputChange}
+                  value={studentData.contactNumber1}
+                />
+              </div>
+              <div className="w-full xl:w-1/2">
+                <InputComponent
+                  title={'Contact Number 2'}
+                  name={'contactNumber2'}
+                  type={'text'}
+                  placeholder={'Contact Number 2'}
+                  handleInputChange={handleInputChange}
+                  value={studentData.contactNumber2}
                 />
               </div>
             </div>
