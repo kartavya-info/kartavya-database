@@ -5,6 +5,9 @@ import { Input } from '@/components/ui/input';
 import React, { useState } from 'react';
 import StudentProgressGraph from './StudentProgressGraph';
 import AttendanceMonitoringGraph from './AttendenceMonitoringGraph';
+import { Button } from '@/components/ui/button';
+import { Pencil1Icon } from '@radix-ui/react-icons';
+import DialogForAttendenceEdit from './DialogForAttendenceEdit';
 
 const studentDataFromBackend = {
   id: '1',
@@ -48,18 +51,18 @@ const studentDataFromBackend = {
     },
   },
   attendence: {
-    January: { totalDays: 22, presentDays: 18 },
-    February: { totalDays: 20, presentDays: 16 },
-    March: { totalDays: 20, presentDays: 16 },
-    April: { totalDays: 20, presentDays: 16 },
+    Jan: { totalDays: 22, presentDays: 18 },
+    Feb: { totalDays: 20, presentDays: 16 },
+    Mar: { totalDays: 20, presentDays: 16 },
+    Apr: { totalDays: 20, presentDays: 16 },
     May: { totalDays: 20, presentDays: 16 },
-    June: { totalDays: 20, presentDays: 16 },
-    July: { totalDays: 20, presentDays: 16 },
-    August: { totalDays: 20, presentDays: 16 },
-    September: { totalDays: 20, presentDays: 16 },
-    October: { totalDays: 20, presentDays: 16 },
-    Novermber: { totalDays: 20, presentDays: 16 },
-    December: { totalDays: 20, presentDays: 16 },
+    Jun: { totalDays: 20, presentDays: 16 },
+    Jul: { totalDays: 20, presentDays: 16 },
+    Aug: { totalDays: 20, presentDays: 16 },
+    Sept: { totalDays: 20, presentDays: 16 },
+    Oct: { totalDays: 20, presentDays: 16 },
+    Nov: { totalDays: 20, presentDays: 16 },
+    Dec: { totalDays: 20, presentDays: 16 },
   }
 };
 
@@ -67,16 +70,17 @@ const StudentProfile = () => {
   // get student details from backend to use in this component
   // currently I am using a temp student
 
-  const [studentData, setstudentData] = useState(studentDataFromBackend);
+  const [studentData, setStudentData] = useState(studentDataFromBackend);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setstudentData({
+    setStudentData({
       ...studentData,
       [name]: type === 'checkbox' ? checked : value,
     });
     console.log(studentData);
   };
+
 
   return (
     <div className="flex select-none">
@@ -603,10 +607,15 @@ const StudentProfile = () => {
         {/* Attendence details */}
         <div className="attendence-details w-[90%] m-auto mt-10">
 
-          <div className="w-full text-2xl font-semibold text-[#21526E] mb-5">
+          <div className="w-full flex justify-between text-2xl font-semibold text-[#21526E] mb-5">
             Attendence Details
-          </div>
 
+            <DialogForAttendenceEdit studentData={studentData} setStudentData={setStudentData} />
+          </div>
+          
+          <div className='edit-button'>
+            
+          </div>
 
           {/* Attendence Graph */}
           <div className="result-graph w-full h-[400px]">
