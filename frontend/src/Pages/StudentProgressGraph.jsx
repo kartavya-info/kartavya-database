@@ -47,8 +47,8 @@ const StudentProgressGraph = ({ results = {} }) => {
       {
         label: 'Percentage',
         data: combinedData,
-        borderColor: '#21526E ',
-        backgroundColor: 'white',
+        borderColor: '#21526E',
+        backgroundColor: '#21526E',
         fill: false,
         tension: 0.3,
       },
@@ -81,7 +81,7 @@ const StudentProgressGraph = ({ results = {} }) => {
       y: {
         beginAtZero: true,
         ticks: {
-          stepSize: 20,
+          stepSize: 10,
         },
         display: true,
         title: {
