@@ -3,6 +3,7 @@ import SelectComponent from '@/components/SelectComponent';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import React, { useState } from 'react';
+import StudentProgressGraph from './StudentProgressGraph';
 
 const studentDataFromBackend = {
   id: '1',
@@ -33,13 +34,17 @@ const studentDataFromBackend = {
   amountBySponsor: 10000,
   results: {
     '2022-23': {
-      midTerm: '85%',
-      endTerm: '90%',
+      midTerm: '60%',
+      endTerm: '80%',
     },
     '2023-24': {
-      midTerm: '88%',
+      midTerm: '70%',
       endTerm: '92%',
     },
+    '2024-25': {
+      midTerm: '85%',
+      endTerm: '90%'
+    }
   },
 };
 
@@ -82,7 +87,7 @@ const StudentProfile = () => {
           </div>
         </div>
       </div>
-      <div className="hero flex flex-col gap-10 w-[80%] h-[200vh] bg-fixed inset-0 bg-[radial-gradient(ellipse_at_center,rgba(222,80,85,0.4),transparent),radial-gradient(ellipse_at_top_left,rgba(205,214,219,0.8),rgba(255,255,255,0.8),rgba(255,255,255,0)),radial-gradient(ellipse_at_top_right,rgba(205,214,219,0.8),rgba(255,255,255,0.8),rgba(255,255,255,0)),radial-gradient(ellipse_at_bottom_left,rgba(205,214,219,0.8),rgba(255,255,255,0.8),rgba(255,255,255,0)),radial-gradient(ellipse_at_bottom_right,rgba(205,214,219,0.8),rgba(255,255,255,0.8),rgba(255,255,255,0))]">
+      <div className="hero flex flex-col gap-10 w-[80%] h-[300vh] bg-fixed inset-0 bg-[radial-gradient(ellipse_at_center,rgba(222,80,85,0.4),transparent),radial-gradient(ellipse_at_top_left,rgba(205,214,219,0.8),rgba(255,255,255,0.8),rgba(255,255,255,0)),radial-gradient(ellipse_at_top_right,rgba(205,214,219,0.8),rgba(255,255,255,0.8),rgba(255,255,255,0)),radial-gradient(ellipse_at_bottom_left,rgba(205,214,219,0.8),rgba(255,255,255,0.8),rgba(255,255,255,0)),radial-gradient(ellipse_at_bottom_right,rgba(205,214,219,0.8),rgba(255,255,255,0.8),rgba(255,255,255,0))]">
         <div className="heading text-3xl font-semibold text-center pt-5 pb-5 border-b w-full">
           Student Profile
         </div>
@@ -483,7 +488,7 @@ const StudentProfile = () => {
                   type="number"
                   name="feesWePay"
                   placeholder={
-                    studentData.payTotalFees === false && 'Enter the amount'
+                    studentData.payTotalFees === false ? 'Enter the amount' : ''
                   }
                   className="p-2 font-semibold rounded-lg"
                   value={
@@ -545,33 +550,36 @@ const StudentProfile = () => {
             Result Details
           </div>
 
-          <div className="flex flex-col gap-4 pl-[2.5%] pr-[2.5%]">
+          <div className="flex flex-col gap-4 pl-[2.5%] pr-[2.5%] mb-20">
             {Object.keys(studentData.results).map((session) => (
               <div key={session} className="flex justify-between  w-full">
-
                 <div className="session flex items-center text-xl font-bold w-1/2">
                   Session : {session}
                 </div>
 
-                <div className='flex justify-between items-center w-1/2'>
-
+                <div className="flex justify-between items-center w-1/2">
                   <div className="mid-term flex items-center">
                     <div className="text-lg font-semibold mr-4">Mid-term:</div>
                     <div className="pl-10 pr-10 pt-2 pb-2 font-semibold bg-white rounded-lg">
                       {studentData.results[session].midTerm}
                     </div>
                   </div>
+
                   <div className="end-term flex items-center">
                     <div className="text-lg font-semibold mr-4">End-term:</div>
                     <div className="pl-10 pr-10 pt-2 pb-2 font-semibold bg-white rounded-lg">
                       {studentData.results[session].endTerm}
                     </div>
                   </div>
-
                 </div>
-
               </div>
             ))}
+          </div>
+
+          {/* Result Graph */}
+
+          <div className="result-graph w-full h-[400px]">
+            <StudentProgressGraph results={studentData.results} />
           </div>
         </div>
       </div>
