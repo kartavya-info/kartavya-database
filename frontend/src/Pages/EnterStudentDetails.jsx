@@ -13,6 +13,7 @@ const EnterStudentDetails = () => {
     session: '',
     dob: '',
     class: '',
+    school: '',
     center: '',
     fatherName: '',
     fatherOccupation: '',

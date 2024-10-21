@@ -19,14 +19,14 @@ const studentDataFromBackend = {
   dob: '2014-06-06',
   class: '4',
   center: 'C2',
+  school: 'Lucious Public School',
   fatherName: 'FatherName',
   fatherOccupation: 'FatherOccupation',
   motherName: 'MotherName',
   motherOccupation: 'MotherOccupation',
   address: 'Dhanbad',
   familyIncome: 120000,
-  contactNumber1: '1234567890',
-  contactNumber2: '1234567891',
+  contactNumber: '1234567890',
   aadhar: true,
   domicile: true,
   birthCertificate: true,
@@ -154,6 +154,30 @@ const StudentProfile = () => {
             <div className="flex flex-col gap-5 xl:gap-0 xl:flex-row flex-wrap w-full">
               <div className="w-full xl:w-1/2">
                 <InputComponent
+                  title={'Date of birth of Student'}
+                  name={'dob'}
+                  type={'date'}
+                  placeholder={'Date of birth'}
+                  handleInputChange={handleInputChange}
+                  value={studentData.dob}
+                />
+              </div>
+              <div className="w-full xl:w-1/2">
+                <InputComponent
+                  title={'Address of Student'}
+                  name={'address'}
+                  type={'text'}
+                  placeholder={'Address'}
+                  handleInputChange={handleInputChange}
+                  value={studentData.address}
+                />
+              </div>
+            </div>
+
+            {/* Row 3 */}
+            <div className="flex flex-col gap-5 xl:gap-0 xl:flex-row flex-wrap w-full">
+              <div className="w-full xl:w-1/2">
+                <InputComponent
                   title={'Current Session'}
                   name={'session'}
                   type={'text'}
@@ -164,20 +188,6 @@ const StudentProfile = () => {
               </div>
               <div className="w-full xl:w-1/2">
                 <InputComponent
-                  title={'Date of birth of Student'}
-                  name={'dob'}
-                  type={'date'}
-                  placeholder={'Date of birth'}
-                  handleInputChange={handleInputChange}
-                  value={studentData.dob}
-                />
-              </div>
-            </div>
-
-            {/* Row 3 */}
-            <div className="flex flex-col gap-5 xl:gap-0 xl:flex-row flex-wrap w-full">
-              <div className="w-full xl:w-1/2">
-                <InputComponent
                   title={'Class of Student'}
                   name={'class'}
                   type={'text'}
@@ -186,6 +196,11 @@ const StudentProfile = () => {
                   value={studentData.class}
                 />
               </div>
+            </div>
+
+            {/* Row 4 */}
+
+            <div className="flex flex-col gap-5 xl:gap-0 xl:flex-row flex-wrap w-full">
               <div className="w-full xl:w-1/2">
                 <SelectComponent
                   title={'Center of Student'}
@@ -201,9 +216,33 @@ const StudentProfile = () => {
                   value={studentData.center}
                 />
               </div>
+              <div className="w-full xl:w-1/2">
+                <SelectComponent
+                  title={'School of Student'}
+                  name={'school'}
+                  options={[
+                    { value: 'Education Academy' },
+                    { value: 'Vidiya Public School' },
+                    { value: 'Vidya Bharti' },
+                    { value: 'Lucious Public School' },
+                    { value: 'Tagore Academy' },
+                    { value: 'Saraswati Vidya Niketan' },
+                    { value: 'Dhanbad Vikas Vidyalaya' },
+                    { value: 'NIOS' },
+                    { value: 'ISL Jhariya' },
+                    { value: 'Dhanbad Public School' },
+                    { value: 'Physics Wallah' },
+                    { value: 'Akash' },
+                    { value: 'Ram Krishna Public School' },
+                  ]}
+                  handleInputChange={handleInputChange}
+                  value={studentData.school}
+                />
+              </div>
             </div>
 
-            {/* Row 4 */}
+            {/* Row 5 */}
+
             <div className="flex flex-col gap-5 xl:gap-0 xl:flex-row flex-wrap w-full">
               <div className="w-full xl:w-1/2">
                 <InputComponent
@@ -227,7 +266,7 @@ const StudentProfile = () => {
               </div>
             </div>
 
-            {/* Row 5 */}
+            {/* Row 6 */}
             <div className="flex flex-col gap-5 xl:gap-0 xl:flex-row flex-wrap w-full">
               <div className="w-full xl:w-1/2">
                 <InputComponent
@@ -251,18 +290,8 @@ const StudentProfile = () => {
               </div>
             </div>
 
-            {/* Row 6 */}
+            {/* Row 7 */}
             <div className="flex flex-col gap-5 xl:gap-0 xl:flex-row flex-wrap w-full">
-              <div className="w-full xl:w-1/2">
-                <InputComponent
-                  title={'Address of Student'}
-                  name={'address'}
-                  type={'text'}
-                  placeholder={'Address'}
-                  handleInputChange={handleInputChange}
-                  value={studentData.address}
-                />
-              </div>
               <div className="w-full xl:w-1/2">
                 <InputComponent
                   title={'Annual Family Income'}
@@ -273,28 +302,14 @@ const StudentProfile = () => {
                   value={studentData.familyIncome}
                 />
               </div>
-            </div>
-
-            {/* Row 7 */}
-            <div className="flex flex-col gap-5 xl:gap-0 xl:flex-row flex-wrap w-full">
               <div className="w-full xl:w-1/2">
                 <InputComponent
-                  title={'Contact Number 1'}
-                  name={'contactNumber1'}
+                  title={'Contact Number'}
+                  name={'contactNumber'}
                   type={'text'}
-                  placeholder={'Contact Number 1'}
+                  placeholder={'Contact Number'}
                   handleInputChange={handleInputChange}
-                  value={studentData.contactNumber1}
-                />
-              </div>
-              <div className="w-full xl:w-1/2">
-                <InputComponent
-                  title={'Contact Number 2'}
-                  name={'contactNumber2'}
-                  type={'text'}
-                  placeholder={'Contact Number 2'}
-                  handleInputChange={handleInputChange}
-                  value={studentData.contactNumber2}
+                  value={studentData.contactNumber}
                 />
               </div>
             </div>

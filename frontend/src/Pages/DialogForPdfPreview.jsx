@@ -8,7 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog'; // Adjust import if needed
+} from '@/components/ui/dialog';
 import { Pencil1Icon } from '@radix-ui/react-icons';
 import html2pdf from 'html2pdf.js';
 
@@ -18,6 +18,7 @@ const DialogForPdfPreview = ({ studentData }) => {
   const handleClick = async () => {
     try {
       await downloadPdf();
+      setIsOpen(false);
     } catch (error) {
       console.error('PDF download failed:', error);
     }
@@ -45,7 +46,7 @@ const DialogForPdfPreview = ({ studentData }) => {
     { Address: studentData.address },
     { Session: studentData.session },
     { Class: studentData.class },
-    { School: 'Lucious Public School' },
+    { School: studentData.school },
   ];
 
   return (
