@@ -2,11 +2,11 @@ import InputComponent from '@/components/InputComponent';
 import SelectComponent from '@/components/SelectComponent';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import StudentProgressGraph from './StudentProgressGraph';
 import AttendanceMonitoringGraph from './AttendenceMonitoringGraph';
 import { Button } from '@/components/ui/button';
-import { Pencil1Icon } from '@radix-ui/react-icons';
+import { Pencil1Icon, CheckIcon } from '@radix-ui/react-icons';
 import DialogForAttendenceEdit from './DialogForAttendenceEdit';
 import DialogForResultEdit from './DialogForResultEdit';
 import DialogForPdfPreview from './DialogForPdfPreview';
@@ -75,6 +75,14 @@ const StudentProfile = () => {
   // currently I am using a temp student
 
   const [studentData, setStudentData] = useState(studentDataFromBackend);
+  const [studentDataChanged, setStudentDataChanged] = useState(false);
+
+  useEffect(() => {
+    // Deep comparison by converting objects to strings
+    setStudentDataChanged(
+      JSON.stringify(studentData) !== JSON.stringify(studentDataFromBackend)
+    );
+  }, [studentData]);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -82,7 +90,10 @@ const StudentProfile = () => {
       ...studentData,
       [name]: type === 'checkbox' ? checked : value,
     });
-    console.log(studentData);
+  };
+
+  const handleSaveChanges = () => {
+    // code to update the changes in the database
   };
 
   return (
@@ -119,8 +130,17 @@ const StudentProfile = () => {
         {/* General Details */}
 
         <div className="general-details w-[90%] m-auto mt-10">
-          <div className="w-full text-2xl font-semibold text-[#21526E]">
+          <div className="w-full flex justify-between text-2xl h-10 font-semibold text-[#21526E]">
             General Details
+            {studentDataChanged && (
+              <Button
+                onClick={handleSaveChanges}
+                variant="outline"
+                className="bg-[#21526E] text-white"
+              >
+                <CheckIcon /> <span className="ml-2"> Save Changes</span>
+              </Button>
+            )}
           </div>
           <div className="input-section flex flex-col items-end w-full pt-8 gap-[1.2rem]">
             {/* Row 1 */}
@@ -644,8 +664,17 @@ const StudentProfile = () => {
 
         {/* Download Profile option */}
         <div className="download-profile w-[90%] m-auto mt-32">
-          <div className="w-full flex justify-center text-2xl font-semibold text-[#21526E] mb-5">
+          <div className="w-full flex justify-center gap-5 text-2xl font-semibold text-[#21526E] mb-5">
             <DialogForPdfPreview studentData={studentData} />
+            {studentDataChanged && (
+              <Button
+                onClick={handleSaveChanges}
+                variant="outline"
+                className="bg-[#21526E] text-white"
+              >
+                <CheckIcon /> <span className="ml-2"> Save Changes</span>
+              </Button>
+            )}
           </div>
         </div>
       </div>
