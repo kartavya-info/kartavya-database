@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Pencil1Icon } from '@radix-ui/react-icons';
 import DialogForAttendenceEdit from './DialogForAttendenceEdit';
 import DialogForResultEdit from './DialogForResultEdit';
+import DialogForPdfPreview from './DialogForPdfPreview';
 
 const studentDataFromBackend = {
   id: '1',
@@ -623,6 +624,13 @@ const StudentProfile = () => {
             <AttendanceMonitoringGraph
               attendanceData={studentData.attendence}
             />
+          </div>
+        </div>
+
+        {/* Download Profile option */}
+        <div className="download-profile w-[90%] m-auto mt-32">
+          <div className="w-full flex justify-center text-2xl font-semibold text-[#21526E] mb-5">
+            <DialogForPdfPreview studentData={studentData} />
           </div>
         </div>
       </div>

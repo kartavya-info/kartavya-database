@@ -20,14 +20,13 @@ const EnterStudentDetails = () => {
     motherOccupation: '',
     address: '',
     familyIncome: 0,
-    aadhar:false,
-    domicile:false,
-    birthCertificate:false,
-    disability:false,
-    singleParent:false,
-    releventCertificate:false
+    aadhar: false,
+    domicile: false,
+    birthCertificate: false,
+    disability: false,
+    singleParent: false,
+    releventCertificate: false,
   });
-
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -110,7 +109,6 @@ const EnterStudentDetails = () => {
               isFirstPage ? 'translate-x-full' : 'translate-x-0'
             }`}
           >
-
             {/* Student Details Page 2 */}
             <div className="flex flex-col items-center w-full h-full pt-5">
               <div className="progress1 flex justify-center items-center w-full h-7">
