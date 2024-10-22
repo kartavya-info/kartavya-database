@@ -2,8 +2,7 @@ import React from 'react';
 import InputComponent from '../components/InputComponent';
 import SelectComponent from '../components/SelectComponent';
 
-const EnterStudentDetails1 = ({handleClick, handleInputChange, formData}) => {
-
+const EnterStudentDetails1 = ({ handleClick, handleInputChange, formData }) => {
   return (
     <div className="flex flex-col items-center w-full h-full pt-5">
       <div className="progress1 flex justify-center items-center w-full h-7">
@@ -47,6 +46,30 @@ const EnterStudentDetails1 = ({handleClick, handleInputChange, formData}) => {
         <div className="flex flex-col gap-5 xl:gap-0 xl:flex-row flex-wrap w-full">
           <div className="w-full xl:w-1/2">
             <InputComponent
+              title={'Date of birth of Student'}
+              name={'dob'}
+              type={'date'}
+              placeholder={'Date of birth'}
+              handleInputChange={handleInputChange}
+              value={formData.dob}
+            />
+          </div>
+          <div className="w-full xl:w-1/2">
+            <InputComponent
+              title={'Address of Student'}
+              name={'address'}
+              type={'text'}
+              placeholder={'Address'}
+              handleInputChange={handleInputChange}
+              value={formData.address}
+            />
+          </div>
+        </div>
+
+        {/* Row 3 */}
+        <div className="flex flex-col gap-5 xl:gap-0 xl:flex-row flex-wrap w-full">
+          <div className="w-full xl:w-1/2">
+            <InputComponent
               title={'Current Session'}
               name={'session'}
               type={'text'}
@@ -57,20 +80,6 @@ const EnterStudentDetails1 = ({handleClick, handleInputChange, formData}) => {
           </div>
           <div className="w-full xl:w-1/2">
             <InputComponent
-              title={'Date of birth of Student'}
-              name={'dob'}
-              type={'date'}
-              placeholder={'Date of birth'}
-              handleInputChange={handleInputChange}
-              value={formData.dob}
-            />
-          </div>
-        </div>
-
-        {/* Row 3 */}
-        <div className="flex flex-col gap-5 xl:gap-0 xl:flex-row flex-wrap w-full">
-          <div className="w-full xl:w-1/2">
-            <InputComponent
               title={'Class of Student'}
               name={'class'}
               type={'text'}
@@ -79,6 +88,11 @@ const EnterStudentDetails1 = ({handleClick, handleInputChange, formData}) => {
               value={formData.class}
             />
           </div>
+        </div>
+
+        {/* Row 4 */}
+
+        <div className="flex flex-col gap-5 xl:gap-0 xl:flex-row flex-wrap w-full">
           <div className="w-full xl:w-1/2">
             <SelectComponent
               title={'Center of Student'}
@@ -94,9 +108,33 @@ const EnterStudentDetails1 = ({handleClick, handleInputChange, formData}) => {
               value={formData.center}
             />
           </div>
+          <div className="w-full xl:w-1/2">
+            <SelectComponent
+              title={'School of Student'}
+              name={'school'}
+              options={[
+                { value: 'Education Academy' },
+                { value: 'Vidiya Public School' },
+                { value: 'Vidya Bharti' },
+                { value: 'Lucious Public School' },
+                { value: 'Tagore Academy' },
+                { value: 'Saraswati Vidya Niketan' },
+                { value: 'Dhanbad Vikas Vidyalaya' },
+                { value: 'NIOS' },
+                { value: 'ISL Jhariya' },
+                { value: 'Dhanbad Public School' },
+                { value: 'Physics Wallah' },
+                { value: 'Akash' },
+                { value: 'Ram Krishna Public School' },
+              ]}
+              handleInputChange={handleInputChange}
+              value={formData.school}
+            />
+          </div>
         </div>
 
-        {/* Row 4 */}
+        {/* Row 5 */}
+
         <div className="flex flex-col gap-5 xl:gap-0 xl:flex-row flex-wrap w-full">
           <div className="w-full xl:w-1/2">
             <InputComponent
@@ -120,7 +158,7 @@ const EnterStudentDetails1 = ({handleClick, handleInputChange, formData}) => {
           </div>
         </div>
 
-        {/* Row 5 */}
+        {/* Row 6 */}
         <div className="flex flex-col gap-5 xl:gap-0 xl:flex-row flex-wrap w-full">
           <div className="w-full xl:w-1/2">
             <InputComponent
@@ -144,18 +182,8 @@ const EnterStudentDetails1 = ({handleClick, handleInputChange, formData}) => {
           </div>
         </div>
 
-        {/* Row 6 */}
+        {/* Row 7 */}
         <div className="flex flex-col gap-5 xl:gap-0 xl:flex-row flex-wrap w-full">
-          <div className="w-full xl:w-1/2">
-            <InputComponent
-              title={'Address of Student'}
-              name={'address'}
-              type={'text'}
-              placeholder={'Address'}
-              handleInputChange={handleInputChange}
-              value={formData.address}
-            />
-          </div>
           <div className="w-full xl:w-1/2">
             <InputComponent
               title={'Annual Family Income'}
@@ -166,11 +194,24 @@ const EnterStudentDetails1 = ({handleClick, handleInputChange, formData}) => {
               value={formData.familyIncome}
             />
           </div>
+          <div className="w-full xl:w-1/2">
+            <InputComponent
+              title={'Contact Number'}
+              name={'contactNumber'}
+              type={'text'}
+              placeholder={'Contact Number'}
+              handleInputChange={handleInputChange}
+              value={formData.contactNumber}
+            />
+          </div>
         </div>
 
-        <div className="flex items-center w-full pt-8">
+        <div className="flex items-center w-full pt-2">
           <div className="flex justify-center w-[90%] pl-[6%] pr-[2.5%]">
-            <button onClick={handleClick} className="w-[150px] p-2 rounded-lg bg-[#21526E] text-white">
+            <button
+              onClick={handleClick}
+              className="w-[150px] p-2 rounded-lg bg-[#21526E] text-white"
+            >
               Next
             </button>
           </div>
