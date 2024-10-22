@@ -28,7 +28,7 @@ const StudentTable = ({filteredStudents}) => {
           <TableRow key={student.id} className="hover:bg-gray-100">
             <TableCell>
               <Link
-                to={`/admin/${student.id}`}
+                to={`/student/${student.id}`}
                 className="block w-full h-full"
               >
                 <div className="font-medium">{student.name}</div>
@@ -36,7 +36,7 @@ const StudentTable = ({filteredStudents}) => {
             </TableCell>
             <TableCell>
               <Link
-                to={`/admin/${student.id}`}
+                to={`/student/${student.id}`}
                 className="block w-full h-full"
               >
                 {student.class}
@@ -44,7 +44,7 @@ const StudentTable = ({filteredStudents}) => {
             </TableCell>
             <TableCell>
               <Link
-                to={`/admin/${student.id}`}
+                to={`/student/${student.id}`}
                 className="block w-full h-full"
               >
                 {student.center}
@@ -52,7 +52,7 @@ const StudentTable = ({filteredStudents}) => {
             </TableCell>
             <TableCell>
               <Link
-                to={`/admin/${student.id}`}
+                to={`/student/${student.id}`}
                 className="block w-full h-full"
               >
                 {student.activeStatus}
@@ -60,7 +60,7 @@ const StudentTable = ({filteredStudents}) => {
             </TableCell>
             <TableCell>
               <Link
-                to={`/admin/${student.id}`}
+                to={`/student/${student.id}`}
                 className="block w-full h-full"
               >
                 {student.school}
