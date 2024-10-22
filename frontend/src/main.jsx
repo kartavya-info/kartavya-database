@@ -8,17 +8,12 @@ import './index.css';
 
 import EnterStudentDetails from './Pages/EnterStudentDetails.jsx';
 import StudentSpreadsheet from './Pages/StudentSpreadsheet.jsx';
-import StudentProfile from './Pages/StudentProfile';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/">
       <Route path="/enter-student-details" element={<EnterStudentDetails />} />
       <Route path="/student-spreadsheet" element={<StudentSpreadsheet />} />
-
-
-      {/* Admin Routes */}
-      <Route path='/admin/:id' element={<StudentProfile />}/>
     </Route>
   )
 );
