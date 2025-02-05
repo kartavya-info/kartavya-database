@@ -9,7 +9,6 @@ const asyncHandler = require("express-async-handler");
 // @access Private
 const addNewStudent = asyncHandler(async (req, res) => {
   const {
-    rollNumber,
     studentName,
     gender,
     dob,
@@ -27,7 +26,6 @@ const addNewStudent = asyncHandler(async (req, res) => {
   } = req.body;
 
   if (
-    !rollNumber ||
     !studentName ||
     !gender ||
     !dob ||
@@ -39,19 +37,31 @@ const addNewStudent = asyncHandler(async (req, res) => {
       .json({ message: "Please fill the compulsory information" });
   }
 
-  const duplicate = await Student.findOne({ rollNumber });
-  if (duplicate) {
-    return res.status(400).json({ message: "Roll Number already exists" });
-  }
 
   if ((!school && studentClass) || (school && !studentClass)) {
     return res
       .status(400)
       .json({ message: "Student must be in some school or class" });
   }
+  if(Contact_No && Contact_No.length!=10){
+        return res.status(400).json({message: "Invalid Contact number"})
+    }
+  if(Annual_Income<=0){
+      return res.status(400).json({message: "Invalid Annual Income"})
+  }
 
+  //Generate new Roll Number
+  const lastStudent = await Student.findOne().sort({ rollNumber: -1 });
+
+  // Extract the last sequence number and increment it
+  let lastSequenceNumber = lastStudent ? parseInt(lastStudent.rollNumber.split('/')[2]) : 1;
+  let newSequenceNumber = lastSequenceNumber + 1;
+
+  // Generate the new roll number
+  let newRollNumber = `K/DHN/${newSequenceNumber}`;
+  
   const studentObject = {
-    rollNumber,
+    rollNumber:newRollNumber,
     studentName,
     gender,
     dob,
@@ -70,7 +80,7 @@ const addNewStudent = asyncHandler(async (req, res) => {
 
   const stud = await Student.create(studentObject);
   if (stud) {
-    res.status(201).json({ message: `New Student ${studentName} Added` });
+    res.status(201).json({ message: `New Student ${studentName} with ${newrollNumber} Roll Number Added. Please write on Physical Form also` });
   } else {
     res.status(400).json({ message: "Unable to Add Student" });
   }
