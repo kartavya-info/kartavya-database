@@ -6,20 +6,18 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const StudentTable = ({ filteredStudents }) => {
-  console.log(filteredStudents, "filteredStudents");
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead className="w-[300px] text-black">Name </TableHead>
-          <TableHead className=" text-black">Class</TableHead>
-          <TableHead className=" text-black">Center</TableHead>
-          <TableHead className=" text-black">Active Status</TableHead>
-          <TableHead className=" text-black">School</TableHead>
+    <Table className="w-[95%] relative">
+      <TableHeader className="w-full">
+        <TableRow className="w-full">
+          <TableHead className="text-black pl-2">Name </TableHead>
+          <TableHead className="text-black">Class</TableHead>
+          <TableHead className="text-black">Center</TableHead>
+          <TableHead className="text-black">Active Status</TableHead>
+          <TableHead className="text-black">School</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -28,7 +26,7 @@ const StudentTable = ({ filteredStudents }) => {
             <TableCell>
               <Link
                 to={`/admin/${encodeURIComponent(student.rollNumber)}`}
-                className="block w-full h-full"
+                className="flex items-center w-full h-full pl-2"
               >
                 <div className="font-medium">{student.studentName}</div>
               </Link>
@@ -36,7 +34,7 @@ const StudentTable = ({ filteredStudents }) => {
             <TableCell>
               <Link
                 to={`/admin/${encodeURIComponent(student.rollNumber)}`}
-                className="block w-full h-full"
+                className="flex items-center w-full h-full"
               >
                 {student.class}
               </Link>
@@ -44,7 +42,7 @@ const StudentTable = ({ filteredStudents }) => {
             <TableCell>
               <Link
                 to={`/admin/${encodeURIComponent(student.rollNumber)}`}
-                className="block w-full h-full"
+                className="flex items-center w-full h-full"
               >
                 {student.centre}
               </Link>
@@ -52,15 +50,15 @@ const StudentTable = ({ filteredStudents }) => {
             <TableCell>
               <Link
                 to={`/admin/${encodeURIComponent(student.rollNumber)}`}
-                className="block w-full h-full"
+                className="flex items-center w-full h-full"
               >
-                {/* {student.activeStatus.toString()} */}
+                {student.activeStatus.toString()}
               </Link>
             </TableCell>
             <TableCell>
               <Link
                 to={`/admin/${encodeURIComponent(student.rollNumber)}`}
-                className="block w-full h-full"
+                className="flex items-center w-full h-full"
               >
                 {student.school}
               </Link>

@@ -5,6 +5,7 @@ import { createBrowserRouter } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./index.css";
+import Sample from "@/components/MultiSelect";
 
 import EnterStudentDetails from "./Pages/EnterStudentDetails.jsx";
 import StudentSpreadsheet from "./Pages/StudentSpreadsheet.jsx";
@@ -15,6 +16,7 @@ const router = createBrowserRouter(
     <Route path="/">
       <Route path="/enter-student-details" element={<EnterStudentDetails />} />
       <Route path="/student-spreadsheet" element={<StudentSpreadsheet />} />
+      <Route path="/hello" element={<Sample />} />
 
       {/* Admin Routes */}
       <Route path="/admin/:id" element={<StudentProfile />} />
