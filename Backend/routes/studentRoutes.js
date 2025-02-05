@@ -1,14 +1,16 @@
-const express = require('express')
-const router = express.Router()
-const studentController = require('../controllers/studentControllers.js')
-router.route('/')
-    .post(studentController.AddNewStudent)
-    .get(studentController.getallStudents)
-    .patch(studentController.UpdateStudent);
-    
-    router.route('/:Roll_Number')
-    .get(studentController.getStudentbyRoll)
-    .delete(studentController.DeleteStudent);
-    
-module.exports = router
+const express = require("express");
+const router = express.Router();
+const studentController = require("../controllers/studentControllers.js");
 
+router
+  .route("/")
+  .post(studentController.addNewStudent)
+  .get(studentController.getAllStudents)
+  .patch(studentController.updateStudent);
+
+router
+  .route("/:rollNumber")
+  .get(studentController.getStudentByRoll)
+  .delete(studentController.deleteStudent);
+
+module.exports = router;

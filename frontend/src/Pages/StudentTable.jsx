@@ -5,13 +5,12 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+} from "@/components/ui/table";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
-
-const StudentTable = ({filteredStudents}) => {
-
+const StudentTable = ({ filteredStudents }) => {
+  console.log(filteredStudents, "filteredStudents");
   return (
     <Table>
       <TableHeader>
@@ -24,19 +23,19 @@ const StudentTable = ({filteredStudents}) => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {filteredStudents.map((student) => (
-          <TableRow key={student.id} className="hover:bg-gray-100">
+        {filteredStudents?.map((student) => (
+          <TableRow key={student._id} className="hover:bg-gray-100">
             <TableCell>
               <Link
-                to={`/admin/${student.id}`}
+                to={`/admin/${encodeURIComponent(student.rollNumber)}`}
                 className="block w-full h-full"
               >
-                <div className="font-medium">{student.name}</div>
+                <div className="font-medium">{student.studentName}</div>
               </Link>
             </TableCell>
             <TableCell>
               <Link
-                to={`/admin/${student.id}`}
+                to={`/admin/${encodeURIComponent(student.rollNumber)}`}
                 className="block w-full h-full"
               >
                 {student.class}
@@ -44,23 +43,23 @@ const StudentTable = ({filteredStudents}) => {
             </TableCell>
             <TableCell>
               <Link
-                to={`/admin/${student.id}`}
+                to={`/admin/${encodeURIComponent(student.rollNumber)}`}
                 className="block w-full h-full"
               >
-                {student.center}
+                {student.centre}
               </Link>
             </TableCell>
             <TableCell>
               <Link
-                to={`/admin/${student.id}`}
+                to={`/admin/${encodeURIComponent(student.rollNumber)}`}
                 className="block w-full h-full"
               >
-                {student.activeStatus}
+                {/* {student.activeStatus.toString()} */}
               </Link>
             </TableCell>
             <TableCell>
               <Link
-                to={`/admin/${student.id}`}
+                to={`/admin/${encodeURIComponent(student.rollNumber)}`}
                 className="block w-full h-full"
               >
                 {student.school}

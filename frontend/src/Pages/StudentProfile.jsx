@@ -1,100 +1,177 @@
-import InputComponent from '@/components/InputComponent';
-import SelectComponent from '@/components/SelectComponent';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Input } from '@/components/ui/input';
-import React, { useEffect, useState } from 'react';
-import StudentProgressGraph from './StudentProgressGraph';
-import AttendanceMonitoringGraph from './AttendenceMonitoringGraph';
-import { Button } from '@/components/ui/button';
-import { Pencil1Icon, CheckIcon } from '@radix-ui/react-icons';
-import DialogForAttendenceEdit from './DialogForAttendenceEdit';
-import DialogForResultEdit from './DialogForResultEdit';
-import DialogForPdfPreview from './DialogForPdfPreview';
+import InputComponent from "@/components/InputComponent";
+import SelectComponent from "@/components/SelectComponent";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
+import React, { useEffect, useState } from "react";
+import StudentProgressGraph from "./StudentProgressGraph";
+import AttendanceMonitoringGraph from "./AttendenceMonitoringGraph";
+import { Button } from "@/components/ui/button";
+import { Pencil1Icon, CheckIcon } from "@radix-ui/react-icons";
+import DialogForAttendenceEdit from "./DialogForAttendenceEdit";
+import DialogForResultEdit from "./DialogForResultEdit";
+import DialogForPdfPreview from "./DialogForPdfPreview";
+import { useNavigate, useParams } from "react-router";
+import { toast } from "react-toastify";
+import { AlertForDialogDeletion } from "@/components/AlertForStudentDeletion";
 
-const studentDataFromBackend = {
-  id: '1',
-  name: 'Mahi Kumari',
-  gender: 'Female',
-  session: '2024-25',
-  dob: '2014-06-06',
-  class: '4',
-  center: 'C2',
-  school: 'Lucious Public School',
-  fatherName: 'FatherName',
-  fatherOccupation: 'FatherOccupation',
-  motherName: 'MotherName',
-  motherOccupation: 'MotherOccupation',
-  address: 'Dhanbad',
-  familyIncome: 120000,
-  contactNumber: '1234567890',
-  aadhar: true,
-  domicile: true,
-  birthCertificate: true,
-  disability: false,
-  singleParent: true,
-  releventCertificate: true,
-  isSponsored: true,
-  annualFees: 10000,
-  payTotalFees: true,
-  feesWePay: 0,
-  sponserId: 1,
-  sponserName: 'XYZ',
-  amountBySponsor: 10000,
-  results: {
-    '2022-23': {
-      midTerm: '60',
-      endTerm: '80',
-    },
-    '2023-24': {
-      midTerm: '70',
-      endTerm: '92',
-    },
-    '2024-25': {
-      midTerm: '85',
-      endTerm: '90',
-    },
-  },
-  attendence: {
-    Jan: { totalDays: 22, presentDays: 18 },
-    Feb: { totalDays: 20, presentDays: 16 },
-    Mar: { totalDays: 20, presentDays: 16 },
-    Apr: { totalDays: 20, presentDays: 16 },
-    May: { totalDays: 20, presentDays: 16 },
-    Jun: { totalDays: 20, presentDays: 16 },
-    Jul: { totalDays: 20, presentDays: 16 },
-    Aug: { totalDays: 20, presentDays: 16 },
-    Sept: { totalDays: 20, presentDays: 16 },
-    Oct: { totalDays: 20, presentDays: 16 },
-    Nov: { totalDays: 20, presentDays: 16 },
-    Dec: { totalDays: 20, presentDays: 16 },
-  },
-};
+// const studentDataFromBackend = {
+//   id: "1",
+//   name: "Mahi Kumari",
+//   gender: "Female",
+//   session: "2024-25",
+//   dob: "2014-06-06",
+//   class: "4",
+//   center: "C2",
+//   school: "Lucious Public School",
+//   fatherName: "FatherName",
+//   fatherOccupation: "FatherOccupation",
+//   motherName: "MotherName",
+//   motherOccupation: "MotherOccupation",
+//   address: "Dhanbad",
+//   familyIncome: 120000,
+//   contactNumber: "1234567890",
+//   aadhar: true,
+//   domicile: true,
+//   birthCertificate: true,
+//   disability: false,
+//   singleParent: true,
+//   releventCertificate: true,
+//   isSponsored: true,
+//   annualFees: 10000,
+//   payTotalFees: true,
+//   feesWePay: 0,
+//   sponserId: 1,
+//   sponserName: "XYZ",
+//   amountBySponsor: 10000,
+//   results: {
+//     "2022-23": {
+//       midTerm: "60",
+//       endTerm: "80",
+//     },
+//     "2023-24": {
+//       midTerm: "70",
+//       endTerm: "92",
+//     },
+//     "2024-25": {
+//       midTerm: "85",
+//       endTerm: "90",
+//     },
+//   },
+//   attendence: {
+//     Jan: { totalDays: 22, presentDays: 18 },
+//     Feb: { totalDays: 20, presentDays: 16 },
+//     Mar: { totalDays: 20, presentDays: 16 },
+//     Apr: { totalDays: 20, presentDays: 16 },
+//     May: { totalDays: 20, presentDays: 16 },
+//     Jun: { totalDays: 20, presentDays: 16 },
+//     Jul: { totalDays: 20, presentDays: 16 },
+//     Aug: { totalDays: 20, presentDays: 16 },
+//     Sept: { totalDays: 20, presentDays: 16 },
+//     Oct: { totalDays: 20, presentDays: 16 },
+//     Nov: { totalDays: 20, presentDays: 16 },
+//     Dec: { totalDays: 20, presentDays: 16 },
+//   },
+// };
 
 const StudentProfile = () => {
-  // get student details from backend to use in this component
-  // currently I am using a temp student
+  const navigate = useNavigate();
+  const { id } = useParams();
 
-  const [studentData, setStudentData] = useState(studentDataFromBackend);
+  const [studentData, setStudentData] = useState(null);
   const [studentDataChanged, setStudentDataChanged] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Deep comparison by converting objects to strings
-    setStudentDataChanged(
-      JSON.stringify(studentData) !== JSON.stringify(studentDataFromBackend)
-    );
+    const fetchStudentData = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:3500/students/${encodeURIComponent(id)}`,
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
+        if (!response.ok) throw new Error("Failed to fetch student data");
+        const data = await response.json();
+
+        setStudentData(data);
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+        toast.error("Error fetching student");
+        console.error("Error fetching student data:", error);
+      }
+    };
+
+    fetchStudentData();
+  }, [id]);
+
+  useEffect(() => {
+    console.log(studentData, "studentData");
   }, [studentData]);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
     setStudentData({
       ...studentData,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: type === "checkbox" ? checked : value,
     });
+    setStudentDataChanged(true);
   };
 
-  const handleSaveChanges = () => {
-    // code to update the changes in the database
+  const handleSaveChanges = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch(`http://localhost:3500/students/`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(studentData),
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || "Failed to update student data");
+      }
+
+      toast.success("Student data upated successfully!");
+    } catch (e) {
+      toast.error(`Error updating student data: ${e.message}`);
+      return;
+    }
   };
+
+  const handleDeleteStudent = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch(
+        `http://localhost:3500/students/${encodeURIComponent(id)}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || "Failed to delete student");
+      }
+
+      navigate("/student-spreadsheet");
+      toast.success("Student deleted successfully!");
+    } catch (e) {
+      toast.error(`Error deleting student data: ${e.message}`);
+      return;
+    }
+  };
+
+  {
+    loading && (
+      <div className="flex justify-center items-center text-4xl font-semibold">
+        Loading...
+      </div>
+    );
+  }
 
   return (
     <div className="flex select-none">
@@ -114,9 +191,10 @@ const StudentProfile = () => {
             <div className="label text-2xl text-[#21526E] mb-4">
               Basic Details
             </div>
-            <div className="name"> Name : {studentData.name}</div>
-            <div className="class"> Class : {studentData.class}</div>
-            <div className="center"> Center : {studentData.center}</div>
+            <div className="name"> Name : {studentData?.studentName}</div>
+            <div className="center"> Roll No. : {studentData?.rollNumber}</div>
+            <div className="class"> Class : {studentData?.class}</div>
+            <div className="center"> Center : {studentData?.centre}</div>
           </div>
         </div>
       </div>
@@ -147,25 +225,25 @@ const StudentProfile = () => {
             <div className="flex flex-col gap-5 xl:gap-0 xl:flex-row flex-wrap w-full">
               <div className="w-full xl:w-1/2">
                 <InputComponent
-                  title={'Name of Student'}
-                  name={'name'}
-                  type={'text'}
-                  value={studentData.name}
-                  placeholder={'Name'}
+                  title={"Name of Student"}
+                  name={"studentName"}
+                  type={"text"}
+                  value={studentData?.studentName}
+                  placeholder={"Name"}
                   handleInputChange={handleInputChange}
                 />
               </div>
               <div className="w-full xl:w-1/2">
                 <SelectComponent
-                  title={'Gender'}
-                  name={'gender'}
+                  title={"Gender"}
+                  name={"gender"}
                   options={[
-                    { value: 'Male' },
-                    { value: 'Female' },
-                    { value: 'Other' },
+                    { value: "Male" },
+                    { value: "Female" },
+                    { value: "Other" },
                   ]}
                   handleInputChange={handleInputChange}
-                  value={studentData.gender}
+                  value={studentData?.gender}
                 />
               </div>
             </div>
@@ -174,22 +252,22 @@ const StudentProfile = () => {
             <div className="flex flex-col gap-5 xl:gap-0 xl:flex-row flex-wrap w-full">
               <div className="w-full xl:w-1/2">
                 <InputComponent
-                  title={'Date of birth of Student'}
-                  name={'dob'}
-                  type={'date'}
-                  placeholder={'Date of birth'}
+                  title={"Date of birth of Student"}
+                  name={"dob"}
+                  type={"date"}
+                  placeholder={"Date of birth"}
                   handleInputChange={handleInputChange}
-                  value={studentData.dob}
+                  value={studentData?.dob}
                 />
               </div>
               <div className="w-full xl:w-1/2">
                 <InputComponent
-                  title={'Address of Student'}
-                  name={'address'}
-                  type={'text'}
-                  placeholder={'Address'}
+                  title={"Address of Student"}
+                  name={"address"}
+                  type={"text"}
+                  placeholder={"Address"}
                   handleInputChange={handleInputChange}
-                  value={studentData.address}
+                  value={studentData?.address}
                 />
               </div>
             </div>
@@ -198,22 +276,22 @@ const StudentProfile = () => {
             <div className="flex flex-col gap-5 xl:gap-0 xl:flex-row flex-wrap w-full">
               <div className="w-full xl:w-1/2">
                 <InputComponent
-                  title={'Current Session'}
-                  name={'session'}
-                  type={'text'}
-                  placeholder={'Session'}
+                  title={"Current Session"}
+                  name={"currentSession"}
+                  type={"text"}
+                  placeholder={"Session"}
                   handleInputChange={handleInputChange}
-                  value={studentData.session}
+                  value={studentData?.currentSession}
                 />
               </div>
               <div className="w-full xl:w-1/2">
                 <InputComponent
-                  title={'Class of Student'}
-                  name={'class'}
-                  type={'text'}
-                  placeholder={'Class'}
+                  title={"Class of Student"}
+                  name={"class"}
+                  type={"text"}
+                  placeholder={"Class"}
                   handleInputChange={handleInputChange}
-                  value={studentData.class}
+                  value={studentData?.class}
                 />
               </div>
             </div>
@@ -223,40 +301,40 @@ const StudentProfile = () => {
             <div className="flex flex-col gap-5 xl:gap-0 xl:flex-row flex-wrap w-full">
               <div className="w-full xl:w-1/2">
                 <SelectComponent
-                  title={'Center of Student'}
-                  name={'center'}
+                  title={"Center of Student"}
+                  name={"centre"}
                   options={[
-                    { value: 'C1' },
-                    { value: 'C2' },
-                    { value: 'C3' },
-                    { value: 'C5' },
-                    { value: 'Anganwadi' },
+                    { value: "C1" },
+                    { value: "C2" },
+                    { value: "C3" },
+                    { value: "C5" },
+                    { value: "Anganwadi" },
                   ]}
                   handleInputChange={handleInputChange}
-                  value={studentData.center}
+                  value={studentData?.centre}
                 />
               </div>
               <div className="w-full xl:w-1/2">
                 <SelectComponent
-                  title={'School of Student'}
-                  name={'school'}
+                  title={"School of Student"}
+                  name={"school"}
                   options={[
-                    { value: 'Education Academy' },
-                    { value: 'Vidiya Public School' },
-                    { value: 'Vidya Bharti' },
-                    { value: 'Lucious Public School' },
-                    { value: 'Tagore Academy' },
-                    { value: 'Saraswati Vidya Niketan' },
-                    { value: 'Dhanbad Vikas Vidyalaya' },
-                    { value: 'NIOS' },
-                    { value: 'ISL Jhariya' },
-                    { value: 'Dhanbad Public School' },
-                    { value: 'Physics Wallah' },
-                    { value: 'Akash' },
-                    { value: 'Ram Krishna Public School' },
+                    { value: "Education Academy" },
+                    { value: "Vidiya Public School" },
+                    { value: "Vidya Bharti" },
+                    { value: "Lucious Public School" },
+                    { value: "Tagore Academy" },
+                    { value: "Saraswati Vidya Niketan" },
+                    { value: "Dhanbad Vikas Vidyalaya" },
+                    { value: "NIOS" },
+                    { value: "ISL Jhariya" },
+                    { value: "Dhanbad Public School" },
+                    { value: "Physics Wallah" },
+                    { value: "Akash" },
+                    { value: "Ram Krishna Public School" },
                   ]}
                   handleInputChange={handleInputChange}
-                  value={studentData.school}
+                  value={studentData?.school}
                 />
               </div>
             </div>
@@ -267,21 +345,21 @@ const StudentProfile = () => {
               <div className="w-full xl:w-1/2">
                 <InputComponent
                   title={"Father's Name"}
-                  name={'fatherName'}
-                  type={'text'}
+                  name={"fathersName"}
+                  type={"text"}
                   placeholder={"Father's Name"}
                   handleInputChange={handleInputChange}
-                  value={studentData.fatherName}
+                  value={studentData?.fathersName}
                 />
               </div>
               <div className="w-full xl:w-1/2">
                 <InputComponent
                   title={"Fathers's Occupation"}
-                  name={'fatherOccupation'}
-                  type={'text'}
+                  name={"fathersOccupation"}
+                  type={"text"}
                   placeholder={"Father's Occupation"}
                   handleInputChange={handleInputChange}
-                  value={studentData.fatherOccupation}
+                  value={studentData?.fathersOccupation}
                 />
               </div>
             </div>
@@ -291,21 +369,21 @@ const StudentProfile = () => {
               <div className="w-full xl:w-1/2">
                 <InputComponent
                   title={"Mother's Name"}
-                  name={'motherName'}
-                  type={'text'}
+                  name={"mothersName"}
+                  type={"text"}
                   placeholder={"Mother's Name"}
                   handleInputChange={handleInputChange}
-                  value={studentData.motherName}
+                  value={studentData?.mothersName}
                 />
               </div>
               <div className="w-full xl:w-1/2">
                 <InputComponent
                   title={"Mothers's Occupation"}
-                  name={'motherOccupation'}
-                  type={'text'}
+                  name={"mothersOccupation"}
+                  type={"text"}
                   placeholder={"Mother's Occupation"}
                   handleInputChange={handleInputChange}
-                  value={studentData.motherOccupation}
+                  value={studentData?.mothersOccupation}
                 />
               </div>
             </div>
@@ -314,22 +392,22 @@ const StudentProfile = () => {
             <div className="flex flex-col gap-5 xl:gap-0 xl:flex-row flex-wrap w-full">
               <div className="w-full xl:w-1/2">
                 <InputComponent
-                  title={'Annual Family Income'}
-                  name={'familyIncome'}
-                  type={'number'}
-                  placeholder={'Family Income'}
+                  title={"Annual Family Income"}
+                  name={"annualIncome"}
+                  type={"number"}
+                  placeholder={"Family Income"}
                   handleInputChange={handleInputChange}
-                  value={studentData.familyIncome}
+                  value={studentData?.annualIncome}
                 />
               </div>
               <div className="w-full xl:w-1/2">
                 <InputComponent
-                  title={'Contact Number'}
-                  name={'contactNumber'}
-                  type={'text'}
-                  placeholder={'Contact Number'}
+                  title={"Contact Number"}
+                  name={"contactNumber"}
+                  type={"text"}
+                  placeholder={"Contact Number"}
                   handleInputChange={handleInputChange}
-                  value={studentData.contactNumber}
+                  value={studentData?.contactNumber}
                 />
               </div>
             </div>
@@ -348,12 +426,12 @@ const StudentProfile = () => {
             <div className="flex items-center space-x-2 pl-[2.5%] pr-[2.5%] ">
               <Checkbox
                 id="aadhar"
-                checked={studentData.aadhar}
+                checked={studentData?.aadhar}
                 onCheckedChange={(checked) =>
                   handleInputChange({
                     target: {
-                      name: 'aadhar',
-                      type: 'checkbox',
+                      name: "aadhar",
+                      type: "checkbox",
                       checked: checked,
                     },
                   })
@@ -371,12 +449,12 @@ const StudentProfile = () => {
             <div className="flex items-center space-x-2 pl-[2.5%] pr-[2.5%]">
               <Checkbox
                 id="domicile"
-                checked={studentData.domicile}
+                checked={studentData?.domicile}
                 onCheckedChange={(checked) =>
                   handleInputChange({
                     target: {
-                      name: 'domicile',
-                      type: 'checkbox',
+                      name: "domicile",
+                      type: "checkbox",
                       checked: checked,
                     },
                   })
@@ -394,12 +472,12 @@ const StudentProfile = () => {
             <div className="flex items-center space-x-2 pl-[2.5%] pr-[2.5%]">
               <Checkbox
                 id="birthCertificate"
-                checked={studentData.birthCertificate}
+                checked={studentData?.birthCertificate}
                 onCheckedChange={(checked) =>
                   handleInputChange({
                     target: {
-                      name: 'birthCertificate',
-                      type: 'checkbox',
+                      name: "birthCertificate",
+                      type: "checkbox",
                       checked: checked,
                     },
                   })
@@ -417,12 +495,12 @@ const StudentProfile = () => {
             <div className="flex items-center space-x-2 pl-[2.5%] pr-[2.5%]">
               <Checkbox
                 id="disability"
-                checked={studentData.disability}
+                checked={studentData?.disability}
                 onCheckedChange={(checked) =>
                   handleInputChange({
                     target: {
-                      name: 'disability',
-                      type: 'checkbox',
+                      name: "disability",
+                      type: "checkbox",
                       checked: checked,
                     },
                   })
@@ -440,12 +518,12 @@ const StudentProfile = () => {
             <div className="flex items-center space-x-2 pl-[2.5%] pr-[2.5%]">
               <Checkbox
                 id="singleParent"
-                checked={studentData.singleParent}
+                checked={studentData?.singleParent}
                 onCheckedChange={(checked) =>
                   handleInputChange({
                     target: {
-                      name: 'singleParent',
-                      type: 'checkbox',
+                      name: "singleParent",
+                      type: "checkbox",
                       checked: checked,
                     },
                   })
@@ -463,12 +541,12 @@ const StudentProfile = () => {
             <div className="flex items-center space-x-2 pl-[2.5%] pr-[2.5%]">
               <Checkbox
                 id="releventCertificate"
-                checked={studentData.releventCertificate}
+                checked={studentData?.releventCertificate}
                 onCheckedChange={(checked) =>
                   handleInputChange({
                     target: {
-                      name: 'releventCertificate',
-                      type: 'checkbox',
+                      name: "releventCertificate",
+                      type: "checkbox",
                       checked: checked,
                     },
                   })
@@ -500,19 +578,19 @@ const StudentProfile = () => {
               </label>
               <Checkbox
                 id="isSponsored"
-                checked={studentData.isSponsored}
+                checked={studentData?.isSponsored}
                 onCheckedChange={(checked) =>
                   handleInputChange({
                     target: {
-                      name: 'isSponsored',
-                      type: 'checkbox',
+                      name: "isSponsored",
+                      type: "checkbox",
                       checked: checked,
                     },
                   })
                 }
               />
               <span className="font-semibold ml-5">
-                {studentData.isSponsored ? 'Yes' : 'No'}
+                {studentData?.isSponsored ? "Yes" : "No"}
               </span>
             </div>
 
@@ -526,7 +604,7 @@ const StudentProfile = () => {
                   name="annualFees"
                   placeholder="Annual Fees"
                   className="p-2 text-sm font-semibold outline-none rounded-lg"
-                  value={studentData.annualFees}
+                  value={studentData?.annualFees}
                   onChange={handleInputChange}
                 />
               </div>
@@ -541,19 +619,19 @@ const StudentProfile = () => {
               </label>
               <Checkbox
                 id="payTotalFees"
-                checked={studentData.payTotalFees}
+                checked={studentData?.payTotalFees}
                 onCheckedChange={(checked) =>
                   handleInputChange({
                     target: {
-                      name: 'payTotalFees',
-                      type: 'checkbox',
+                      name: "payTotalFees",
+                      type: "checkbox",
                       checked: checked,
                     },
                   })
                 }
               />
               <span className="font-semibold ml-5">
-                {studentData.payTotalFees ? 'Yes' : 'No'}
+                {studentData?.payTotalFees ? "Yes" : "No"}
               </span>
             </div>
 
@@ -569,13 +647,15 @@ const StudentProfile = () => {
                   type="number"
                   name="feesWePay"
                   placeholder={
-                    studentData.payTotalFees === false ? 'Enter the amount' : ''
+                    studentData?.payTotalFees === false
+                      ? "Enter the amount"
+                      : ""
                   }
                   className="p-2 text-sm font-semibold outline-none rounded-lg"
                   value={
-                    studentData.payTotalFees === true
-                      ? studentData.annualFees
-                      : studentData.feesWePay
+                    studentData?.payTotalFees === true
+                      ? studentData?.annualFees
+                      : studentData?.feesWePay
                   }
                   onChange={handleInputChange}
                 />
@@ -595,7 +675,7 @@ const StudentProfile = () => {
                   name="sponserName"
                   className="p-2 text-sm font-semibold rounded-lg"
                   placeholder="Enter sponser name"
-                  value={studentData.sponserName}
+                  value={studentData?.sponserName}
                   onChange={handleInputChange}
                 />
               </div>
@@ -614,7 +694,7 @@ const StudentProfile = () => {
                   name="amountBySponsor"
                   className="p-2 text-sm font-semibold rounded-lg outline-none"
                   placeholder="Enter total amount"
-                  value={studentData.amountBySponsor}
+                  value={studentData?.amountBySponsor}
                   onChange={handleInputChange}
                 />
               </div>
@@ -638,7 +718,7 @@ const StudentProfile = () => {
           {/* Result Graph */}
 
           <div className="result-graph w-full h-[400px]">
-            <StudentProgressGraph results={studentData.results} />
+            <StudentProgressGraph results={studentData?.results} />
           </div>
         </div>
 
@@ -657,7 +737,7 @@ const StudentProfile = () => {
           {/* Attendence Graph */}
           <div className="result-graph w-full h-[400px] mb-10">
             <AttendanceMonitoringGraph
-              attendanceData={studentData.attendence}
+              attendanceData={studentData?.attendence}
             />
           </div>
         </div>
@@ -675,6 +755,9 @@ const StudentProfile = () => {
                 <CheckIcon /> <span className="ml-2"> Save Changes</span>
               </Button>
             )}
+            <div>
+              <AlertForDialogDeletion handleClick={handleDeleteStudent} />
+            </div>
           </div>
         </div>
       </div>

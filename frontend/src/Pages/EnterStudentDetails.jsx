@@ -1,26 +1,31 @@
-import React, { useState } from 'react';
-import HeaderForEnputStudentDetails from '../components/HeaderForEnputStudentDetails';
-import EnterStudentDetails1 from './EnterStudentDetails1';
-import { toast } from 'react-toastify';
-import CheckboxComponent from '../components/CheckboxComponent';
+import React, { useEffect, useState } from "react";
+import HeaderForEnputStudentDetails from "../components/HeaderForEnputStudentDetails";
+import EnterStudentDetails1 from "./EnterStudentDetails1";
+import { toast } from "react-toastify";
+import CheckboxComponent from "../components/CheckboxComponent";
 
 const EnterStudentDetails = () => {
   const [isFirstPage, setIsFirstPage] = useState(true);
 
   const [formData, setFormData] = useState({
-    name: '',
-    gender: '',
-    session: '',
-    dob: '',
-    class: '',
-    school: '',
-    center: '',
-    fatherName: '',
-    fatherOccupation: '',
-    motherName: '',
-    motherOccupation: '',
-    address: '',
-    familyIncome: 0,
+    studentName: "",
+    rollNumber: "K/DHN/1",
+    gender: "",
+    currentSession: "",
+    profilePhoto: "",
+    reportCard: "",
+    dob: "",
+    studentClass: "",
+    school: "",
+    centre: "",
+    contactNumber: "",
+    fathersName: "",
+    fathersOccupation: "",
+    mothersName: "",
+    mothersOccupation: "",
+    address: "",
+    annualIncome: 0,
+    activeStatus: true,
     aadhar: false,
     domicile: false,
     birthCertificate: false,
@@ -29,50 +34,39 @@ const EnterStudentDetails = () => {
     releventCertificate: false,
   });
 
+  useEffect(() => {
+    console.log(formData);
+  }, [formData]);
+
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: type === "checkbox" ? checked : value,
     });
-    console.log(formData);
   };
 
   const handleClick = () => {
     setIsFirstPage((prev) => !prev);
   };
 
-  const convertToFormData = (formDataObject) => {
-    const formData = new FormData();
-
-    try {
-      for (const key in formDataObject) {
-        if (Object.prototype.hasOwnProperty.call(formDataObject, key)) {
-          if (formDataObject[key] === '') {
-            throw new Error(`Field '${key}' cannot be empty`);
-          }
-          if (key === 'familyIncome' && formDataObject[key] <= 0) {
-            throw new Error(`'Family Income' must be greater than zero`);
-          }
-          formData.append(key, formDataObject[key]);
-        }
-      }
-    } catch (e) {
-      console.error(e.message);
-      throw e;
-    }
-
-    return formData;
-  };
-
-  const handleSubmitForm = (e) => {
+  const handleSubmitForm = async (e) => {
     e.preventDefault();
     try {
-      const formDataToSubmit = convertToFormData(formData);
-      for (let pair of formDataToSubmit.entries()) {
-        console.log(`${pair[0]}: ${pair[1]}`);
+      const res = await fetch(`http://localhost:3500/students/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || "Failed to add new student");
       }
-      toast.success('Form submitted successfully!');
+
+      toast.success("Form submitted successfully!");
     } catch (e) {
       toast.error(`Error submitting form: ${e.message}`);
       return;
@@ -95,7 +89,7 @@ const EnterStudentDetails = () => {
           {/* Animation Class */}
           <div
             className={`transition-transform duration-500 ease-in-out absolute inset-0 ${
-              isFirstPage ? 'translate-x-0' : '-translate-x-full'
+              isFirstPage ? "translate-x-0" : "-translate-x-full"
             }`}
           >
             {/* Student Details Page 1 */}
@@ -107,7 +101,7 @@ const EnterStudentDetails = () => {
           </div>
           <div
             className={`transition-transform duration-500 ease-in-out absolute inset-0 ${
-              isFirstPage ? 'translate-x-full' : 'translate-x-0'
+              isFirstPage ? "translate-x-full" : "translate-x-0"
             }`}
           >
             {/* Student Details Page 2 */}
@@ -123,10 +117,10 @@ const EnterStudentDetails = () => {
               <div className="inputs flex flex-col items-end w-full pt-20 gap-5">
                 <div className="file-input w-full  flex justify-between">
                   <label htmlFor="fileInput" className="text-sm font-semibold">
-                    Upload passport size picture of student{' '}
+                    Upload passport size picture of student{" "}
                     <span className="text-red-500">*</span>
                   </label>
-                  <input type="file" id="fileInput" required></input>
+                  <input type="file" id="fileInput"></input>
                 </div>
               </div>
 

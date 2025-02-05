@@ -1,15 +1,15 @@
-import DropdownForClassSelection from '@/components/Filters/ClassSelectionDropdown';
-import DropdownForCenterSelection from '@/components/Filters/CenterSelectionDropdown';
-import DropdownForSponsorshipSelection from '@/components/Filters/SponsershipStatusDropdown';
-import DropdownForActiveStatusSelection from '@/components/Filters/ActiveStatusDropdown ';
-import DropdownForSchoolSelection from '@/components/Filters/SchoolDropdown';
-import React, { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import SpreadsheetBody from './SpreadsheetBody';
+import DropdownForClassSelection from "@/components/Filters/ClassSelectionDropdown";
+import DropdownForCenterSelection from "@/components/Filters/CenterSelectionDropdown";
+import DropdownForSponsorshipSelection from "@/components/Filters/SponsershipStatusDropdown";
+import DropdownForActiveStatusSelection from "@/components/Filters/ActiveStatusDropdown ";
+import DropdownForSchoolSelection from "@/components/Filters/SchoolDropdown";
+import React, { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import SpreadsheetBody from "./SpreadsheetBody";
 
 const StudentSpreadsheet = () => {
   const [filters, setFilters] = useState({
-    name: '',
+    name: "",
     center: [],
     className: [],
     sponsorshipStatus: [],
@@ -20,7 +20,7 @@ const StudentSpreadsheet = () => {
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
 
-    if (type === 'checkbox') {
+    if (type === "checkbox") {
       if (checked) {
         setFilters((prevFilters) => ({
           ...prevFilters,

@@ -1,5 +1,5 @@
-import { useState } from 'react'; // Import useState for managing local state
-import { Button } from '@/components/ui/button';
+import { useState } from "react"; // Import useState for managing local state
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -8,9 +8,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { Pencil1Icon } from '@radix-ui/react-icons';
-import html2pdf from 'html2pdf.js';
+} from "@/components/ui/dialog";
+import { Pencil1Icon } from "@radix-ui/react-icons";
+import html2pdf from "html2pdf.js";
+import { format, parseISO } from "date-fns";
 
 const DialogForPdfPreview = ({ studentData }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,40 +21,45 @@ const DialogForPdfPreview = ({ studentData }) => {
       await downloadPdf();
       setIsOpen(false);
     } catch (error) {
-      console.error('PDF download failed:', error);
+      console.error("PDF download failed:", error);
     }
   };
 
   const downloadPdf = async () => {
-    const element = document.querySelector('#pdf');
+    const element = document.querySelector("#pdf");
     if (!element) {
-      console.error('PDF element not found');
+      console.error("PDF element not found");
       return;
     }
     html2pdf(element)
       .set({
         margin: 0,
-        filename: 'output.pdf',
-        jsPDF: { unit: 'px', format: 'a4' },
+        filename: "output.pdf",
+        jsPDF: { unit: "px", format: "a4" },
       })
       .save();
   };
 
+  const parseToDDMMYYYY = (date) => {
+    if (!date) return;
+    return format(parseISO(date), "dd-MM-yyyy");
+  };
+
   const dataUsed = [
-    { Name: studentData.name },
-    { 'D.O.B': studentData.dob },
-    { Gender: studentData.gender },
-    { Address: studentData.address },
-    { Session: studentData.session },
-    { Class: studentData.class },
-    { School: studentData.school },
+    { Name: studentData?.studentName },
+    { "D.O.B": parseToDDMMYYYY(studentData?.dob) },
+    { Gender: studentData?.gender },
+    { Address: studentData?.address },
+    { Session: studentData?.currentSession },
+    { Class: studentData?.class },
+    { School: studentData?.school },
   ];
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button variant="outline" className="bg-[#21526E] text-white">
-          <Pencil1Icon />{' '}
+          <Pencil1Icon />{" "}
           <span className="ml-2"> Download Student Profile</span>
         </Button>
       </DialogTrigger>
@@ -112,7 +118,7 @@ const DialogForPdfPreview = ({ studentData }) => {
                     </div>
                     <div className="w-[60%]">
                       <span className="font-semibold pr-2">:</span>
-                      {studentData.fatherName}
+                      {studentData?.fathersName}
                     </div>
                   </div>
 
@@ -122,7 +128,7 @@ const DialogForPdfPreview = ({ studentData }) => {
                     </div>
                     <div className="w-[60%]">
                       <span className="font-semibold pr-2">:</span>
-                      {studentData.fatherOccupation}
+                      {studentData?.fathersOccupation}
                     </div>
                   </div>
 
@@ -132,7 +138,7 @@ const DialogForPdfPreview = ({ studentData }) => {
                     </div>
                     <div className="w-[60%]">
                       <span className="font-semibold pr-2">:</span>
-                      {studentData.motherName}
+                      {studentData?.mothersName}
                     </div>
                   </div>
 
@@ -142,7 +148,7 @@ const DialogForPdfPreview = ({ studentData }) => {
                     </div>
                     <div className="w-[60%]">
                       <span className="font-semibold pr-2">:</span>
-                      {studentData.motherOccupation}
+                      {studentData?.mothersOccupation}
                     </div>
                   </div>
                 </div>
@@ -154,7 +160,7 @@ const DialogForPdfPreview = ({ studentData }) => {
                     </div>
                     <div className="w-[60%]">
                       <span className="font-semibold pr-2">:</span>
-                      {studentData.familyIncome}
+                      {studentData?.annualIncome}
                     </div>
                   </div>
 

@@ -1,6 +1,6 @@
 const allowedOrigins = [
-    'http://localhost:3000',
-    'http://www.KartavyasponsorDatabase.com'
-]
+  "http://localhost:5173",
+  "http://www.KartavyasponsorDatabase.com",
+];
 
-module.exports = allowedOrigins
+module.exports = allowedOrigins;
