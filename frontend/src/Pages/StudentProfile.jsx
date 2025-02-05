@@ -135,7 +135,10 @@ const StudentProfile = () => {
         throw new Error(errorData.message || "Failed to update student data");
       }
 
-      toast.success("Student data upated successfully!");
+      const message = await res.json();
+      console.log(message, "message");
+
+      toast.success(message.message);
     } catch (e) {
       toast.error(`Error updating student data: ${e.message}`);
       return;

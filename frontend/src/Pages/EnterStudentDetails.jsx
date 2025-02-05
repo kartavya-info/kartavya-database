@@ -3,16 +3,16 @@ import HeaderForEnputStudentDetails from "../components/HeaderForEnputStudentDet
 import EnterStudentDetails1 from "./EnterStudentDetails1";
 import { toast } from "react-toastify";
 import CheckboxComponent from "../components/CheckboxComponent";
+import { Input } from "@/components/ui/input";
 
 const EnterStudentDetails = () => {
   const [isFirstPage, setIsFirstPage] = useState(true);
 
   const [formData, setFormData] = useState({
     studentName: "",
-    rollNumber: "K/DHN/1",
+    rollNumber: "",
     gender: "",
     currentSession: "",
-    profilePhoto: "",
     reportCard: "",
     dob: "",
     studentClass: "",
@@ -53,12 +53,29 @@ const EnterStudentDetails = () => {
   const handleSubmitForm = async (e) => {
     e.preventDefault();
     try {
+      const formDataToSend = new FormData();
+
+      for (const key in formData) {
+        formDataToSend.append(key, formData[key]);
+      }
+
+      // Append profile picture directly if it exists
+      if (profilePicture) {
+        formDataToSend.append(
+          "profilePicture",
+          profilePicture,
+          profilePicture?.name
+        );
+      }
+
+      // Debugging formData content
+      for (let [key, value] of formDataToSend.entries()) {
+        console.log(`${key}: ${value}`);
+      }
+
       const res = await fetch(`http://localhost:3500/students/`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+        body: formDataToSend,
       });
 
       if (!res.ok) {
@@ -71,6 +88,11 @@ const EnterStudentDetails = () => {
       toast.error(`Error submitting form: ${e.message}`);
       return;
     }
+  };
+
+  const [profilePicture, setProfilePicture] = useState();
+  const handleProfilePictureChange = (e) => {
+    setProfilePicture(e.target.files[0]);
   };
 
   return (
@@ -114,7 +136,7 @@ const EnterStudentDetails = () => {
                 />
               </div>
 
-              <div className="inputs flex flex-col items-end w-full pt-20 gap-5">
+              {/* <div className="inputs flex flex-col items-end w-full pt-20 gap-5">
                 <div className="file-input w-full  flex justify-between">
                   <label htmlFor="fileInput" className="text-sm font-semibold">
                     Upload passport size picture of student{" "}
@@ -122,6 +144,18 @@ const EnterStudentDetails = () => {
                   </label>
                   <input type="file" id="fileInput"></input>
                 </div>
+              </div> */}
+
+              <div className="file-input-container">
+                <label className="file-input-label">
+                  {profilePicture?.name || "Upload Profile Picture"}
+                  <Input
+                    type="file"
+                    className="file-input"
+                    onChange={handleProfilePictureChange}
+                    accept="image/*"
+                  />
+                </label>
               </div>
 
               <div className="documents flex flex-col w-full mt-20">
