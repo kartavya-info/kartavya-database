@@ -199,6 +199,34 @@ const updateStudent = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc Update a particular Student by rollNumber
+// @route PATCH/Students
+// @access Private
+const updateResult = asyncHandler(async(req,res,resultUrl) => {
+  const rollNumber = req.params.rollNumber;
+
+  if(!rollNumber){
+    return res.status(400).json({ message: "Roll Number required" });
+  }
+  try{
+    const updatedStudent = await Student.findOneAndUpdate(
+      { rollNumber },
+      {
+        result:resultUrl
+      }
+    );
+  if (!updatedStudent) {
+      return res.status(404).json({ message: "Student not found" });
+    }
+
+    res.status(200).json({
+      message: `Result of ${studentName} updated`,
+    });
+  }catch (error) {
+    res.status(500).json({ message: "Error updating the result of student", error });
+  }
+});
+
 // @desc Delete a particular Student by rollNumber
 // @route DELETE/Students/:rollNumber
 // @access Private
