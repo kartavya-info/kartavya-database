@@ -6,6 +6,7 @@ const azure = require("../azureStorage.js");
 const catchAsync = require("../Utils/catchAsync.js");
 const path = require("path");
 const crypto = require("crypto");
+const asyncHandler = require('express-async-handler')
 
 const sanitizeFilename = (originalname) => {
   const ext = path.extname(originalname).toLowerCase(); // Get file extension
@@ -39,6 +40,13 @@ router
 router
   .route("/:rollNumber")
   .get(studentController.getStudentByRoll)
+  .put(
+    upload.single("Results"), // Handle file upload
+    asyncHandler(azure.uploadToAzureBlob), // Upload file to Azure Blob Storage
+    asyncHandler(async (req, res) => {
+      const profilePictureUrl = req.fileUrl ? req.fileUrl : ""; // Get the uploaded file's URL
+      await studentController.updateResult(req, res, profilePictureUrl); // Pass URL to the controller
+    })
   .delete(studentController.deleteStudent);
 
 module.exports = router;
