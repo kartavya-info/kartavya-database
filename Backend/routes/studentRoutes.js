@@ -6,7 +6,7 @@ const azure = require("../azureStorage.js");
 const catchAsync = require("../Utils/catchAsync.js");
 const path = require("path");
 const crypto = require("crypto");
-const asyncHandler = require('express-async-handler')
+const asyncHandler = require("express-async-handler");
 
 const sanitizeFilename = (originalname) => {
   const ext = path.extname(originalname).toLowerCase(); // Get file extension
@@ -28,25 +28,36 @@ router
   .route("/")
   .get(studentController.getAllStudents)
   .post(
-    upload.single("profilePicture"), // Handle file upload
-    catchAsync(azure.uploadToAzureBlob), // Upload file to Azure Blob Storage
+    upload.single("profilePicture"),
+    catchAsync(azure.uploadToAzureBlob),
     catchAsync(async (req, res) => {
-      const profilePictureUrl = req.fileUrl ? req.fileUrl : ""; // Get the uploaded file's URL
-      await studentController.addNewStudent(req, res, profilePictureUrl); // Pass URL to the controller
+      const profilePictureUrl = req.fileUrl ? req.fileUrl : "";
+      await studentController.addNewStudent(req, res, profilePictureUrl);
     })
-  )
-  .patch(studentController.updateStudent);
+  );
 
 router
   .route("/:rollNumber")
   .get(studentController.getStudentByRoll)
-  .put(
-    upload.single("Results"), // Handle file upload
-    asyncHandler(azure.uploadToAzureBlob), // Upload file to Azure Blob Storage
-    asyncHandler(async (req, res) => {
-      const profilePictureUrl = req.fileUrl ? req.fileUrl : ""; // Get the uploaded file's URL
-      await studentController.updateResult(req, res, profilePictureUrl); // Pass URL to the controller
-    })
+  .put(studentController.updateStudent)
   .delete(studentController.deleteStudent);
+
+router.route(`/:rollNumber/uploadResult`).patch(
+  upload.single("result"), // Handle file upload
+  asyncHandler(azure.uploadToAzureBlob),
+  asyncHandler(async (req, res) => {
+    const resultUrl = req.fileUrl ? req.fileUrl : "";
+    await studentController.updateResult(req, res, resultUrl);
+  })
+);
+
+router.route(`/:rollNumber/updateProfilePhoto`).patch(
+  upload.single("profilePicture"), // Handle file upload
+  asyncHandler(azure.uploadToAzureBlob),
+  asyncHandler(async (req, res) => {
+    const profileUrl = req.fileUrl ? req.fileUrl : "";
+    await studentController.updateProfilePhoto(req, res, profileUrl);
+  })
+);
 
 module.exports = router;

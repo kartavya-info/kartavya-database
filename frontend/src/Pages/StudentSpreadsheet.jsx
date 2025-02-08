@@ -98,7 +98,7 @@ const StudentSpreadsheet = () => {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const response = await fetch("http://localhost:3500/students/", {
+        const response = await fetch("http://localhost:3500/api/students/", {
           method: "GET",
           credentials: "include",
         });
@@ -121,9 +121,8 @@ const StudentSpreadsheet = () => {
   }, []);
 
   useEffect(() => {
-    const sdfs = filterData();
-    console.log(sdfs, "filterdata in parent");
-    setFilteredData(sdfs);
+    const data = filterData();
+    setFilteredData(data);
   }, [filters]);
 
   const filterData = () => {

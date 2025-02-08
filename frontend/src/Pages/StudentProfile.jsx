@@ -1,18 +1,17 @@
 import InputComponent from "@/components/InputComponent";
 import SelectComponent from "@/components/SelectComponent";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Input } from "@/components/ui/input";
 import React, { useEffect, useState } from "react";
-import StudentProgressGraph from "./StudentProgressGraph";
-import AttendanceMonitoringGraph from "./AttendenceMonitoringGraph";
+// import StudentProgressGraph from "./StudentProgressGraph";
+// import AttendanceMonitoringGraph from "./AttendenceMonitoringGraph";
 import { Button } from "@/components/ui/button";
-import { Pencil1Icon, CheckIcon } from "@radix-ui/react-icons";
-import DialogForAttendenceEdit from "./DialogForAttendenceEdit";
+import { CheckIcon } from "@radix-ui/react-icons";
 import DialogForResultEdit from "./DialogForResultEdit";
 import DialogForPdfPreview from "./DialogForPdfPreview";
 import { useNavigate, useParams } from "react-router";
 import { toast } from "react-toastify";
 import { AlertForDialogDeletion } from "@/components/AlertForStudentDeletion";
+import DialogForProfilePhotoUpdate from "./DialogForProfilePhotoUpdate";
 
 // const studentDataFromBackend = {
 //   id: "1",
@@ -85,7 +84,7 @@ const StudentProfile = () => {
     const fetchStudentData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3500/students/${encodeURIComponent(id)}`,
+          `http://localhost:3500/api/students/${encodeURIComponent(id)}`,
           {
             method: "GET",
             credentials: "include",
@@ -106,9 +105,9 @@ const StudentProfile = () => {
     fetchStudentData();
   }, [id]);
 
-  useEffect(() => {
-    console.log(studentData, "studentData");
-  }, [studentData]);
+  // useEffect(() => {
+  //   console.log(studentData, "studentData");
+  // }, [studentData]);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -122,13 +121,22 @@ const StudentProfile = () => {
   const handleSaveChanges = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch(`http://localhost:3500/students/`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(studentData),
-      });
+      const formDataToSend = new FormData();
+
+      for (const key in studentData) {
+        formDataToSend.append(key, studentData[key]);
+      }
+
+      const res = await fetch(
+        `http://localhost:3500/api/students/${encodeURIComponent(id)}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(studentData),
+        }
+      );
 
       if (!res.ok) {
         const errorData = await res.json();
@@ -139,6 +147,7 @@ const StudentProfile = () => {
       console.log(message, "message");
 
       toast.success(message.message);
+      setStudentDataChanged(false);
     } catch (e) {
       toast.error(`Error updating student data: ${e.message}`);
       return;
@@ -149,7 +158,7 @@ const StudentProfile = () => {
     e.preventDefault();
     try {
       const res = await fetch(
-        `http://localhost:3500/students/${encodeURIComponent(id)}`,
+        `http://localhost:3500/api/students/${encodeURIComponent(id)}`,
         {
           method: "DELETE",
         }
@@ -184,20 +193,36 @@ const StudentProfile = () => {
         </div>
 
         <div className="basic-details">
-          <div className="filters flex flex-col gap-10 p-[25px]">
-            <div className="profile-photo w-full h-[250px] rounded-lg border">
-              <img src="/profile.png" alt="profile-photo"></img>
+          <div className="filters flex flex-col items-center p-[10px]">
+            <div className="profile-photo h-[270px] w-[220px] bg-cover rounded-lg border overflow-hidden">
+              <img
+                src={studentData?.profilePhoto || "/student.jpg"}
+                alt="profile-photo"
+                className="w-full h-full object-cover"
+              />
             </div>
+            <DialogForProfilePhotoUpdate
+              photoExists={studentData?.profilePhoto}
+            />
           </div>
 
-          <div className="basic-details p-[25px] font-semibold">
-            <div className="label text-2xl text-[#21526E] mb-4">
+          <div className="basic-details p-4">
+            <div className="label text-xl font-bold text-[#21526E] mb-4">
               Basic Details
             </div>
-            <div className="name"> Name : {studentData?.studentName}</div>
-            <div className="center"> Roll No. : {studentData?.rollNumber}</div>
-            <div className="class"> Class : {studentData?.class}</div>
-            <div className="center"> Center : {studentData?.centre}</div>
+            <div className="grid grid-cols-3 gap-4">
+              <div className="font-semibold text-gray-700">Name:</div>
+              <div className="col-span-2">{studentData?.studentName}</div>
+
+              <div className="font-semibold text-gray-700">Roll No.:</div>
+              <div className="col-span-2">{studentData?.rollNumber}</div>
+
+              <div className="font-semibold text-gray-700">Class:</div>
+              <div className="col-span-2">{studentData?.class}</div>
+
+              <div className="font-semibold text-gray-700">Center:</div>
+              <div className="col-span-2">{studentData?.centre}</div>
+            </div>
           </div>
         </div>
       </div>
@@ -712,38 +737,43 @@ const StudentProfile = () => {
         <div className="result-details w-[90%] m-auto mt-20">
           <div className="w-full flex justify-between text-2xl font-semibold text-[#21526E] mb-5">
             Result Details
-            <DialogForResultEdit
-              studentData={studentData}
-              setStudentData={setStudentData}
-            />
+            <DialogForResultEdit resultExists={studentData?.result} />
           </div>
+
+          {studentData?.result && (
+            <div className="filters flex flex-col gap-10 p-[25px]">
+              <div className="profile-photo h-full rounded-lg border">
+                <img src={studentData?.result} alt="result"></img>
+              </div>
+            </div>
+          )}
 
           {/* Result Graph */}
 
-          <div className="result-graph w-full h-[400px]">
-            <StudentProgressGraph results={studentData?.results} />
-          </div>
+          {/* <div className="result-graph w-full h-[400px]">
+              <StudentProgressGraph results={studentData?.results} />
+            </div> */}
         </div>
 
         {/* --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */}
 
         {/* Attendence details */}
-        <div className="attendence-details w-[90%] m-auto mt-20">
-          <div className="w-full flex justify-between text-2xl font-semibold text-[#21526E] mb-5">
-            Attendence Details
-            <DialogForAttendenceEdit
-              studentData={studentData}
-              setStudentData={setStudentData}
-            />
-          </div>
+        {/* <div className="attendence-details w-[90%] m-auto mt-20">
+            <div className="w-full flex justify-between text-2xl font-semibold text-[#21526E] mb-5">
+              Attendence Details
+              <DialogForAttendenceEdit
+                studentData={studentData}
+                setStudentData={setStudentData}
+              />
+            </div> */}
 
-          {/* Attendence Graph */}
-          <div className="result-graph w-full h-[400px] mb-10">
-            <AttendanceMonitoringGraph
-              attendanceData={studentData?.attendence}
-            />
-          </div>
-        </div>
+        {/* Attendence Graph */}
+        {/* <div className="result-graph w-full h-[400px] mb-10">
+              <AttendanceMonitoringGraph
+                attendanceData={studentData?.attendence}
+              />
+            </div>
+          </div> */}
 
         {/* Download Profile option */}
         <div className="download-profile w-[90%] m-auto mt-32">

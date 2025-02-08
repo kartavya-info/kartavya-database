@@ -20,9 +20,8 @@ app.use(logger);
 
 app.use(cors(corsOptions));
 
-app.use(express.json());
-// Middleware to parse x-www-form-urlencoded data
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
 app.use(cookieParser());
 
@@ -30,8 +29,8 @@ app.use("/", express.static(path.join(__dirname, "public")));
 
 app.use("/", require("./routes/root"));
 app.use("/users", require("./routes/userRoutes"));
-app.use("/students", require("./routes/studentRoutes.js"));
-app.use("/api/students", require("./routes/apiRoutes.js"));
+app.use("/api/students", require("./routes/studentRoutes.js"));
+//app.use("/api/students", require("./routes/apiRoutes.js"));
 
 app.use(Errorhandler);
 

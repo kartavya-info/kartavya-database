@@ -13,10 +13,14 @@ if (!AZURE_CONNECTION_STRING || !AZURE_CONTAINER_NAME) {
 const uploadToAzureBlob = async (req, res, next) => {
   try {
     // const urlParts = req.baseUrl.split("/");
-    // console.log(urlParts, "urlParts");
-    // const typeIndex = urlParts.indexOf("api") + 1;
+    // const typeIndex = urlParts.indexOf("students") + 2;
     // const directoryType = urlParts[typeIndex];
-    const directoryType = "student-profile-photo";
+    const directoryType = req.body.pictureType;
+
+    if (!directoryType) {
+      next();
+      return;
+    }
 
     const sanitizedType = directoryType.replace(/[^a-zA-Z0-9_-]/g, "");
 

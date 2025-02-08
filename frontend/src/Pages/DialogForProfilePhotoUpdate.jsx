@@ -14,32 +14,32 @@ import { Pencil1Icon } from "@radix-ui/react-icons";
 import { toast } from "react-toastify";
 import { useParams } from "react-router";
 
-const DialogForResultEdit = ({ resultExists }) => {
+const DialogForProfilePhotoUpdate = ({ photoExists }) => {
   const { id } = useParams();
   const [isOpen, setIsOpen] = useState(false);
   const [uploading, setUploading] = useState(false);
 
-  const [result, setResult] = useState();
-  const handleResultChange = (e) => {
-    setResult(e.target.files[0]);
+  const [photo, setPhoto] = useState();
+  const handleProfilePhotoChange = (e) => {
+    setPhoto(e.target.files[0]);
   };
 
-  const handleResultSubmit = async () => {
+  const handleUpdateProfile = async () => {
     setUploading(true);
-    const resultToSend = new FormData();
+    const dataToSend = new FormData();
     try {
-      if (result) {
-        resultToSend.append("result", result, result?.name);
-        resultToSend.append("pictureType", "resultPhoto");
+      if (photo) {
+        dataToSend.append("profilePicture", photo, photo?.name);
+        dataToSend.append("pictureType", "profilePhoto");
       }
 
       const res = await fetch(
         `http://localhost:3500/api/students/${encodeURIComponent(
           id
-        )}/uploadResult`,
+        )}/updateProfilePhoto`,
         {
           method: "PATCH",
-          body: resultToSend,
+          body: dataToSend,
         }
       );
 
@@ -50,7 +50,6 @@ const DialogForResultEdit = ({ resultExists }) => {
 
       const message = await res.json();
       console.log(message, "message");
-
       window.location.reload();
       toast.success(message.message);
     } catch (error) {
@@ -58,24 +57,25 @@ const DialogForResultEdit = ({ resultExists }) => {
       setUploading(false);
     }
   };
-
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
-        <Button variant="outline" className="bg-[#21526E] text-white">
-          <Pencil1Icon />{" "}
-          <span className="ml-2">
-            {resultExists ? "Edit result" : "Add result"}
-          </span>
-        </Button>
+      <DialogTrigger asChild className="flex justify-end">
+        <div className="w-full flex justify-end">
+          <Button
+            variant="outline"
+            className="w-10 h-10 bg-[#21526E] text-white rounded-[50%]"
+          >
+            <Pencil1Icon />
+          </Button>
+        </div>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>
-            {resultExists ? "Edit result" : "Add result"}
+            {photoExists ? "Edit picture" : "Add picture"}
           </DialogTitle>
           <DialogDescription>
-            Make changes to result here. Click upload when you&apos;re done.
+            Make changes to profile here. Click upload when you&apos;re done.
           </DialogDescription>
         </DialogHeader>
         <div className="file-input-container mt-5">
@@ -83,13 +83,13 @@ const DialogForResultEdit = ({ resultExists }) => {
             <Input
               type="file"
               className="file-input"
-              onChange={handleResultChange}
+              onChange={handleProfilePhotoChange}
               accept="image/*"
             />
           </label>
         </div>
         <DialogFooter className="">
-          <Button type="submit" onClick={handleResultSubmit}>
+          <Button type="submit" onClick={handleUpdateProfile}>
             {uploading ? "Uploading..." : "Upload result"}
           </Button>
         </DialogFooter>
@@ -98,4 +98,4 @@ const DialogForResultEdit = ({ resultExists }) => {
   );
 };
 
-export default DialogForResultEdit;
+export default DialogForProfilePhotoUpdate;

@@ -9,7 +9,6 @@ const SpreadsheetBody = ({ studentData }) => {
     useState(students);
 
   useEffect(() => {
-    console.log(studentData, "updatedStudentData in children");
     setStudentsSearchedByName(studentData);
   }, [studentData]);
 

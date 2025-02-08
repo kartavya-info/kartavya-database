@@ -22,7 +22,7 @@ const studentSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
-  reportCard: {
+  result: {
     type: String,
     required: false,
   },

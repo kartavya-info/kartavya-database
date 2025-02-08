@@ -102,9 +102,10 @@ const DialogForPdfPreview = ({ studentData }) => {
                     })}
                   </div>
 
-                  <div className="hero2 w-[30%]">
+                  <div className="hero2 w-[30%] mr-5">
                     <img
-                      src="/profile.png"
+                      // src="/profile.png"
+                      src={studentData?.profilePhoto}
                       alt="profile-photo"
                       className="w-full h-auto object-contain"
                     />

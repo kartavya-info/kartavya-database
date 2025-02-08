@@ -1,7 +1,7 @@
 const User = require("../models/Users");
 const Student = require("../models/Students");
 const Sponsors = require("../models/Child_Sponsors");
-
+const azure = require("../azureStorage");
 const asyncHandler = require("express-async-handler");
 
 // @desc Create New Student
@@ -157,8 +157,6 @@ const updateStudent = asyncHandler(async (req, res) => {
       .json({ message: "Student must be in some school or class" });
   }
 
-  console.log(contactNumber, "contactNo");
-
   if (contactNumber && contactNumber.length !== 10) {
     return res.status(400).json({ message: "Invalid Contact number" });
   }
@@ -199,31 +197,86 @@ const updateStudent = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc Update a particular Student by rollNumber
-// @route PATCH/Students
+// @desc Update Result of a particular Student by rollNumber
+// @route PUT/Students
 // @access Private
-const updateResult = asyncHandler(async(req,res,resultUrl) => {
+const updateResult = asyncHandler(async (req, res, resultUrl) => {
   const rollNumber = req.params.rollNumber;
 
-  if(!rollNumber){
+  // Validate required parameters
+  if (!rollNumber) {
     return res.status(400).json({ message: "Roll Number required" });
   }
-  try{
-    const updatedStudent = await Student.findOneAndUpdate(
-      { rollNumber },
-      {
-        result:resultUrl
-      }
-    );
-  if (!updatedStudent) {
+
+  if (!resultUrl) {
+    return res.status(400).json({ message: "Result not uploaded properly" });
+  }
+
+  try {
+    const student = await Student.findOne({ rollNumber }).exec();
+    if (!student) {
       return res.status(404).json({ message: "Student not found" });
     }
 
+    const oldURL = student.result;
+    if (oldURL) {
+      await azure.deleteFromAzureBlob(oldURL);
+    }
+
+    student.result = resultUrl;
+    await student.save();
+
     res.status(200).json({
-      message: `Result of ${studentName} updated`,
+      message: `Result of ${student.studentName} updated successfully.`,
     });
-  }catch (error) {
-    res.status(500).json({ message: "Error updating the result of student", error });
+  } catch (error) {
+    console.error("Error updating student result:", error);
+    res.status(500).json({
+      message: "Error updating the result of student",
+      error: error.message,
+    });
+  }
+});
+
+// @desc Update profilePhoto of a particular Student by rollNumber
+// @route PATCH/Students/:rollNumber
+// @access Private
+const updateProfilePhoto = asyncHandler(async (req, res, profileUrl) => {
+  const rollNumber = req.params.rollNumber;
+
+  if (!rollNumber) {
+    return res.status(400).json({ message: "Roll Number required" });
+  }
+
+  if (!profileUrl) {
+    return res
+      .status(400)
+      .json({ message: "Profile photo not uploaded properly" });
+  }
+
+  try {
+    const student = await Student.findOne({ rollNumber }).exec();
+    if (!student) {
+      return res.status(404).json({ message: "Student not found" });
+    }
+
+    const oldURL = student.profilePhoto;
+    if (oldURL) {
+      await azure.deleteFromAzureBlob(oldURL);
+    }
+
+    student.profilePhoto = profileUrl;
+    await student.save();
+
+    res.status(200).json({
+      message: `Result of ${student.studentName} updated successfully.`,
+    });
+  } catch (error) {
+    console.error("Error updating student profile photo:", error);
+    res.status(500).json({
+      message: "Error updating the profile photo of student",
+      error: error.message,
+    });
   }
 });
 
@@ -258,4 +311,6 @@ module.exports = {
   getStudentByRoll,
   updateStudent,
   deleteStudent,
+  updateResult,
+  updateProfilePhoto,
 };
