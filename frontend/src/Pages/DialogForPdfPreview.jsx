@@ -31,14 +31,37 @@ const DialogForPdfPreview = ({ studentData }) => {
       console.error("PDF element not found");
       return;
     }
-    html2pdf(element)
+
+    await html2pdf()
+      .from(element)
       .set({
         margin: 0,
-        filename: "output.pdf",
-        jsPDF: { unit: "px", format: "a4" },
+        filename: `${studentData.studentName}_kartavya_dhanbad.pdf`,
+        jsPDF: { format: "a4", orientation: "portrait" },
       })
       .save();
   };
+
+  // const downloadPdf = async () => {
+  //   const element = document.querySelector("#pdf");
+  //   if (!element) {
+  //     console.error("PDF element not found");
+  //     return;
+  //   }
+
+  //   toast("downloadPdf called");
+
+  //   // Ensure only one download happens at a time
+  //   return new Promise((resolve) => {
+  //     html2pdf(element)
+  //       .set({
+  //         margin: 0,
+  //         filename: `${studentData.studentName}_kartavya_dhanbad.pdf`,
+  //         jsPDF: { unit: "px", format: "a4" },
+  //       })
+  //       .save();
+  //   });
+  // };
 
   const parseToDDMMYYYY = (date) => {
     if (!date) return;
@@ -105,7 +128,7 @@ const DialogForPdfPreview = ({ studentData }) => {
                   <div className="hero2 w-[30%] mr-5">
                     <img
                       // src="/profile.png"
-                      src={studentData?.profilePhoto}
+                      src={studentData?.profilePhoto || "/student.jpg"}
                       alt="profile-photo"
                       className="w-full h-auto object-contain"
                     />

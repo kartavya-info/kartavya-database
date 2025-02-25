@@ -22,11 +22,11 @@ const StudentTable = ({ filteredStudents }) => {
       </TableHeader>
       <TableBody>
         {filteredStudents?.map((student) => (
-          <TableRow key={student._id} className="hover:bg-gray-100">
+          <TableRow key={student._id} className="w-full hover:bg-gray-100">
             <TableCell>
               <Link
                 to={`/admin/${encodeURIComponent(student.rollNumber)}`}
-                className="flex items-center w-full h-full pl-2"
+                className="flex items-center h-full pl-2"
               >
                 <div className="font-medium">{student.studentName}</div>
               </Link>
@@ -34,7 +34,7 @@ const StudentTable = ({ filteredStudents }) => {
             <TableCell>
               <Link
                 to={`/admin/${encodeURIComponent(student.rollNumber)}`}
-                className="flex items-center w-full h-full"
+                className="flex items-center h-full"
               >
                 {student.class}
               </Link>
@@ -42,7 +42,7 @@ const StudentTable = ({ filteredStudents }) => {
             <TableCell>
               <Link
                 to={`/admin/${encodeURIComponent(student.rollNumber)}`}
-                className="flex items-center w-full h-full"
+                className="flex items-center h-full"
               >
                 {student.centre}
               </Link>
@@ -50,15 +50,17 @@ const StudentTable = ({ filteredStudents }) => {
             <TableCell>
               <Link
                 to={`/admin/${encodeURIComponent(student.rollNumber)}`}
-                className="flex items-center w-full h-full"
+                className={`flex items-center h-full font-semibold ${
+                  student.activeStatus ? "text-green-600" : "text-red-600"
+                }`}
               >
-                {student.activeStatus.toString()}
+                {student.activeStatus ? "Active" : "Inactive"}
               </Link>
             </TableCell>
             <TableCell>
               <Link
                 to={`/admin/${encodeURIComponent(student.rollNumber)}`}
-                className="flex items-center w-full h-full"
+                className="flex items-center h-full"
               >
                 {student.school}
               </Link>

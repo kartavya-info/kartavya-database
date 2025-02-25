@@ -10,10 +10,14 @@ import Sample from "@/components/MultiSelect";
 import EnterStudentDetails from "./Pages/EnterStudentDetails.jsx";
 import StudentSpreadsheet from "./Pages/StudentSpreadsheet.jsx";
 import StudentProfile from "./Pages/StudentProfile";
+import LoginUser from "./Pages/LoginUser";
+import HomePage from "./Pages/HomePage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/">
+      <Route path="/" element={<HomePage />} />
+      <Route path="/login" element={<LoginUser />} />
       <Route path="/enter-student-details" element={<EnterStudentDetails />} />
       <Route path="/student-spreadsheet" element={<StudentSpreadsheet />} />
       <Route path="/hello" element={<Sample />} />

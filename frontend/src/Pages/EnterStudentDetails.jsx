@@ -4,6 +4,8 @@ import EnterStudentDetails1 from "./EnterStudentDetails1";
 import { toast } from "react-toastify";
 import CheckboxComponent from "../components/CheckboxComponent";
 import { Input } from "@/components/ui/input";
+import AuthVerify from "@/helper/jwtVerify";
+import { useNavigate } from "react-router";
 
 const EnterStudentDetails = () => {
   const [isFirstPage, setIsFirstPage] = useState(true);
@@ -11,6 +13,8 @@ const EnterStudentDetails = () => {
   const handleProfilePictureChange = (e) => {
     setProfilePicture(e.target.files[0]);
   };
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
 
   const [formData, setFormData] = useState({
     studentName: "",
@@ -37,6 +41,12 @@ const EnterStudentDetails = () => {
     singleParent: false,
     releventCertificate: false,
   });
+
+  useEffect(() => {
+    if (!AuthVerify()) {
+      navigate("/login");
+    }
+  }, []);
 
   useEffect(() => {
     console.log(formData);
@@ -80,6 +90,9 @@ const EnterStudentDetails = () => {
 
       const res = await fetch(`http://localhost:3500/api/students/`, {
         method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
         body: formDataToSend,
       });
 

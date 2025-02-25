@@ -1,12 +1,15 @@
 import React, { useEffect, useMemo, useState } from "react";
 import StudentTable from "./StudentTable";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router";
 
 const SpreadsheetBody = ({ studentData }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [students, setStudents] = useState(studentData);
   const [studentsSearchedByName, setStudentsSearchedByName] =
     useState(students);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setStudentsSearchedByName(studentData);
@@ -24,11 +27,24 @@ const SpreadsheetBody = ({ studentData }) => {
     setSearchQuery(e.target.value);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    navigate("/login");
+  };
+
   return (
     <div className="relative flex flex-col justify-center items-center gap-10">
       <div className="w-full h-auto sticky top-0 border-b bg-white z-[100]">
-        <div className="heading w-full text-3xl font-bold text-center py-5">
+        <div className="heading relative w-full flex justify-center text-3xl font-bold text-center py-5">
           Student Details Spreadsheet
+          <Button
+            onClick={handleLogout}
+            varient="outline"
+            className="absolute right-10"
+          >
+            Log Out
+          </Button>
         </div>
         <div className="px-10 py-5">
           <Input

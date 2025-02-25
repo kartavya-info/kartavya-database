@@ -12,6 +12,7 @@ import { useNavigate, useParams } from "react-router";
 import { toast } from "react-toastify";
 import { AlertForDialogDeletion } from "@/components/AlertForStudentDeletion";
 import DialogForProfilePhotoUpdate from "./DialogForProfilePhotoUpdate";
+import AuthVerify from "@/helper/jwtVerify";
 
 // const studentDataFromBackend = {
 //   id: "1",
@@ -79,6 +80,15 @@ const StudentProfile = () => {
   const [studentData, setStudentData] = useState(null);
   const [studentDataChanged, setStudentDataChanged] = useState(false);
   const [loading, setLoading] = useState(true);
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    console.log("studentData", studentData);
+  }, [studentData]);
+
+  useEffect(() => {
+    if (!AuthVerify()) navigate("/login");
+  }, []);
 
   useEffect(() => {
     const fetchStudentData = async () => {
@@ -88,6 +98,9 @@ const StudentProfile = () => {
           {
             method: "GET",
             credentials: "include",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
         );
         if (!response.ok) throw new Error("Failed to fetch student data");
@@ -111,6 +124,7 @@ const StudentProfile = () => {
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
+    console.log("value", typeof value);
     setStudentData({
       ...studentData,
       [name]: type === "checkbox" ? checked : value,
@@ -127,12 +141,17 @@ const StudentProfile = () => {
         formDataToSend.append(key, studentData[key]);
       }
 
+      for (let [key, value] of formDataToSend.entries()) {
+        console.log(key, value);
+      }
+
       const res = await fetch(
         `http://localhost:3500/api/students/${encodeURIComponent(id)}`,
         {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(studentData),
         }
@@ -161,6 +180,9 @@ const StudentProfile = () => {
         `http://localhost:3500/api/students/${encodeURIComponent(id)}`,
         {
           method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
 
@@ -222,6 +244,23 @@ const StudentProfile = () => {
 
               <div className="font-semibold text-gray-700">Center:</div>
               <div className="col-span-2">{studentData?.centre}</div>
+
+              <div className="font-semibold text-gray-700">Status:</div>
+              <div className="col-span-2">
+                <select
+                  id={"activeStatus"}
+                  name={"activeStatus"}
+                  value={studentData?.activeStatus}
+                  className={`w-full outline-none rounded-lg font-semibold`}
+                  onChange={handleInputChange}
+                >
+                  <option value="" disabled>
+                    Select active status
+                  </option>
+                  <option value={true}>Active</option>
+                  <option value={false}>Inactive</option>
+                </select>
+              </div>
             </div>
           </div>
         </div>
@@ -285,7 +324,11 @@ const StudentProfile = () => {
                   type={"date"}
                   placeholder={"Date of birth"}
                   handleInputChange={handleInputChange}
-                  value={studentData?.dob}
+                  value={
+                    studentData?.dob
+                      ? new Date(studentData.dob).toISOString().split("T")[0]
+                      : ""
+                  }
                 />
               </div>
               <div className="w-full xl:w-1/2">
