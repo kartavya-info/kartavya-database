@@ -10,6 +10,7 @@ const corsOptions = require("./config/corsOptions");
 const connectDB = require("./config/DBconn.js");
 const mongoose = require("mongoose");
 const { logEvents } = require("./middleware/logger.js");
+const { checkToken, checkVerified } = require("./middleware.js");
 const PORT = process.env.PORT || 3500;
 
 console.log(process.env.NODE_ENV);
@@ -28,9 +29,13 @@ app.use(cookieParser());
 app.use("/", express.static(path.join(__dirname, "public")));
 
 app.use("/", require("./routes/root"));
-app.use("/users", require("./routes/userRoutes"));
-app.use("/api/students", require("./routes/studentRoutes.js"));
-//app.use("/api/students", require("./routes/apiRoutes.js"));
+app.use("/api/users", require("./routes/userRoutes"));
+app.use(
+  "/api/students",
+  checkToken,
+  checkVerified,
+  require("./routes/studentRoutes.js")
+);
 
 app.use(Errorhandler);
 

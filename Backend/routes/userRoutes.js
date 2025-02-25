@@ -1,10 +1,8 @@
-const express = require('express')
-const router = express.Router()
-const userController = require('../controllers/userControllers.js')
-router.route('/')
-    .get(userController.getallUsers)
-    .post(userController.createNewUser)
-    .patch(userController.updateUser)
-    .delete(userController.deleteUser)
+const express = require("express");
+const router = express.Router();
+const { checkToken, checkVerified } = require("../middleware");
 
-module.exports = router
+const userController = require("../controllers/userControllers.js");
+router.route("/").post(userController.loginUser);
+
+module.exports = router;

@@ -1,93 +1,60 @@
-const User = require('../models/Users')
-const Student = require('../models/Students')
-const Sponsors = require('../models/Child_Sponsors')
+const Users = require("../models/Users");
+const jwt = require("jsonwebtoken");
 
-const asyncHandler = require('express-async-handler')
-const bcrypt = require('bcrypt')
-//const Users = require('../models/Users')
+const loginUser = async (req, res) => {
+  try {
+    console.log(req.body, "req body");
+    const { username, password } = req.body;
+    console.log("username", username);
+    console.log("password", password);
 
-//@desc Get all Users
-//@route GET/Users
-//@access Private
-const getallUsers = asyncHandler(async (req,res) => {
-    const users = await User.find().select('-password').lean()
-    if (!users?.length){
-        return res.status(400).json({message: 'No user found'})
+    const user = await Users.findOne({ username });
+    if (!user) {
+      return res.status(401).json({
+        message: "Invalid credentials",
+      });
     }
-    res.json(users)
-})
+    // if (!user.validatePassword(password)) {
+    //   return res.status(401).json({
+    //     message: "Invalid credentials",
+    //   });
+    // }
 
-//@desc Create New Users
-//@route POST/Users
-//@access Private
-const createNewUser = asyncHandler(async (req,res) => {
-    const {username, password, roles} = req.body
+    const sanitizedUser = {
+      username: user.username,
+      name: user.name,
+      email: user.email,
+      contactNumber: user.contactNumber,
+      address: user.address,
+      dateOfBirth: user.dateOfBirth,
+      gender: user.gender,
+      currentJob: user.currentJob,
+      governmentOfficial: user.governmentOfficial,
+      ismPassout: user.ismPassout,
+      batch: user.batch,
+      kartavyaVolunteer: user.kartavyaVolunteer,
+      yearsOfService: user.yearsOfService,
+      typeOfSponsor: user.typeOfSponsor,
+      role: user.role,
+    };
+    const token = jwt.sign(sanitizedUser, process.env.JWT_KEY, {
+      expiresIn: "7d",
+    });
 
-    //confirm data
-    if (!username || !password || !Array.isArray(roles) || !roles.length){
-        return res.status(400).json({message: "All fields are required"})
-    }
-
-    //Check for Duplicates
-    const Duplicates= await User.findOne({username}).lean().exec()
-    if(Duplicates){
-        return res.status(400).json({message: "Duplicate username"})
-    }
-
-    const userObject = {username, password, roles}
-
-    const user = await User.create(userObject)
-    if(user){
-        res.status(201).json({message: 'New user ${username} created'})
-    }else{
-        res.status(400).json({message: 'Unable to create user'})
-    }
-})
-
-//@desc Update Users
-//@route PATCH/Users
-//@access Private
-
-const updateUser = asyncHandler(async (req,res) => {
-    const {username, password, roles}= req.body
-    if(!username || !password || !Array.isArray(roles) || !roles.length){
-        return res.status(400).json({message: 'All fields required'})
-    }
-
-    const user = await User.findOne({username}).exec()
-
-    if(!user){
-        return res.json({message: 'User not found'})
-    }
-
-    user.password = password
-    user.roles = roles
-
-    const updatedUser = await user.save()
-    res.json({message: '${updatedUser.username} updated'})
-})
-//@desc delete User
-//@route DELETE/Users
-//@access Private
-const deleteUser = asyncHandler(async (req,res) => {
-    const {username} = req.body
-    
-    if(!username){
-        return res.status(400).json({message: 'Username required'})
-    }
-
-    const user = await User.findOne({username}).exec()
-    if(!user){
-        return res.status(400).json({message: 'User not found'})
-    }
-
-    const result = await user.deleteOne()
-    res.json({message: 'User Deleted'})
-})
+    return res.status(200).json({
+      message: "Login successful",
+      token,
+      user: sanitizedUser,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      name: err.name,
+      error: err.message,
+    });
+  }
+};
 
 module.exports = {
-    getallUsers,
-    createNewUser,
-    updateUser,
-    deleteUser
-}
+  loginUser,
+};

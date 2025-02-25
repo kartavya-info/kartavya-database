@@ -136,6 +136,7 @@ const updateStudent = asyncHandler(async (req, res) => {
     centre,
     currentSession,
     contactNumber,
+    activeStatus,
   } = req.body;
 
   if (
@@ -146,6 +147,7 @@ const updateStudent = asyncHandler(async (req, res) => {
     !fathersName ||
     !centre
   ) {
+    console.log("body", req.body);
     return res
       .status(400)
       .json({ message: "Please fill the compulsory information" });
@@ -182,6 +184,7 @@ const updateStudent = asyncHandler(async (req, res) => {
         centre,
         currentSession,
         contactNumber,
+        activeStatus,
       }
     );
 
