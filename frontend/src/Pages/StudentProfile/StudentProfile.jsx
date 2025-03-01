@@ -15,6 +15,8 @@ import DialogForProfilePhotoUpdate from "../../components/Dialogs/DialogForProfi
 import AuthVerify from "@/helper/jwtVerify";
 import Loader from "@/components/Loader";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import TextareaComponent from "@/components/Form/TextareaComponent";
 
 const StudentProfile = () => {
   const navigate = useNavigate();
@@ -189,9 +191,9 @@ const StudentProfile = () => {
                   className={`w-full outline-none rounded-lg font-semibold`}
                   onChange={handleInputChange}
                 >
-                  <option value="" disabled>
+                  {/* <option value="" disabled>
                     Select active status
-                  </option>
+                  </option> */}
                   <option value={true}>Active</option>
                   <option value={false}>Inactive</option>
                 </select>
@@ -605,7 +607,7 @@ const StudentProfile = () => {
                   type="number"
                   name="annualFees"
                   placeholder="Annual Fees"
-                  className="p-2 text-sm font-semibold rounded-lg"
+                  className="p-2 text-sm font-semibold rounded-lg bg-white"
                   value={studentData?.annualFees}
                   onChange={handleInputChange}
                 />
@@ -624,8 +626,8 @@ const StudentProfile = () => {
                   type="number"
                   name="sponsorshipPercent"
                   placeholder="Sponsorship %"
-                  className="p-2 text-sm font-semibold outline-none rounded-lg"
-                  value={studentData?.sponsorshipPercent}
+                  className="p-2 text-sm font-semibold outline-none rounded-lg bg-white"
+                  value={studentData?.sponsorshipPercent || 0}
                   onChange={handleInputChange}
                 />
               </div>
@@ -669,7 +671,7 @@ const StudentProfile = () => {
                 <Input
                   type="text"
                   name="sponserName"
-                  className="p-2 text-sm font-semibold rounded-lg"
+                  className="p-2 text-sm font-semibold rounded-lg bg-white"
                   placeholder="Enter sponsor name"
                   value={studentData?.sponserName}
                   onChange={handleInputChange}
@@ -688,7 +690,7 @@ const StudentProfile = () => {
                 <Input
                   type="number"
                   name="amountBySponsor"
-                  className="p-2 text-sm font-semibold rounded-lg outline-none"
+                  className="p-2 text-sm font-semibold rounded-lg outline-none bg-white"
                   placeholder="Enter total amount"
                   value={studentData?.amountBySponsor}
                   onChange={handleInputChange}
@@ -742,6 +744,22 @@ const StudentProfile = () => {
               />
             </div>
           </div> */}
+
+        {/* comment section */}
+
+        <div className="result-details w-[90%] m-auto mt-20">
+          <div className="w-full flex justify-between text-2xl font-semibold text-primary mb-5">
+            Remarks about student
+          </div>
+          <div>
+            <TextareaComponent
+              name="comment"
+              placeholder="Write comment about the student"
+              value={studentData?.comment}
+              handleInputChange={handleInputChange}
+            />
+          </div>
+        </div>
 
         {/* Download Profile option */}
         <div className="download-profile w-[90%] m-auto mt-32">

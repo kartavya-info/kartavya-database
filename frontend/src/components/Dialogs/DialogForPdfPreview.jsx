@@ -42,27 +42,6 @@ const DialogForPdfPreview = ({ studentData }) => {
       .save();
   };
 
-  // const downloadPdf = async () => {
-  //   const element = document.querySelector("#pdf");
-  //   if (!element) {
-  //     console.error("PDF element not found");
-  //     return;
-  //   }
-
-  //   toast("downloadPdf called");
-
-  //   // Ensure only one download happens at a time
-  //   return new Promise((resolve) => {
-  //     html2pdf(element)
-  //       .set({
-  //         margin: 0,
-  //         filename: `${studentData.studentName}_kartavya_dhanbad.pdf`,
-  //         jsPDF: { unit: "px", format: "a4" },
-  //       })
-  //       .save();
-  //   });
-  // };
-
   const parseToDDMMYYYY = (date) => {
     if (!date) return;
     return format(parseISO(date), "dd-MM-yyyy");
@@ -183,7 +162,7 @@ const DialogForPdfPreview = ({ studentData }) => {
                   </div>
                 </div>
 
-                <div className="general-info w-full mt-20 pl-10 text-lg flex flex-col gap-3">
+                <div className="general-info w-full mt-3 pl-10 text-lg flex flex-col gap-3">
                   <div className="w-full flex">
                     <div className="font-semibold w-[40%]">
                       Annual Family Income
@@ -195,11 +174,10 @@ const DialogForPdfPreview = ({ studentData }) => {
                   </div>
 
                   <div className="w-full flex">
-                    <div className="font-semibold w-[40%]">
-                      Any Other Information
-                    </div>
+                    <div className="font-semibold w-[40%]">Remarks</div>
                     <div className="w-[60%]">
                       <span className="font-semibold pr-2">:</span>
+                      {studentData?.comment}
                     </div>
                   </div>
                 </div>

@@ -16,9 +16,11 @@ const SelectComponent = ({
 }) => {
   return (
     <div className="flex flex-col gap-1 pl-[2.5%] pr-[2.5%] xl:w-[90%]">
-      <label htmlFor={name} className="text-sm font-semibold">
-        {title} <span className="text-red-500">*</span>
-      </label>
+      {title && (
+        <label htmlFor={name} className="text-sm font-semibold">
+          {title} <span className="text-red-500">*</span>
+        </label>
+      )}
       <Select
         value={value}
         onValueChange={(value) =>
