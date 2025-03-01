@@ -5,13 +5,13 @@ import { createBrowserRouter } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./index.css";
-import Sample from "@/components/MultiSelect";
+import Sample from "@/components/Form/MultiSelect";
 
-import EnterStudentDetails from "./Pages/EnterStudentDetails.jsx";
-import StudentSpreadsheet from "./Pages/StudentSpreadsheet.jsx";
-import StudentProfile from "./Pages/StudentProfile";
-import LoginUser from "./Pages/LoginUser";
-import HomePage from "./Pages/HomePage";
+import EnterStudentDetails from "./Pages/AddNewStudent/EnterStudentDetails";
+import StudentSpreadsheet from "./Pages/StudentSpreadsheet/StudentSpreadsheet.jsx";
+import StudentProfile from "./Pages/StudentProfile/StudentProfile";
+import LoginUser from "./Pages/Login/LoginUser";
+import HomePage from "./Pages/HomePage/HomePage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(

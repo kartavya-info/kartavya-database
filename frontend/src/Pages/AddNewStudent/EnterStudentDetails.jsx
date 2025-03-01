@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import HeaderForEnputStudentDetails from "../components/HeaderForEnputStudentDetails";
+import HeaderForInputStudentDetails from "@/components/HeaderForInputStudentDetails";
 import EnterStudentDetails1 from "./EnterStudentDetails1";
 import { toast } from "react-toastify";
-import CheckboxComponent from "../components/CheckboxComponent";
+import CheckboxComponent from "@/components/Form/CheckboxComponent";
 import { Input } from "@/components/ui/input";
 import AuthVerify from "@/helper/jwtVerify";
 import { useNavigate } from "react-router";
@@ -112,7 +112,7 @@ const EnterStudentDetails = () => {
 
   return (
     <div className="w-screen h-screen bg-[radial-gradient(ellipse_at_center,rgba(222,80,85,0.4),transparent),radial-gradient(ellipse_at_top_left,rgba(205,214,219,0.8),rgba(255,255,255,0.8),rgba(255,255,255,0)),radial-gradient(ellipse_at_top_right,rgba(205,214,219,0.8),rgba(255,255,255,0.8),rgba(255,255,255,0)),radial-gradient(ellipse_at_bottom_left,rgba(205,214,219,0.8),rgba(255,255,255,0.8),rgba(255,255,255,0)),radial-gradient(ellipse_at_bottom_right,rgba(205,214,219,0.8),rgba(255,255,255,0.8),rgba(255,255,255,0))]">
-      <HeaderForEnputStudentDetails />
+      <HeaderForInputStudentDetails />
       <div className="flex flex-col w-full xl:flex-row xl:h-[calc(100vh-7rem)]">
         <div className="flex justify-center items-center w-full h-[500px] xl:w-2/5 xl:h-full">
           <img

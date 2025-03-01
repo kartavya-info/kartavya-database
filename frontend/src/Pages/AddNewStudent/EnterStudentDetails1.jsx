@@ -1,6 +1,6 @@
 import React from "react";
-import InputComponent from "../components/InputComponent";
-import SelectComponent from "../components/SelectComponent";
+import InputComponent from "@/components/Form/InputComponent";
+import SelectComponent from "@/components/Form/SelectComponent";
 import { Button } from "@/components/ui/button";
 
 const EnterStudentDetails1 = ({ handleClick, handleInputChange, formData }) => {
