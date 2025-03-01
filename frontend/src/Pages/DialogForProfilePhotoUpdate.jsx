@@ -25,6 +25,7 @@ const DialogForProfilePhotoUpdate = ({ photoExists }) => {
   };
 
   const handleUpdateProfile = async () => {
+    const token = localStorage.getItem("token");
     setUploading(true);
     const dataToSend = new FormData();
     try {
@@ -40,6 +41,9 @@ const DialogForProfilePhotoUpdate = ({ photoExists }) => {
         {
           method: "PATCH",
           body: dataToSend,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
 
@@ -61,10 +65,7 @@ const DialogForProfilePhotoUpdate = ({ photoExists }) => {
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild className="flex justify-end">
         <div className="w-full flex justify-end">
-          <Button
-            variant="outline"
-            className="w-10 h-10 bg-[#21526E] text-white rounded-[50%]"
-          >
+          <Button className="w-10 h-10 rounded-[50%]">
             <Pencil1Icon />
           </Button>
         </div>
@@ -90,7 +91,7 @@ const DialogForProfilePhotoUpdate = ({ photoExists }) => {
         </div>
         <DialogFooter className="">
           <Button type="submit" onClick={handleUpdateProfile}>
-            {uploading ? "Uploading..." : "Upload result"}
+            {uploading ? "Uploading..." : "Upload photo"}
           </Button>
         </DialogFooter>
       </DialogContent>

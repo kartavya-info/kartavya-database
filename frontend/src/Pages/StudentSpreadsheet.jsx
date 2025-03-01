@@ -4,6 +4,7 @@ import SpreadsheetBody from "./SpreadsheetBody";
 import { toast } from "react-toastify";
 import FilterComponent from "@/components/Filters/DropdownMenu";
 import { useNavigate } from "react-router-dom";
+import Loader from "@/components/Loader";
 
 const Classes = [
   {
@@ -46,6 +47,14 @@ const Classes = [
     value: "10",
     label: "10",
   },
+  {
+    value: "11",
+    label: "11",
+  },
+  {
+    value: "12",
+    label: "12",
+  },
 ];
 
 const Centres = [
@@ -57,8 +66,8 @@ const Centres = [
 ];
 
 const SponsorshipStatus = [
-  { label: "Yes", value: "yes" },
-  { label: "No", value: "no" },
+  { label: "Yes", value: true },
+  { label: "No", value: false },
 ];
 
 const Schools = [
@@ -78,9 +87,8 @@ const Schools = [
 ];
 
 const ActiveStatus = [
-  { label: "Active", value: "Active" },
-  { label: "Inactive", value: "Inactive" },
-  { label: "Suspended", value: "Suspended" },
+  { label: "Active", value: true },
+  { label: "Inactive", value: false },
 ];
 
 const StudentSpreadsheet = () => {
@@ -161,7 +169,7 @@ const StudentSpreadsheet = () => {
     }));
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <Loader />;
 
   return (
     <div className="flex select-none overflow-hidden relative">

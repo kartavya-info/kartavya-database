@@ -25,6 +25,7 @@ const DialogForResultEdit = ({ resultExists }) => {
   };
 
   const handleResultSubmit = async () => {
+    const token = localStorage.getItem("token");
     setUploading(true);
     const resultToSend = new FormData();
     try {
@@ -40,6 +41,9 @@ const DialogForResultEdit = ({ resultExists }) => {
         {
           method: "PATCH",
           body: resultToSend,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
 
@@ -62,7 +66,7 @@ const DialogForResultEdit = ({ resultExists }) => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" className="bg-[#21526E] text-white">
+        <Button>
           <Pencil1Icon />{" "}
           <span className="ml-2">
             {resultExists ? "Edit result" : "Add result"}

@@ -1,5 +1,5 @@
-import { useState } from 'react'; // Import useState for managing local state
-import { Button } from '@/components/ui/button';
+import { useState } from "react"; // Import useState for managing local state
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -8,9 +8,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -19,18 +19,18 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Pencil1Icon } from '@radix-ui/react-icons';
+} from "@/components/ui/select";
+import { Pencil1Icon } from "@radix-ui/react-icons";
 
 const DialogForAttendanceEdit = ({ studentData, setStudentData }) => {
-  const [selectedMonth, setSelectedMonth] = useState('');
+  const [selectedMonth, setSelectedMonth] = useState("");
   const [totalDays, setTotalDays] = useState(0);
   const [presentDays, setPresentDays] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleAttendenceEdit = () => {
-    if (totalDays === '') setTotalDays(0);
-    if (presentDays === '') setPresentDays(0);
+    if (totalDays === "") setTotalDays(0);
+    if (presentDays === "") setPresentDays(0);
 
     const updatedAttendence = {
       ...studentData.attendence,
@@ -72,7 +72,7 @@ const DialogForAttendanceEdit = ({ studentData, setStudentData }) => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" className="bg-[#21526E] text-white">
+        <Button variant="outline">
           <Pencil1Icon /> <span className="ml-2"> Edit Attendance</span>
         </Button>
       </DialogTrigger>

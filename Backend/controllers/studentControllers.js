@@ -1,5 +1,5 @@
-const User = require("../models/Users");
-const Student = require("../models/Students");
+const User = require("../models/User");
+const Student = require("../models/Student");
 const Sponsors = require("../models/Child_Sponsors");
 const azure = require("../azureStorage");
 const asyncHandler = require("express-async-handler");
@@ -23,6 +23,12 @@ const addNewStudent = asyncHandler(async (req, res, profilePictureUrl) => {
     centre,
     currentSession,
     contactNumber,
+    aadhar,
+    domicile,
+    birthCertificate,
+    disability,
+    singleParent,
+    relevantCertificate,
   } = req.body;
 
   if (!studentName || !gender || !dob || !fathersName || !centre) {
@@ -72,6 +78,12 @@ const addNewStudent = asyncHandler(async (req, res, profilePictureUrl) => {
     currentSession,
     contactNumber,
     profilePhoto: profilePictureUrl,
+    aadhar,
+    domicile,
+    birthCertificate,
+    disability,
+    singleParent,
+    relevantCertificate,
   };
 
   const stud = await Student.create(studentObject);
@@ -137,6 +149,15 @@ const updateStudent = asyncHandler(async (req, res) => {
     currentSession,
     contactNumber,
     activeStatus,
+    sponsorshipStatus,
+    annualFees,
+    sponsorshipPercent,
+    aadhar,
+    domicile,
+    birthCertificate,
+    disability,
+    singleParent,
+    relevantCertificate,
   } = req.body;
 
   if (
@@ -162,8 +183,22 @@ const updateStudent = asyncHandler(async (req, res) => {
   if (contactNumber && contactNumber.length !== 10) {
     return res.status(400).json({ message: "Invalid Contact number" });
   }
+
   if (annualIncome <= 0) {
     return res.status(400).json({ message: "Invalid Annual Income" });
+  }
+
+  if (
+    (sponsorshipStatus === true && sponsorshipPercent == 0) ||
+    (sponsorshipStatus === false && sponsorshipPercent != 0)
+  ) {
+    return res
+      .status(400)
+      .json({ message: "Enter valid sponsorship % for student" });
+  }
+
+  if (sponsorshipPercent < 0 || sponsorshipPercent > 100) {
+    return res.status(400).json({ message: "Invalid Sponsorship Percent" });
   }
 
   try {
@@ -185,6 +220,15 @@ const updateStudent = asyncHandler(async (req, res) => {
         currentSession,
         contactNumber,
         activeStatus,
+        sponsorshipStatus,
+        annualFees,
+        sponsorshipPercent,
+        aadhar,
+        domicile,
+        birthCertificate,
+        disability,
+        singleParent,
+        relevantCertificate,
       }
     );
 

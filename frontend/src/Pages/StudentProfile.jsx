@@ -13,65 +13,8 @@ import { toast } from "react-toastify";
 import { AlertForDialogDeletion } from "@/components/AlertForStudentDeletion";
 import DialogForProfilePhotoUpdate from "./DialogForProfilePhotoUpdate";
 import AuthVerify from "@/helper/jwtVerify";
-
-// const studentDataFromBackend = {
-//   id: "1",
-//   name: "Mahi Kumari",
-//   gender: "Female",
-//   session: "2024-25",
-//   dob: "2014-06-06",
-//   class: "4",
-//   center: "C2",
-//   school: "Lucious Public School",
-//   fatherName: "FatherName",
-//   fatherOccupation: "FatherOccupation",
-//   motherName: "MotherName",
-//   motherOccupation: "MotherOccupation",
-//   address: "Dhanbad",
-//   familyIncome: 120000,
-//   contactNumber: "1234567890",
-//   aadhar: true,
-//   domicile: true,
-//   birthCertificate: true,
-//   disability: false,
-//   singleParent: true,
-//   releventCertificate: true,
-//   isSponsored: true,
-//   annualFees: 10000,
-//   payTotalFees: true,
-//   feesWePay: 0,
-//   sponserId: 1,
-//   sponserName: "XYZ",
-//   amountBySponsor: 10000,
-//   results: {
-//     "2022-23": {
-//       midTerm: "60",
-//       endTerm: "80",
-//     },
-//     "2023-24": {
-//       midTerm: "70",
-//       endTerm: "92",
-//     },
-//     "2024-25": {
-//       midTerm: "85",
-//       endTerm: "90",
-//     },
-//   },
-//   attendence: {
-//     Jan: { totalDays: 22, presentDays: 18 },
-//     Feb: { totalDays: 20, presentDays: 16 },
-//     Mar: { totalDays: 20, presentDays: 16 },
-//     Apr: { totalDays: 20, presentDays: 16 },
-//     May: { totalDays: 20, presentDays: 16 },
-//     Jun: { totalDays: 20, presentDays: 16 },
-//     Jul: { totalDays: 20, presentDays: 16 },
-//     Aug: { totalDays: 20, presentDays: 16 },
-//     Sept: { totalDays: 20, presentDays: 16 },
-//     Oct: { totalDays: 20, presentDays: 16 },
-//     Nov: { totalDays: 20, presentDays: 16 },
-//     Dec: { totalDays: 20, presentDays: 16 },
-//   },
-// };
+import Loader from "@/components/Loader";
+import { Input } from "@/components/ui/input";
 
 const StudentProfile = () => {
   const navigate = useNavigate();
@@ -107,24 +50,20 @@ const StudentProfile = () => {
         const data = await response.json();
 
         setStudentData(data);
-        setLoading(false);
       } catch (error) {
-        setLoading(false);
         toast.error("Error fetching student");
         console.error("Error fetching student data:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchStudentData();
   }, [id]);
 
-  // useEffect(() => {
-  //   console.log(studentData, "studentData");
-  // }, [studentData]);
-
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
-    console.log("value", typeof value);
+
     setStudentData({
       ...studentData,
       [name]: type === "checkbox" ? checked : value,
@@ -199,12 +138,8 @@ const StudentProfile = () => {
     }
   };
 
-  {
-    loading && (
-      <div className="flex justify-center items-center text-4xl font-semibold">
-        Loading...
-      </div>
-    );
+  if (loading) {
+    return <Loader />;
   }
 
   return (
@@ -229,7 +164,7 @@ const StudentProfile = () => {
           </div>
 
           <div className="basic-details p-4">
-            <div className="label text-xl font-bold text-[#21526E] mb-4">
+            <div className="label text-xl font-bold text-primary mb-4">
               Basic Details
             </div>
             <div className="grid grid-cols-3 gap-4">
@@ -275,14 +210,10 @@ const StudentProfile = () => {
         {/* General Details */}
 
         <div className="general-details w-[90%] m-auto mt-10">
-          <div className="w-full flex justify-between text-2xl h-10 font-semibold text-[#21526E]">
+          <div className="w-full flex justify-between text-2xl h-10 font-semibold text-primary">
             General Details
             {studentDataChanged && (
-              <Button
-                onClick={handleSaveChanges}
-                variant="outline"
-                className="bg-[#21526E] text-white"
-              >
+              <Button onClick={handleSaveChanges}>
                 <CheckIcon /> <span className="ml-2"> Save Changes</span>
               </Button>
             )}
@@ -490,7 +421,7 @@ const StudentProfile = () => {
         <div className="flex w-[90%] m-auto mt-20">
           {/* Document Details */}
           <div className="document-details flex flex-col w-full gap-[1.55rem]">
-            <div className="w-full text-2xl font-semibold text-[#21526E] mb-5">
+            <div className="w-full text-2xl font-semibold text-primary mb-5">
               Document Details
             </div>
             {/* Aadhar Details */}
@@ -611,12 +542,12 @@ const StudentProfile = () => {
             {/* Relevant Ceritificate  Details */}
             <div className="flex items-center space-x-2 pl-[2.5%] pr-[2.5%]">
               <Checkbox
-                id="releventCertificate"
-                checked={studentData?.releventCertificate}
+                id="relevantCertificate"
+                checked={studentData?.relevantCertificate}
                 onCheckedChange={(checked) =>
                   handleInputChange({
                     target: {
-                      name: "releventCertificate",
+                      name: "relevantCertificate",
                       type: "checkbox",
                       checked: checked,
                     },
@@ -624,10 +555,10 @@ const StudentProfile = () => {
                 }
               />
               <label
-                htmlFor="releventCertificate"
+                htmlFor="relevantCertificate"
                 className="font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
-                Relevent Certificate for single parent
+                Relevant Certificate for Single Parent
               </label>
             </div>
           </div>
@@ -636,7 +567,7 @@ const StudentProfile = () => {
 
           {/* Sponsorship Details */}
           <div className="sponsorhip-details flex flex-col w-full gap-2">
-            <div className="w-full text-2xl font-semibold text-[#21526E] mb-5">
+            <div className="w-full text-2xl font-semibold text-primary mb-5">
               Sponsorship Details
             </div>
 
@@ -648,12 +579,12 @@ const StudentProfile = () => {
                 Do we sponsor this student?
               </label>
               <Checkbox
-                id="isSponsored"
-                checked={studentData?.isSponsored}
+                id="sponsorshipStatus"
+                checked={studentData?.sponsorshipStatus}
                 onCheckedChange={(checked) =>
                   handleInputChange({
                     target: {
-                      name: "isSponsored",
+                      name: "sponsorshipStatus",
                       type: "checkbox",
                       checked: checked,
                     },
@@ -661,20 +592,20 @@ const StudentProfile = () => {
                 }
               />
               <span className="font-semibold ml-5">
-                {studentData?.isSponsored ? "Yes" : "No"}
+                {studentData?.sponsorshipStatus ? "Yes" : "No"}
               </span>
             </div>
 
             <div className="annual-school-fees flex items-center w-full h-9 pl-[2.5%] pr-[2.5%]">
               <label className="w-[60%] font-semibold">
-                Annual School Fees of student
+                Annual School Fees
               </label>
               <div className="w-[200px]">
-                <input
+                <Input
                   type="number"
                   name="annualFees"
                   placeholder="Annual Fees"
-                  className="p-2 text-sm font-semibold outline-none rounded-lg"
+                  className="p-2 text-sm font-semibold rounded-lg"
                   value={studentData?.annualFees}
                   onChange={handleInputChange}
                 />
@@ -686,27 +617,21 @@ const StudentProfile = () => {
                 htmlFor="payTotalFees"
                 className="w-[60%] font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
-                Do we pay total school fees
+                Sponsorship Percentage
               </label>
-              <Checkbox
-                id="payTotalFees"
-                checked={studentData?.payTotalFees}
-                onCheckedChange={(checked) =>
-                  handleInputChange({
-                    target: {
-                      name: "payTotalFees",
-                      type: "checkbox",
-                      checked: checked,
-                    },
-                  })
-                }
-              />
-              <span className="font-semibold ml-5">
-                {studentData?.payTotalFees ? "Yes" : "No"}
-              </span>
+              <div className="w-[200px]">
+                <Input
+                  type="number"
+                  name="sponsorshipPercent"
+                  placeholder="Sponsorship %"
+                  className="p-2 text-sm font-semibold outline-none rounded-lg"
+                  value={studentData?.sponsorshipPercent}
+                  onChange={handleInputChange}
+                />
+              </div>
             </div>
 
-            <div className="flex items-center w-full h-9 pl-[2.5%] pr-[2.5%]">
+            {/* <div className="flex items-center w-full h-9 pl-[2.5%] pr-[2.5%]">
               <label
                 htmlFor="feesWePay"
                 className="w-[60%] font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -731,7 +656,7 @@ const StudentProfile = () => {
                   onChange={handleInputChange}
                 />
               </div>
-            </div>
+            </div> */}
 
             <div className="flex items-center w-full h-9 pl-[2.5%] pr-[2.5%]">
               <label
@@ -741,11 +666,11 @@ const StudentProfile = () => {
                 Name of Sponsor
               </label>
               <div className="w-[200px]">
-                <input
+                <Input
                   type="text"
                   name="sponserName"
                   className="p-2 text-sm font-semibold rounded-lg"
-                  placeholder="Enter sponser name"
+                  placeholder="Enter sponsor name"
                   value={studentData?.sponserName}
                   onChange={handleInputChange}
                 />
@@ -760,7 +685,7 @@ const StudentProfile = () => {
                 Total Amount by Sponsor
               </label>
               <div className="w-[200px]">
-                <input
+                <Input
                   type="number"
                   name="amountBySponsor"
                   className="p-2 text-sm font-semibold rounded-lg outline-none"
@@ -778,14 +703,14 @@ const StudentProfile = () => {
         {/* Result Details */}
 
         <div className="result-details w-[90%] m-auto mt-20">
-          <div className="w-full flex justify-between text-2xl font-semibold text-[#21526E] mb-5">
+          <div className="w-full flex justify-between text-2xl font-semibold text-primary mb-5">
             Result Details
             <DialogForResultEdit resultExists={studentData?.result} />
           </div>
 
           {studentData?.result && (
             <div className="filters flex flex-col gap-10 p-[25px]">
-              <div className="profile-photo h-full rounded-lg border">
+              <div className="result h-full rounded-lg border">
                 <img src={studentData?.result} alt="result"></img>
               </div>
             </div>
@@ -802,7 +727,7 @@ const StudentProfile = () => {
 
         {/* Attendence details */}
         {/* <div className="attendence-details w-[90%] m-auto mt-20">
-            <div className="w-full flex justify-between text-2xl font-semibold text-[#21526E] mb-5">
+            <div className="w-full flex justify-between text-2xl font-semibold text-primary mb-5">
               Attendence Details
               <DialogForAttendenceEdit
                 studentData={studentData}
@@ -820,14 +745,10 @@ const StudentProfile = () => {
 
         {/* Download Profile option */}
         <div className="download-profile w-[90%] m-auto mt-32">
-          <div className="w-full flex justify-center gap-5 text-2xl font-semibold text-[#21526E] mb-5">
+          <div className="w-full flex justify-center gap-5 text-2xl font-semibold text-primary mb-5">
             <DialogForPdfPreview studentData={studentData} />
             {studentDataChanged && (
-              <Button
-                onClick={handleSaveChanges}
-                variant="outline"
-                className="bg-[#21526E] text-white"
-              >
+              <Button onClick={handleSaveChanges}>
                 <CheckIcon /> <span className="ml-2"> Save Changes</span>
               </Button>
             )}

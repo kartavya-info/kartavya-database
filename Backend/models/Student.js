@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const Autoincrement = require("mongoose-sequence")(mongoose);
 
 const studentSchema = new mongoose.Schema({
   studentName: {
@@ -82,7 +81,7 @@ const studentSchema = new mongoose.Schema({
   sponsorId: {
     type: mongoose.Schema.Types.ObjectId,
     required: false,
-    ref: "Child_Sponsors",
+    ref: "User",
   },
   sponsorshipPercent: {
     type: Number,
@@ -120,4 +119,4 @@ const studentSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Students", studentSchema);
+module.exports = mongoose.model("Student", studentSchema);

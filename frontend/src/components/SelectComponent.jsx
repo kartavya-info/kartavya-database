@@ -1,28 +1,43 @@
-import React from 'react';
+import React from "react";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
 
-const SelectComponent = ({ title, name, options, value, handleInputChange}) => {
+const SelectComponent = ({
+  title,
+  name,
+  options,
+  value,
+  handleInputChange,
+}) => {
   return (
     <div className="flex flex-col gap-1 pl-[2.5%] pr-[2.5%] xl:w-[90%]">
       <label htmlFor={name} className="text-sm font-semibold">
         {title} <span className="text-red-500">*</span>
       </label>
-      <div className={`relative`}>
-        <select
-          id={name}
-          name={name}
-          required={true}
-          value={value}
-          className={`w-full outline-none rounded-lg p-2 font-semibold text-sm`} 
-          onChange={handleInputChange}
-        >
-          <option value="" disabled>Select {name}</option>
+      <Select
+        value={value}
+        onValueChange={(value) =>
+          handleInputChange({
+            target: { name, value, type: "select" },
+          })
+        }
+      >
+        <SelectTrigger className="w-full rounded-lg p-2 font-semibold text-sm bg-white">
+          <SelectValue placeholder={`Select ${name}`} />
+        </SelectTrigger>
+        <SelectContent>
           {options.map((option, index) => (
-            <option key={index} value={option.value}>
+            <SelectItem key={index} value={option.value}>
               {option.value}
-            </option>
+            </SelectItem>
           ))}
-        </select>
-      </div>
+        </SelectContent>
+      </Select>
     </div>
   );
 };

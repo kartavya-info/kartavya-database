@@ -6,6 +6,7 @@ import CheckboxComponent from "../components/CheckboxComponent";
 import { Input } from "@/components/ui/input";
 import AuthVerify from "@/helper/jwtVerify";
 import { useNavigate } from "react-router";
+import { Button } from "@/components/ui/button";
 
 const EnterStudentDetails = () => {
   const [isFirstPage, setIsFirstPage] = useState(true);
@@ -39,7 +40,7 @@ const EnterStudentDetails = () => {
     birthCertificate: false,
     disability: false,
     singleParent: false,
-    releventCertificate: false,
+    relevantCertificate: false,
   });
 
   useEffect(() => {
@@ -102,6 +103,7 @@ const EnterStudentDetails = () => {
       }
 
       toast.success("Form submitted successfully!");
+      navigate(0);
     } catch (e) {
       toast.error(`Error submitting form: ${e.message}`);
       return;
@@ -153,7 +155,6 @@ const EnterStudentDetails = () => {
                 <div className="file-input w-full  flex justify-between">
                   <label htmlFor="fileInput" className="text-sm font-semibold">
                     Upload passport size picture of student
-                    <span className="text-red-500">*</span>
                   </label>
                   {/* <input type="file" id="fileInput"></input> */}
                   <div className="file-input-container">
@@ -212,9 +213,9 @@ const EnterStudentDetails = () => {
 
                   <div className="ml-10">
                     <CheckboxComponent
-                      title="Do you have Relevent Certificate ?"
-                      name="releventCertificate"
-                      checked={formData.releventCertificate}
+                      title="Do you have relevantCertificate Certificate ?"
+                      name="relevantCertificate"
+                      checked={formData.relevantCertificate}
                       handleChange={handleInputChange}
                     />
                   </div>
@@ -223,18 +224,18 @@ const EnterStudentDetails = () => {
 
               <div className="flex items-center w-full pt-24">
                 <div className="flex justify-center w-[90%] pl-[2.5%] pr-[2.5%] gap-10">
-                  <button
+                  <Button
                     onClick={handleClick}
-                    className="w-[150px] p-2 rounded-lg bg-[#21526E] text-white"
+                    className="w-[150px] p-2 rounded-lg"
                   >
                     Back
-                  </button>
-                  <button
+                  </Button>
+                  <Button
                     onClick={handleSubmitForm}
-                    className="w-[150px] p-2 rounded-lg bg-[#21526E] text-white"
+                    className="w-[150px] p-2 rounded-lg"
                   >
                     Submit
-                  </button>
+                  </Button>
                 </div>
               </div>
             </div>

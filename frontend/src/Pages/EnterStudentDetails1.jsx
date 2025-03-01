@@ -1,6 +1,7 @@
 import React from "react";
 import InputComponent from "../components/InputComponent";
 import SelectComponent from "../components/SelectComponent";
+import { Button } from "@/components/ui/button";
 
 const EnterStudentDetails1 = ({ handleClick, handleInputChange, formData }) => {
   return (
@@ -208,12 +209,9 @@ const EnterStudentDetails1 = ({ handleClick, handleInputChange, formData }) => {
 
         <div className="flex items-center w-full pt-2">
           <div className="flex justify-center w-[90%] pl-[6%] pr-[2.5%]">
-            <button
-              onClick={handleClick}
-              className="w-[150px] p-2 rounded-lg bg-[#21526E] text-white"
-            >
+            <Button onClick={handleClick} className="w-[150px] p-2 rounded-lg">
               Next
-            </button>
+            </Button>
           </div>
         </div>
       </div>

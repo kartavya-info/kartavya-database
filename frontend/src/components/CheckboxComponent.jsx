@@ -1,19 +1,23 @@
-import React from 'react';
+import React from "react";
+import { Checkbox } from "./ui/checkbox";
 
-const CheckboxComponent = ({
-  title,
-  name,
-  checked,
-  handleChange
-}) => {
+const CheckboxComponent = ({ title, name, checked, handleChange }) => {
   return (
     <div className="flex items-center gap-2 pl-[2.5%] pr-[2.5%] xl:w-[90%]">
-      <input
+      <Checkbox
+        id={name}
         type="checkbox"
-        name={name}
         checked={checked}
-        onChange={handleChange}
-        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+        onCheckedChange={(checked) =>
+          handleChange({
+            target: {
+              name,
+              type: "checkbox",
+              checked: checked,
+            },
+          })
+        }
+        className="w-4 h-4"
       />
       <label htmlFor={name} className="text-sm font-semibold">
         {title}

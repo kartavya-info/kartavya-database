@@ -81,7 +81,7 @@ const DialogForPdfPreview = ({ studentData }) => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" className="bg-[#21526E] text-white">
+        <Button>
           <Pencil1Icon />{" "}
           <span className="ml-2"> Download Student Profile</span>
         </Button>
@@ -96,14 +96,20 @@ const DialogForPdfPreview = ({ studentData }) => {
               Convert to pixels (at 96 DPI): 210mm = 793px and 297mm = 1123px */}
           <div
             id="pdf"
-            className="w-[794px] h-[1122px] m-0 p-0 box-border origin-top flex justify-center items-center"
+            className="w-[794px] h-[1122px] m-0 p-0 box-border origin-top flex justify-center items-center  bg-[url('/watermark.png')] bg-center bg-contain bg-no-repeat"
           >
             <div className="pdf w-[calc(100%-80px)] h-[calc(100%-40px)] border-4 border-black">
               <div className="heading flex flex-col justify-center items-center">
-                <div className="logo w-full h-[80px]"></div>
-                <div className="logo w-full text-center text-[#8c1af5]">
-                  An effort towards educated INDIA
+                <div className="logo w-auto h-full">
+                  <img
+                    src="/kartavya_logo.png"
+                    alt="kartavya logo"
+                    className=" h-[120px] object-cover"
+                  ></img>
                 </div>
+                {/* <div className="logo w-full text-center text-[#8c1af5]">
+                  An effort towards educated INDIA
+                </div> */}
                 <div className="logo w-[70%] text-sm text-center text-[#5eb3a0]">
                   (Reg under Society registration Act 21 Reg. no. S/63750/2008
                   as the name KARTAVAYA)
