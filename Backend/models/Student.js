@@ -117,6 +117,10 @@ const studentSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  comment: {
+    type: String,
+    default: "",
+  },
 });
 
 module.exports = mongoose.model("Student", studentSchema);

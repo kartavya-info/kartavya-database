@@ -158,6 +158,7 @@ const updateStudent = asyncHandler(async (req, res) => {
     disability,
     singleParent,
     relevantCertificate,
+    comment,
   } = req.body;
 
   if (
@@ -197,6 +198,12 @@ const updateStudent = asyncHandler(async (req, res) => {
       .json({ message: "Enter valid sponsorship % for student" });
   }
 
+  if (activeStatus == "false" && comment == "") {
+    return res
+      .status(400)
+      .json({ message: "Enter the remark for making the student inactive" });
+  }
+
   if (sponsorshipPercent < 0 || sponsorshipPercent > 100) {
     return res.status(400).json({ message: "Invalid Sponsorship Percent" });
   }
@@ -229,6 +236,7 @@ const updateStudent = asyncHandler(async (req, res) => {
         disability,
         singleParent,
         relevantCertificate,
+        comment,
       }
     );
 
