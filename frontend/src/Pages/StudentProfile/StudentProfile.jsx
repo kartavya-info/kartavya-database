@@ -627,7 +627,7 @@ const StudentProfile = () => {
                   name="sponsorshipPercent"
                   placeholder="Sponsorship %"
                   className="p-2 text-sm font-semibold outline-none rounded-lg bg-white"
-                  value={studentData?.sponsorshipPercent || 0}
+                  value={studentData?.sponsorshipPercent}
                   onChange={handleInputChange}
                 />
               </div>
@@ -695,6 +695,20 @@ const StudentProfile = () => {
                   value={studentData?.amountBySponsor}
                   onChange={handleInputChange}
                 />
+              </div>
+            </div>
+
+            <div className="flex items-center w-full h-9 pl-[2.5%] pr-[2.5%]">
+              <label
+                htmlFor="amountBySponsor"
+                className="w-[60%] font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                SponsorIds
+              </label>
+              <div className="w-[200px]">
+                {studentData?.sponsorId.map((item, idx) => (
+                  <div key={idx}>{item}</div>
+                ))}
               </div>
             </div>
           </div>

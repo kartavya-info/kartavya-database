@@ -78,11 +78,13 @@ const studentSchema = new mongoose.Schema({
     type: Number,
     required: false,
   },
-  sponsorId: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: false,
-    ref: "User",
-  },
+  sponsorId: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      required: false,
+      ref: "User",
+    },
+  ],
   sponsorshipPercent: {
     type: Number,
     required: false,

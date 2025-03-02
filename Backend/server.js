@@ -37,6 +37,14 @@ app.use(
   require("./routes/studentRoutes.js")
 );
 
+// csa -> child sponsor allotment
+app.use(
+  "/api/allotment",
+  // checkToken,
+  // checkVerified,
+  require("./routes/csaRoutes.js")
+);
+
 app.use(Errorhandler);
 
 mongoose.connection.once("open", () => {
