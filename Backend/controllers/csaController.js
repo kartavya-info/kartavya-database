@@ -4,12 +4,34 @@ const mongoose = require("mongoose");
 const Student = require("./../models/Student");
 const User = require("./../models/User");
 
-const getChildTobeAlloted = asyncHandler(async (req, res) => {
-  const sponsorId = req.params.sponsorId;
+// @desc Get all Donations
+// @route GET/api/allotment/
+// @access Private
+const getVerifiedDonations = asyncHandler(async (req, res) => {
+    const verifiedDonations = await ChildSponsorMap.find({}).lean();
+    res.json(verifiedDonations);
+});
 
+// @desc Get all Students who need Sponsor allotment
+// @route GET/api/allotment/action
+// @access Private
+const getChildTobeAlloted = asyncHandler(async (req, res) => {
+  const sponsorid = req.body.sponsorId;
+  const students = await Student.find({
+       sponsorshipStatus: true, // Fetch only students not fully sponsored
+       $expr: {
+            $gt: [ { $multiply: ["$annualFees", { $divide: ["$sponsorshipPercent", 100] }] },
+               { $multiply: [{ $size: "$sponsorId" },8000]}
+            ]
+      },
+      sponsorId: { $not: { $in: [sponsorid] } }
+  }).lean();
+
+   res.status(200).json({ success: true, data: students });
   //Raj sir will complete this
 });
 
+//Transaction Controller
 const performCATransaction = async (sponsorId, studentId) => {
   const session = await mongoose.startSession();
   session.startTransaction();
@@ -86,6 +108,7 @@ const allotChild = asyncHandler(async (req, res) => {
 });
 
 module.exports = {
+  getVerifiedDonations,
   getChildTobeAlloted,
   allotChild,
 };
