@@ -71,8 +71,11 @@ const performCATransaction = async (sponsorId, studentId) => {
   }
 };
 
+// @desc Allot Student to the Sponsor 
+// @route PATCH/api/allotment/allot
+// @access Private
 const allotChild = asyncHandler(async (req, res) => {
-  const sponsorId = req.params.sponsorId;
+  const sponsorId = req.body.sponsorId;
   const studentId = req.body.studentId;
 
   try {
