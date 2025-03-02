@@ -12,6 +12,8 @@ import StudentSpreadsheet from "./Pages/StudentSpreadsheet/StudentSpreadsheet.js
 import StudentProfile from "./Pages/StudentProfile/StudentProfile";
 import LoginUser from "./Pages/Login/LoginUser";
 import HomePage from "./Pages/HomePage/HomePage";
+import AllotmentHomePage from "./Pages/SponsorAllotment/AllotmentHomePage";
+import AllotChild from "./Pages/SponsorAllotment/AllotChild";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -20,6 +22,9 @@ const router = createBrowserRouter(
       <Route path="/login" element={<LoginUser />} />
       <Route path="/enter-student-details" element={<EnterStudentDetails />} />
       <Route path="/student-spreadsheet" element={<StudentSpreadsheet />} />
+      <Route path="/allotment" element={<AllotmentHomePage />} />
+      <Route path="/allotment/action" element={<AllotChild />} />
+
       <Route path="/hello" element={<Sample />} />
 
       {/* Admin Routes */}
