@@ -1,78 +1,109 @@
-import React, { useState } from 'react';
-import HeaderForEnputStudentDetails from '../components/HeaderForEnputStudentDetails';
-import EnterStudentDetails1 from './EnterStudentDetails1';
-import { toast } from 'react-toastify';
-import CheckboxComponent from '../components/CheckboxComponent';
+import React, { useEffect, useState } from "react";
+import HeaderForInputStudentDetails from "@/components/HeaderForInputStudentDetails";
+import EnterStudentDetails1 from "./EnterStudentDetails1";
+import { toast } from "react-toastify";
+import CheckboxComponent from "@/components/Form/CheckboxComponent";
+import { Input } from "@/components/ui/input";
+import AuthVerify from "@/helper/jwtVerify";
+import { useNavigate } from "react-router";
+import { Button } from "@/components/ui/button";
 
 const EnterStudentDetails = () => {
   const [isFirstPage, setIsFirstPage] = useState(true);
+  const [profilePicture, setProfilePicture] = useState(null);
+  const handleProfilePictureChange = (e) => {
+    setProfilePicture(e.target.files[0]);
+  };
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
 
   const [formData, setFormData] = useState({
-    name: '',
-    gender: '',
-    session: '',
-    dob: '',
-    class: '',
-    school: '',
-    center: '',
-    fatherName: '',
-    fatherOccupation: '',
-    motherName: '',
-    motherOccupation: '',
-    address: '',
-    familyIncome: 0,
+    studentName: "",
+    rollNumber: "",
+    gender: "",
+    currentSession: "",
+    reportCard: "",
+    dob: "",
+    studentClass: "",
+    school: "",
+    centre: "",
+    contactNumber: "",
+    fathersName: "",
+    fathersOccupation: "",
+    mothersName: "",
+    mothersOccupation: "",
+    address: "",
+    annualIncome: 0,
+    activeStatus: true,
     aadhar: false,
     domicile: false,
     birthCertificate: false,
     disability: false,
     singleParent: false,
-    releventCertificate: false,
+    relevantCertificate: false,
   });
+
+  useEffect(() => {
+    if (!AuthVerify()) {
+      navigate("/login");
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log(formData);
+  }, [formData]);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: type === "checkbox" ? checked : value,
     });
-    console.log(formData);
   };
 
   const handleClick = () => {
     setIsFirstPage((prev) => !prev);
   };
 
-  const convertToFormData = (formDataObject) => {
-    const formData = new FormData();
-
-    try {
-      for (const key in formDataObject) {
-        if (Object.prototype.hasOwnProperty.call(formDataObject, key)) {
-          if (formDataObject[key] === '') {
-            throw new Error(`Field '${key}' cannot be empty`);
-          }
-          if (key === 'familyIncome' && formDataObject[key] <= 0) {
-            throw new Error(`'Family Income' must be greater than zero`);
-          }
-          formData.append(key, formDataObject[key]);
-        }
-      }
-    } catch (e) {
-      console.error(e.message);
-      throw e;
-    }
-
-    return formData;
-  };
-
-  const handleSubmitForm = (e) => {
+  const handleSubmitForm = async (e) => {
     e.preventDefault();
     try {
-      const formDataToSubmit = convertToFormData(formData);
-      for (let pair of formDataToSubmit.entries()) {
-        console.log(`${pair[0]}: ${pair[1]}`);
+      const formDataToSend = new FormData();
+
+      for (const key in formData) {
+        formDataToSend.append(key, formData[key]);
       }
-      toast.success('Form submitted successfully!');
+
+      // Append profile picture directly if it exists
+      if (profilePicture) {
+        formDataToSend.append(
+          "profilePicture",
+          profilePicture,
+          profilePicture?.name
+        );
+        formDataToSend.append("pictureType", "profilePhoto");
+      }
+
+      // Debugging formData content
+      // for (let [key, value] of formDataToSend.entries()) {
+      //   console.log(`${key}: ${value}`);
+      // }
+
+      const res = await fetch(`http://localhost:3500/api/students/`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formDataToSend,
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || "Failed to add new student");
+      }
+
+      toast.success("Form submitted successfully!");
+      navigate(0);
     } catch (e) {
       toast.error(`Error submitting form: ${e.message}`);
       return;
@@ -81,7 +112,7 @@ const EnterStudentDetails = () => {
 
   return (
     <div className="w-screen h-screen bg-[radial-gradient(ellipse_at_center,rgba(222,80,85,0.4),transparent),radial-gradient(ellipse_at_top_left,rgba(205,214,219,0.8),rgba(255,255,255,0.8),rgba(255,255,255,0)),radial-gradient(ellipse_at_top_right,rgba(205,214,219,0.8),rgba(255,255,255,0.8),rgba(255,255,255,0)),radial-gradient(ellipse_at_bottom_left,rgba(205,214,219,0.8),rgba(255,255,255,0.8),rgba(255,255,255,0)),radial-gradient(ellipse_at_bottom_right,rgba(205,214,219,0.8),rgba(255,255,255,0.8),rgba(255,255,255,0))]">
-      <HeaderForEnputStudentDetails />
+      <HeaderForInputStudentDetails />
       <div className="flex flex-col w-full xl:flex-row xl:h-[calc(100vh-7rem)]">
         <div className="flex justify-center items-center w-full h-[500px] xl:w-2/5 xl:h-full">
           <img
@@ -95,7 +126,7 @@ const EnterStudentDetails = () => {
           {/* Animation Class */}
           <div
             className={`transition-transform duration-500 ease-in-out absolute inset-0 ${
-              isFirstPage ? 'translate-x-0' : '-translate-x-full'
+              isFirstPage ? "translate-x-0" : "-translate-x-full"
             }`}
           >
             {/* Student Details Page 1 */}
@@ -107,7 +138,7 @@ const EnterStudentDetails = () => {
           </div>
           <div
             className={`transition-transform duration-500 ease-in-out absolute inset-0 ${
-              isFirstPage ? 'translate-x-full' : 'translate-x-0'
+              isFirstPage ? "translate-x-full" : "translate-x-0"
             }`}
           >
             {/* Student Details Page 2 */}
@@ -120,13 +151,22 @@ const EnterStudentDetails = () => {
                 />
               </div>
 
-              <div className="inputs flex flex-col items-end w-full pt-20 gap-5">
+              <div className="inputs flex flex-col items-end w-full pt-20 pr-10 gap-5">
                 <div className="file-input w-full  flex justify-between">
                   <label htmlFor="fileInput" className="text-sm font-semibold">
-                    Upload passport size picture of student{' '}
-                    <span className="text-red-500">*</span>
+                    Upload passport size picture of student
                   </label>
-                  <input type="file" id="fileInput" required></input>
+                  {/* <input type="file" id="fileInput"></input> */}
+                  <div className="file-input-container">
+                    <label className="file-input-label">
+                      <Input
+                        type="file"
+                        className="file-input border border-gray-500"
+                        onChange={handleProfilePictureChange}
+                        accept="image/*"
+                      />
+                    </label>
+                  </div>
                 </div>
               </div>
 
@@ -173,9 +213,9 @@ const EnterStudentDetails = () => {
 
                   <div className="ml-10">
                     <CheckboxComponent
-                      title="Do you have Relevent Certificate ?"
-                      name="releventCertificate"
-                      checked={formData.releventCertificate}
+                      title="Do you have relevantCertificate Certificate ?"
+                      name="relevantCertificate"
+                      checked={formData.relevantCertificate}
                       handleChange={handleInputChange}
                     />
                   </div>
@@ -184,18 +224,18 @@ const EnterStudentDetails = () => {
 
               <div className="flex items-center w-full pt-24">
                 <div className="flex justify-center w-[90%] pl-[2.5%] pr-[2.5%] gap-10">
-                  <button
+                  <Button
                     onClick={handleClick}
-                    className="w-[150px] p-2 rounded-lg bg-[#21526E] text-white"
+                    className="w-[150px] p-2 rounded-lg"
                   >
                     Back
-                  </button>
-                  <button
+                  </Button>
+                  <Button
                     onClick={handleSubmitForm}
-                    className="w-[150px] p-2 rounded-lg bg-[#21526E] text-white"
+                    className="w-[150px] p-2 rounded-lg"
                   >
                     Submit
-                  </button>
+                  </Button>
                 </div>
               </div>
             </div>

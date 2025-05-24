@@ -1,5 +1,5 @@
-import { useState } from 'react'; // Import useState for managing local state
-import { Button } from '@/components/ui/button';
+import { useState } from "react"; // Import useState for managing local state
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -8,9 +8,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { Pencil1Icon } from '@radix-ui/react-icons';
-import html2pdf from 'html2pdf.js';
+} from "@/components/ui/dialog";
+import { Pencil1Icon } from "@radix-ui/react-icons";
+import html2pdf from "html2pdf.js";
+import { format, parseISO } from "date-fns";
 
 const DialogForPdfPreview = ({ studentData }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,40 +21,47 @@ const DialogForPdfPreview = ({ studentData }) => {
       await downloadPdf();
       setIsOpen(false);
     } catch (error) {
-      console.error('PDF download failed:', error);
+      console.error("PDF download failed:", error);
     }
   };
 
   const downloadPdf = async () => {
-    const element = document.querySelector('#pdf');
+    const element = document.querySelector("#pdf");
     if (!element) {
-      console.error('PDF element not found');
+      console.error("PDF element not found");
       return;
     }
-    html2pdf(element)
+
+    await html2pdf()
+      .from(element)
       .set({
         margin: 0,
-        filename: 'output.pdf',
-        jsPDF: { unit: 'px', format: 'a4' },
+        filename: `${studentData.studentName}_kartavya_dhanbad.pdf`,
+        jsPDF: { format: "a4", orientation: "portrait" },
       })
       .save();
   };
 
+  const parseToDDMMYYYY = (date) => {
+    if (!date) return;
+    return format(parseISO(date), "dd-MM-yyyy");
+  };
+
   const dataUsed = [
-    { Name: studentData.name },
-    { 'D.O.B': studentData.dob },
-    { Gender: studentData.gender },
-    { Address: studentData.address },
-    { Session: studentData.session },
-    { Class: studentData.class },
-    { School: studentData.school },
+    { Name: studentData?.studentName },
+    { "D.O.B": parseToDDMMYYYY(studentData?.dob) },
+    { Gender: studentData?.gender },
+    { Address: studentData?.address },
+    { Session: studentData?.currentSession },
+    { Class: studentData?.class },
+    { School: studentData?.school },
   ];
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" className="bg-[#21526E] text-white">
-          <Pencil1Icon />{' '}
+        <Button>
+          <Pencil1Icon />{" "}
           <span className="ml-2"> Download Student Profile</span>
         </Button>
       </DialogTrigger>
@@ -67,14 +75,20 @@ const DialogForPdfPreview = ({ studentData }) => {
               Convert to pixels (at 96 DPI): 210mm = 793px and 297mm = 1123px */}
           <div
             id="pdf"
-            className="w-[794px] h-[1122px] m-0 p-0 box-border origin-top flex justify-center items-center"
+            className="w-[794px] h-[1122px] m-0 p-0 box-border origin-top flex justify-center items-center  bg-[url('/watermark.png')] bg-center bg-contain bg-no-repeat"
           >
             <div className="pdf w-[calc(100%-80px)] h-[calc(100%-40px)] border-4 border-black">
               <div className="heading flex flex-col justify-center items-center">
-                <div className="logo w-full h-[80px]"></div>
-                <div className="logo w-full text-center text-[#8c1af5]">
-                  An effort towards educated INDIA
+                <div className="logo w-auto h-full">
+                  <img
+                    src="/kartavya_logo.png"
+                    alt="kartavya logo"
+                    className=" h-[120px] object-cover"
+                  ></img>
                 </div>
+                {/* <div className="logo w-full text-center text-[#8c1af5]">
+                  An effort towards educated INDIA
+                </div> */}
                 <div className="logo w-[70%] text-sm text-center text-[#5eb3a0]">
                   (Reg under Society registration Act 21 Reg. no. S/63750/2008
                   as the name KARTAVAYA)
@@ -96,9 +110,10 @@ const DialogForPdfPreview = ({ studentData }) => {
                     })}
                   </div>
 
-                  <div className="hero2 w-[30%]">
+                  <div className="hero2 w-[30%] mr-5">
                     <img
-                      src="/profile.png"
+                      // src="/profile.png"
+                      src={studentData?.profilePhoto || "/student.jpg"}
                       alt="profile-photo"
                       className="w-full h-auto object-contain"
                     />
@@ -112,7 +127,7 @@ const DialogForPdfPreview = ({ studentData }) => {
                     </div>
                     <div className="w-[60%]">
                       <span className="font-semibold pr-2">:</span>
-                      {studentData.fatherName}
+                      {studentData?.fathersName}
                     </div>
                   </div>
 
@@ -122,7 +137,7 @@ const DialogForPdfPreview = ({ studentData }) => {
                     </div>
                     <div className="w-[60%]">
                       <span className="font-semibold pr-2">:</span>
-                      {studentData.fatherOccupation}
+                      {studentData?.fathersOccupation}
                     </div>
                   </div>
 
@@ -132,7 +147,7 @@ const DialogForPdfPreview = ({ studentData }) => {
                     </div>
                     <div className="w-[60%]">
                       <span className="font-semibold pr-2">:</span>
-                      {studentData.motherName}
+                      {studentData?.mothersName}
                     </div>
                   </div>
 
@@ -142,28 +157,27 @@ const DialogForPdfPreview = ({ studentData }) => {
                     </div>
                     <div className="w-[60%]">
                       <span className="font-semibold pr-2">:</span>
-                      {studentData.motherOccupation}
+                      {studentData?.mothersOccupation}
                     </div>
                   </div>
                 </div>
 
-                <div className="general-info w-full mt-20 pl-10 text-lg flex flex-col gap-3">
+                <div className="general-info w-full mt-3 pl-10 text-lg flex flex-col gap-3">
                   <div className="w-full flex">
                     <div className="font-semibold w-[40%]">
                       Annual Family Income
                     </div>
                     <div className="w-[60%]">
                       <span className="font-semibold pr-2">:</span>
-                      {studentData.familyIncome}
+                      {studentData?.annualIncome}
                     </div>
                   </div>
 
                   <div className="w-full flex">
-                    <div className="font-semibold w-[40%]">
-                      Any Other Information
-                    </div>
+                    <div className="font-semibold w-[40%]">Remarks</div>
                     <div className="w-[60%]">
                       <span className="font-semibold pr-2">:</span>
+                      {studentData?.comment}
                     </div>
                   </div>
                 </div>
